@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import Home from './mysertifico/landing/Home';
-import About from './mysertifico/landing/About';
-import Pricing from './mysertifico/landing/Pricing';
-import ContactUs from './mysertifico/landing/ContactUs';
-import PrivacyPolicy from './mysertifico/landing/PrivacyPolicy';
-import TermsOfService from './mysertifico/landing/TermsOfService';
-import SecurityPolicy from './mysertifico/landing/SecurityPolicy';
-import SignIn from './mysertifico/auth/SignIn';
-import SignUp from './mysertifico/auth/SignUp';
-import ForgotPassword from './mysertifico/auth/ForgotPassword';
-import Dashboard from './mysertifico/admin/Dashboard';
+import Home from './pages/mysertifico/landing/Home';
+import About from './pages/mysertifico/landing/About';
+import Pricing from './pages/mysertifico/landing/Pricing';
+import ContactUs from './pages/mysertifico/landing/ContactUs';
+import PrivacyPolicy from './pages/mysertifico/landing/PrivacyPolicy';
+import TermsOfService from './pages/mysertifico/landing/TermsOfService';
+import SecurityPolicy from './pages/mysertifico/landing/SecurityPolicy';
+import SignIn from './pages/mysertifico/auth/SignIn';
+import SignUp from './pages/mysertifico/auth/SignUp';
+import ForgotPassword from './pages/mysertifico/auth/ForgotPassword';
+import Dashboard from './pages/mysertifico/admin/Dashboard';
 
 // Define Tailwind CSS configuration directly within the component for simplicity
 // In a real project, this would typically be in a tailwind.config.js file
