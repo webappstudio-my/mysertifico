@@ -1,8 +1,12 @@
+// src/components/layout/Footer.jsx
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Footer = ({ navigate }) => {
+const Footer = () => {
+    const currentYear = new Date().getFullYear();
+    
     return (
-        <footer className="bg-gray-900 text-white">
+        <footer className="bg-gray-800 text-white">
             <div className="container mx-auto px-6 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
                 {/* Info */}
                 <div>
@@ -13,19 +17,19 @@ const Footer = ({ navigate }) => {
                 <div>
                     <h4 className="text-lg font-semibold mb-4">Links</h4>
                     <ul className="space-y-2 text-sm text-gray-300">
-                        <li><a href="#" onClick={() => navigate('home')} className="hover:text-white">Home</a></li>
-                        <li><a href="#" onClick={() => navigate('about')} className="hover:text-white">About</a></li>
-                        <li><a href="#" onClick={() => navigate('price')} className="hover:text-white">Pricing</a></li>
-                        <li><a href="#" onClick={() => navigate('contact-us')} className="hover:text-white">Contact Us</a></li>
+                        <li><Link to="/" className="hover:text-white">Home</Link></li>
+                        <li><Link to="/about" className="hover:text-white">About</Link></li>
+                        <li><Link to="/price" className="hover:text-white">Pricing</Link></li>
+                        <li><Link to="/contact-us" className="hover:text-white">Contact Us</Link></li>
                     </ul>
                 </div>
                 {/* Policies */}
                 <div>
                     <h4 className="text-lg font-semibold mb-4">Terms & Policies</h4>
                     <ul className="space-y-2 text-sm text-gray-300">
-                        <li><a href="#" onClick={() => navigate('privacyPolicy')} className="hover:text-white">Privacy Policy</a></li>
-                        <li><a href="#" onClick={() => navigate('termsOfService')} className="hover:text-white">Terms of Service</a></li>
-                        <li><a href="#" onClick={() => navigate('securityPolicy')} className="hover:text-white">Security Policy</a></li>
+                        <li><Link to="/privacy-policy" className="hover:text-white">Privacy Policy</Link></li>
+                        <li><Link to="/terms-of-service" className="hover:text-white">Terms of Service</Link></li>
+                        <li><Link to="/security-policy" className="hover:text-white">Security Policy</Link></li>
                     </ul>
                 </div>
                 {/* Social */}
@@ -41,7 +45,7 @@ const Footer = ({ navigate }) => {
             </div>
             {/* Divider + Copyright */}
             <div className="border-t border-gray-700">
-                <div className="container mx-auto px-6 py-4 text-center text-sm text-gray-400">&copy; 2025 MySertifico. All rights reserved by Webapp Studio Sdn. Bhd.</div>
+                <div className="container mx-auto px-6 py-4 text-center text-sm text-gray-400">&copy; {currentYear} MySertifico. All rights reserved by Webapp Studio Sdn. Bhd.</div>
             </div>
         </footer>
     );
