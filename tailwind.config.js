@@ -15,6 +15,8 @@ export default { // Ensure 'export default' for Vite
       colors: {
         'primary': '#0d9488', // Teal-600
         'primary-dark': '#0f766e', // Teal-700
+        'primary-light': '#14b8a6', // Teal-500
+        'primary-50': '#f0fdfa',
         'accent': '#f59e0b', // Amber-500
       }
     },

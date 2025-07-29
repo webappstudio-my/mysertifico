@@ -9,7 +9,10 @@ import ContactUs from './pages/mysertifico/landing/ContactUs';
 import PrivacyPolicy from './pages/mysertifico/landing/PrivacyPolicy';
 import TermsOfService from './pages/mysertifico/landing/TermsOfService';
 import SecurityPolicy from './pages/mysertifico/landing/SecurityPolicy';
-// Import other pages as you create them
+import SignUp from './pages/mysertifico/auth/SignUp';
+import SignIn from './pages/mysertifico/auth/SignIn';
+import ForgotPassword from './pages/mysertifico/auth/ForgotPassword';
+import Dashboard from './pages/mysertifico/admin/Dashboard';
 
 function App() {
   return (
@@ -22,10 +25,10 @@ function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/security-policy" element={<SecurityPolicy />} />
-        {/* Add routes for /about, /price, /contact-us, /auth/sign-in, /auth/sign-up etc. */}
-        {/* Example: */}
-        {/* <Route path="/about" element={<AboutPage />} /> */}
-        {/* <Route path="/auth/sign-in" element={<SignInPage />} /> */}
+        <Route path="/auth/sign-up" element={<SignUp />} />
+        <Route path="/auth/sign-in" element={<SignIn />} />
+        <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
   );
