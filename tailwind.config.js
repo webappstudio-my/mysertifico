@@ -2,6 +2,7 @@
 import typography from '@tailwindcss/typography';
 /** @type {import('tailwindcss').Config} */
 export default { // Ensure 'export default' for Vite
+  darkMode: "selector", // Enable dark mode via class
   content: [
     "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}", // <-- THIS MUST BE CORRECT AND COVER ALL YOUR .jsx FILES

@@ -1,16 +1,10 @@
 // src/components/dashboard/Sidebar.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 
 const Sidebar = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
     const [openSubmenus, setOpenSubmenus] = useState({});
-
-    useEffect(() => {
-        // No longer need a specific resize handler here for closing on LG,
-        // as the sidebar will always be hidden unless `isOpen` is true.
-        // The `main-content` will handle the margin.
-    }, []);
 
     const toggleSubmenu = (menuId) => {
         setOpenSubmenus((prev) => ({
@@ -21,32 +15,31 @@ const Sidebar = ({ isOpen, onClose }) => {
 
     const handleLogout = (e) => {
         e.preventDefault();
-        // In a real application, clear authentication tokens/session
         navigate('/');
     };
 
     const getNavLinkClass = ({ isActive }) =>
         `flex items-center py-2.5 px-4 rounded-lg transition-colors ${isActive
-            ? 'bg-primary-dark text-white shadow-md'
-            : 'hover:bg-gray-700 text-gray-300 hover:text-white'
+            ? 'bg-primary text-white dark:bg-primary-dark shadow-md' // Updated for both modes
+            : 'text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700' // Now theme-aware
         }`;
 
     const getSubmenuLinkClass = ({ isActive }) =>
         `block py-2 px-4 rounded-lg text-sm transition-colors ${isActive
-            ? 'text-primary-light bg-gray-700'
-            : 'text-gray-400 hover:text-white hover:bg-gray-700'
+            ? 'bg-gray-100 dark:bg-gray-700 text-primary-dark dark:text-primary-light' // Now theme-aware
+            : 'text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700' // Now theme-aware
         }`;
 
     return (
         <aside
             id="sidebar"
-            className={`sidebar fixed top-0 left-0 z-50 h-full w-64 bg-gray-800 dark:bg-gray-950 text-white transform transition-transform duration-300 ease-in-out overflow-y-auto ${isOpen ? 'translate-x-0' : '-translate-x-full'
-                }`} // Removed lg:translate-x-0
+            className={`sidebar fixed top-0 left-0 z-50 h-full w-64 bg-white dark:bg-gray-800 text-gray-800 dark:text-white transform transition-transform duration-300 ease-in-out overflow-y-auto ${isOpen ? 'translate-x-0' : '-translate-x-full'
+                }`} // Sidebar now has a light background by default
         >
             {/* Sidebar Header */}
             <div className="flex items-center justify-between p-6">
-                <h2 className="font-poppins text-2xl font-bold text-white">Menu</h2>
-                <button id="close-sidebar" className="text-gray-400 hover:text-white lg:hidden" onClick={onClose}>
+                <h2 className="font-poppins text-2xl font-bold text-gray-800 dark:text-white">Menu</h2>
+                <button id="close-sidebar" className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white lg:hidden" onClick={onClose}>
                     <i className="ri-close-line text-2xl"></i>
                 </button>
             </div>
@@ -62,7 +55,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                     <li>
                         <button
                             type="button"
-                            className="w-full flex items-center justify-between py-2.5 px-4 rounded-lg hover:bg-gray-700 text-gray-300 hover:text-white transition-colors"
+                            className="w-full flex items-center justify-between py-2.5 px-4 rounded-lg text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
                             onClick={() => toggleSubmenu('submenu-gallery')}
                         >
                             <span className="flex items-center"><i className="ri-gallery-line mr-3 text-lg"></i><span>Gallery</span></span>
@@ -82,7 +75,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                     <li>
                         <button
                             type="button"
-                            className="w-full flex items-center justify-between py-2.5 px-4 rounded-lg hover:bg-gray-700 text-gray-300 hover:text-white transition-colors"
+                            className="w-full flex items-center justify-between py-2.5 px-4 rounded-lg text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
                             onClick={() => toggleSubmenu('submenu-settings')}
                         >
                             <span className="flex items-center"><i className="ri-settings-3-line mr-3 text-lg"></i><span>Settings</span></span>
@@ -97,8 +90,8 @@ const Sidebar = ({ isOpen, onClose }) => {
                             <li><NavLink to="/dashboard/settings/account" className={getSubmenuLinkClass} onClick={onClose}>Account</NavLink></li>
                         </ul>
                     </li>
-                    <li className="pt-4 mt-4 border-t border-gray-700">
-                        <a href="#" id="logout-sidebar" className="flex items-center py-2.5 px-4 rounded-lg text-red-400 hover:bg-red-500 hover:text-white transition-colors" onClick={handleLogout}>
+                    <li className="pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
+                        <a href="#" id="logout-sidebar" className="flex items-center py-2.5 px-4 rounded-lg text-red-500 hover:bg-red-500 hover:text-white transition-colors" onClick={handleLogout}>
                             <i className="ri-logout-box-r-line mr-3 text-lg"></i>
                             <span>Log Out</span>
                         </a>
