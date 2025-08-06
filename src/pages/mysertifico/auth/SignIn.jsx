@@ -4,12 +4,18 @@ import { Link } from 'react-router-dom';
 import SignInForm from '../../../components/auth/SignInForm';
 
 const SignIn = () => {
+    // State to manage form data and errors
     const [formData, setFormData] = useState({
         email: '',
         password: '',
         rememberMe: false,
     });
     const [errors, setErrors] = useState({});
+    // State to manage loading state (optional)
+    const [loading, setLoading] = useState(false);
+    const [generalError, setGeneralError] = useState('');
+
+
 
     // Dummy registered users for client-side validation (replace with actual backend check)
     const registeredUsers = {
@@ -24,10 +30,18 @@ const SignIn = () => {
             [name]: type === 'checkbox' ? checked : value,
         }));
         setErrors((prev) => ({ ...prev, [name]: '' })); // Clear error on change
+
+        // Clear general error on input change
+        if (generalError) {
+            setGeneralError(''); 
+        }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
+        setGeneralError(''); // Clear general error on submit
+
         let newErrors = {};
         let isValid = true;
 
