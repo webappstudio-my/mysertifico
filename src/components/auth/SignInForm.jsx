@@ -3,7 +3,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import AuthInputField from './AuthInputField'; // Reusing the AuthInputField component
 
-const SignInForm = ({ formData, handleChange, handleSubmit, errors }) => {
+const SignInForm = ({ 
+    formData, 
+    handleChange, 
+    handleSubmit, 
+    errors 
+}) => {
     return (
         <form className="space-y-5" onSubmit={handleSubmit} noValidate>
             <AuthInputField
