@@ -68,13 +68,29 @@ const SignIn = () => {
 
         setErrors(newErrors);
 
-        if (isValid) {
-            // Simulate successful sign-in
-            alert('Sign in successful! Redirecting to dashboard...');
-            // In a real application, you would handle authentication (e.g., Firebase Auth)
-            // and then redirect the user:
-            // navigate('/dashboard');
-        }
+        // simulate loading state delay
+        setTimeout(() => {
+            setLoading(false);
+
+            if (isValid) {
+                // Handle Remeber Me
+                if (formData.rememberMe) {
+                    localStorage.setItem('rememberedEmail', formData.email);
+                } else {
+                    localStorage.removeItem('rememberedEmail');
+                }
+                // Simulate successful sign-in
+                alert('Sign in successful! Redirecting to dashboard...');
+                // In a real application, you would handle authentication (e.g., Firebase Auth)
+                // and then redirect the user:
+                // navigate('/dashboard');
+            } else {
+                // Set general error if there are validation issues
+                if (newErrors.email || newErrors.password) {
+                    setGeneralError('Please correct the error and try again.');
+                }
+            }
+        }, 1000); // Simulate network delay
     };
 
     return (
