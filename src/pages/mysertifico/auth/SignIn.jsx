@@ -94,76 +94,66 @@ const SignIn = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-            <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                {/* Logo */}
-                <div className="flex justify-center items-center gap-2 mb-8">
-                    <div className="h-10 w-10 bg-primary rounded-lg flex items-center justify-center">
-                        <span className="text-white font-bold text-lg">M</span>
-                    </div>
-                    <span className="font-bold text-2xl text-gray-900">MySertifico</span>
+        <div className='min-h-screen bg-slate-900 flex flex-col items-center justify-center py-12 px-4'>
+            <div className='w-full max-w-md'>
+                {/*logo*/}
+                <div className="text-center mb-8">
+                    <img
+                        src="/logos/favicon.png"
+                        alt="Mysertifico Logo"
+                        className="mx-auto h-16 w-auto mb-4"
+                    />
+                    <h1 className='text-white text-xl font-medium'>MySertifico</h1>
                 </div>
-                
-                <h2 className="text-center text-3xl font-extrabold text-gray-900">
-                    Sign in to your account
-                </h2>
-                <p className="mt-2 text-center text-sm text-gray-600">
-                    Or{' '}
-                    <Link to="/auth/signup" className="font-medium text-primary hover:underline">
-                        create a new account
-                    </Link>
-                </p>
-            </div>
 
-            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-                <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+                {/* Sign In Card */}
+                <div className='bg-slate-800 rounded-lg p-8 shadown-xl'>
+                    <div className='text-center mb-6'>
+                        <h2 className='text-white text-xl font-semibold mb-2'>
+                            Back Office Sign In
+                        </h2>
+                        <p className='text-slate-400 text-sm'>
+                            For authorized personnel only.
+                        </p>
+                    </div>
+
                     {/* General Error Message */}
                     {generalError && (
-                        <div className="mb-4 bg-red-50 border border-red-200 rounded-md p-4">
-                            <div className="flex">
-                                <div className="flex-shrink-0">
-                                    <i className="ri-error-warning-line text-red-400"></i>
-                                </div>
-                                <div className="ml-3">
-                                    <h3 className="text-sm font-medium text-red-800">
-                                        Authentication failed
-                                    </h3>
-                                    <div className="mt-2 text-sm text-red-700">
-                                        {generalError}
-                                    </div>
-                                </div>
+                        <div className='mb-4 bg-red-900/50 border border-red-600 rounded-md p-3'>
+                            <div className='flex items-center'>
+                                <i className='ri-error-warning-line text-red-400 mr-2'></i>
+                                <span className='text-red-200 text-sm'>
+                                    {generalError}
+                                </span>
                             </div>
                         </div>
                     )}
 
-                    {/* Loading Overlay */}
-                    <div className="relative">
-                        {loading && (
-                            <div className="absolute inset-0 bg-white bg-opacity-50 flex items-center justify-center z-10 rounded-lg">
-                                <div className="flex items-center gap-2">
-                                    <i className="ri-loader-4-line animate-spin text-primary text-xl"></i>
-                                    <span className="text-primary font-medium">Signing in...</span>
-                                </div>
-                            </div>
-                        )}
-                        
-                        <SignInForm
-                            formData={formData}
-                            handleChange={handleChange}
-                            handleSubmit={handleSubmit}
-                            errors={errors}
-                            loading={loading}
-                        />
-                    </div>
-                    
-                    {/* Demo Credentials */}
-                    <div className="mt-6 p-3 bg-blue-50 border border-blue-200 rounded-md">
-                        <div className="text-center">
-                            <p className="text-xs font-medium text-blue-800">Demo Credentials:</p>
-                            <p className="text-xs text-blue-600">admin@mysertifico.com / password123</p>
-                            <p className="text-xs text-blue-600">user@example.com / securepass</p>
-                        </div>
-                    </div>
+                   <SignInForm
+                        formData={formData}
+                        handleChange={handleChange}
+                        handleSubmit={handleSubmit}
+                        errors={errors}
+                        loading={loading}
+                    />
+                </div>
+
+                {/* Sign Up Link */}
+                <div className='mt-6 text-center'>
+                    <p className='text-slate-400 text-sm'>
+                        Don't have an account?{' '}
+                        <Link to="/auth/sign-up" className='text-teal-400 hover:text-teal-300 transition-colors'>
+                            Register here
+                        </Link>
+                    </p>
+                </div>
+            
+
+                {/* Footer */}
+                <div className='mt-8 text-center'>
+                    <p className='text-slate-500 text-xs'>
+                        © 2025 MySertifico | Webapp Studio Sdn. Bhd.
+                    </p>
                 </div>
             </div>
         </div>
