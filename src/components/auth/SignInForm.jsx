@@ -57,14 +57,14 @@ const SignInForm = ({
                                 } 
                             })}
                             disabled={loading}
-                        className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                        className="h-4 w-4 text-teal-400 focus:ring-teal-400 focus:ring-offset-slate-800 border-slate-600 bg-slate-700 rounded"
                     />
-                    <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                    <label htmlFor="remember-me" className="ml-2 block text-sm text-slate-300">
                         Remember me
                         </label>
                 </div>
                 <div className="text-sm">
-                    <Link to="/auth/forgot-password" className="font-medium text-primary hover:underline">
+                    <Link to="/auth/forgot-password" className="font-medium text-teal-400 hover:text-teal-300 transition-colors">
                     Forgot your password?
                     </Link>
                 </div>
@@ -74,7 +74,7 @@ const SignInForm = ({
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-lg font-medium text-white bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
+                    className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent rounded-lg shadow-sm text-lg font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-teal-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {loading ? (
                         <>
