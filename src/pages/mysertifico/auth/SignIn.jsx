@@ -94,50 +94,75 @@ const SignIn = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 antialiased text-gray-800 p-4">
-            <div className="grid lg:grid-cols-5 gap-0 items-center max-w-6xl mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden">
-
-                {/* Left Column: Branding and Information (Desktop Only) */}
-                <div className="hidden lg:flex flex-col justify-center p-12 bg-gradient-to-br from-primary-dark to-primary-light h-full lg:col-span-2">
-                    <Link to="/" className="flex items-center gap-x-3 mb-8">
-                        <img className="h-12 w-12" src="/assets/images/logos/logo.png" alt="MySertifico Logo" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/48x48/ffffff/0d9488?text=M'; }} />
-                        <span className="font-poppins text-4xl font-bold text-white">MySertifico</span>
-                    </Link>
-                    <h1 className="text-4xl font-bold text-white leading-tight mb-4">Welcome Back to Your Digital HQ.</h1>
-                    <p className="text-teal-100 text-lg">Securely access your dashboard to manage, issue, and verify your organization's digital certificates.</p>
-                    <div className="mt-12 flex items-center justify-center">
-                        <div className="relative w-64 h-64">
-                            <div className="absolute inset-0 bg-primary-400 opacity-20 rounded-full blur-2xl"></div>
-                            <i className="ri-shield-keyhole-line text-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" style={{ fontSize: '12rem' }}></i>
-                        </div>
+        <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+            <div className="sm:mx-auto sm:w-full sm:max-w-md">
+                {/* Logo */}
+                <div className="flex justify-center items-center gap-2 mb-8">
+                    <div className="h-10 w-10 bg-primary rounded-lg flex items-center justify-center">
+                        <span className="text-white font-bold text-lg">M</span>
                     </div>
+                    <span className="font-bold text-2xl text-gray-900">MySertifico</span>
                 </div>
+                
+                <h2 className="text-center text-3xl font-extrabold text-gray-900">
+                    Sign in to your account
+                </h2>
+                <p className="mt-2 text-center text-sm text-gray-600">
+                    Or{' '}
+                    <Link to="/auth/signup" className="font-medium text-primary hover:underline">
+                        create a new account
+                    </Link>
+                </p>
+            </div>
 
-                {/* Right Column: Sign-in Form */}
-                <div className="p-8 sm:p-12 lg:col-span-3">
-                    {/* Logo for mobile/single column view */}
-                    <div className="text-center lg:hidden mb-8">
-                        <Link to="/" className="flex items-center justify-center gap-x-2">
-                            <img src="/assets/images/logos/logo.png" alt="MySertifico Logo" className="h-10 w-10" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/40x40/ffffff/0d9488?text=M'; }} />
-                            <span className="font-poppins text-3xl font-bold text-primary">MySertifico</span>
-                        </Link>
+            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+                <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+                    {/* General Error Message */}
+                    {generalError && (
+                        <div className="mb-4 bg-red-50 border border-red-200 rounded-md p-4">
+                            <div className="flex">
+                                <div className="flex-shrink-0">
+                                    <i className="ri-error-warning-line text-red-400"></i>
+                                </div>
+                                <div className="ml-3">
+                                    <h3 className="text-sm font-medium text-red-800">
+                                        Authentication failed
+                                    </h3>
+                                    <div className="mt-2 text-sm text-red-700">
+                                        {generalError}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Loading Overlay */}
+                    <div className="relative">
+                        {loading && (
+                            <div className="absolute inset-0 bg-white bg-opacity-50 flex items-center justify-center z-10 rounded-lg">
+                                <div className="flex items-center gap-2">
+                                    <i className="ri-loader-4-line animate-spin text-primary text-xl"></i>
+                                    <span className="text-primary font-medium">Signing in...</span>
+                                </div>
+                            </div>
+                        )}
+                        
+                        <SignInForm
+                            formData={formData}
+                            handleChange={handleChange}
+                            handleSubmit={handleSubmit}
+                            errors={errors}
+                            loading={loading}
+                        />
                     </div>
-
-                    <h2 className="font-bold text-3xl text-gray-800">Admin Sign In</h2>
-                    <p className="text-gray-500 mb-8">Please enter your credentials to access your account.</p>
-
-                    <SignInForm
-                        formData={formData}
-                        handleChange={handleChange}
-                        handleSubmit={handleSubmit}
-                        errors={errors}
-                    />
-
-                    <div className="mt-6 text-center">
-                        <p className="text-sm text-gray-600">
-                            Don't have an account?
-                            <Link to="/auth/sign-up" className="font-medium text-primary hover:underline ml-1">Sign Up here</Link>
-                        </p>
+                    
+                    {/* Demo Credentials */}
+                    <div className="mt-6 p-3 bg-blue-50 border border-blue-200 rounded-md">
+                        <div className="text-center">
+                            <p className="text-xs font-medium text-blue-800">Demo Credentials:</p>
+                            <p className="text-xs text-blue-600">admin@mysertifico.com / password123</p>
+                            <p className="text-xs text-blue-600">user@example.com / securepass</p>
+                        </div>
                     </div>
                 </div>
             </div>
