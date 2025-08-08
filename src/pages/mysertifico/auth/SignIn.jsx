@@ -97,19 +97,19 @@ const SignIn = () => {
         <div className='min-h-screen bg-slate-900 flex flex-col items-center justify-center py-12 px-4'>
             <div className='w-full max-w-md'>
                 {/*logo*/}
-                <div className="text-center mb-8">
+                <div className="flex items-center justify-center text-center mb-8">
                     <img
-                        src="/logos/favicon.png"
+                        src="../logos/favicon.png"
                         alt="Mysertifico Logo"
-                        className="mx-auto h-16 w-auto mb-4"
+                        className="h-10 w-auto mr-3"
                     />
-                    <h1 className='text-white text-xl font-medium'>MySertifico</h1>
+                    <h1 className='text-white text-2xl font-bold tracking-wide'>MySertifico</h1>
                 </div>
 
                 {/* Sign In Card */}
-                <div className='bg-slate-800 rounded-lg p-8 shadown-xl'>
+                <div className='bg-slate-800 rounded-xl p-8 shadown-xl'>
                     <div className='text-center mb-6'>
-                        <h2 className='text-white text-xl font-semibold mb-2'>
+                        <h2 className='text-white text-2xl font-bold'>
                             Back Office Sign In
                         </h2>
                         <p className='text-slate-400 text-sm'>
@@ -119,7 +119,7 @@ const SignIn = () => {
 
                     {/* General Error Message */}
                     {generalError && (
-                        <div className='mb-4 bg-red-900/50 border border-red-600 rounded-md p-3'>
+                        <div className='mb-6 bg-red-900/50 border border-red-500/30 rounded-lg p-3 flex items-center'>
                             <div className='flex items-center'>
                                 <i className='ri-error-warning-line text-red-400 mr-2'></i>
                                 <span className='text-red-200 text-sm'>
@@ -139,7 +139,7 @@ const SignIn = () => {
                 </div>
 
                 {/* Sign Up Link */}
-                <div className='mt-6 text-center'>
+                <div className='mt-8 text-center'>
                     <p className='text-slate-400 text-sm'>
                         Don't have an account?{' '}
                         <Link to="/auth/sign-up" className='text-teal-400 hover:text-teal-300 transition-colors'>
@@ -150,7 +150,7 @@ const SignIn = () => {
             
 
                 {/* Footer */}
-                <div className='mt-8 text-center'>
+                <div className='mt-10 text-center'>
                     <p className='text-slate-500 text-xs'>
                         © 2025 MySertifico | Webapp Studio Sdn. Bhd.
                     </p>
