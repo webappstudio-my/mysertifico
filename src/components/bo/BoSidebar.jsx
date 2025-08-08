@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
+import logo from '../../assets/images/logos/logo.png'; // Adjust the path as necessary
 
 const BoSidebar = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
@@ -38,7 +39,7 @@ const BoSidebar = ({ isOpen, onClose }) => {
             {/* Sidebar Header */}
             <div className={`flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700`}>
                 <Link to="/bo/dashboard" className="flex items-center gap-3">
-                    <img src="/src/assets/images/logos/logo.png" className="h-8 w-8 rounded-lg" alt="Logo" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/32x32/0d9488/ffffff?text=M'; }} />
+                    <img src={logo} className="h-8 w-8 rounded-lg" alt="Logo" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/32x32/0d9488/ffffff?text=M'; }} />
                     <h2 className="font-poppins text-xl font-bold text-primary dark:text-primary-light">MySertifico</h2>
                 </Link>
                 <button id="close-sidebar" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white lg:hidden" onClick={onClose}>

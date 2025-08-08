@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Assuming you use react-router-dom for navigation
+import logo from '../../assets/images/logos/logo.png'; // Adjust the path as necessary
 
 const BoForgotPassword = () => {
     const [email, setEmail] = useState('');
@@ -40,7 +41,7 @@ const BoForgotPassword = () => {
         <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-bo-bg-dark text-gray-200">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 mb-8">
-                <img src="/assets/images/logos/logo.png" alt="Logo" className="h-10" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/32x32/0d9488/ffffff?text=M'; }} />
+                <img src={logo} alt="Logo" className="h-10" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/32x32/0d9488/ffffff?text=M'; }} />
                 <span className="font-poppins text-2xl font-bold text-gray-50">MySertifico</span>
             </Link>
 

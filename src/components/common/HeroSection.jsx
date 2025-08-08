@@ -1,6 +1,7 @@
 // src/components/common/HeroSection.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
+import heroImage from '../../assets/images/frontend/hero-image.png'; // Adjust the path as necessary
 
 const HeroSection = () => {
     return (
@@ -11,7 +12,7 @@ const HeroSection = () => {
 
                 {/* The image path has been updated to reflect the public folder structure */}
                 <img
-                    src="/src/assets/images/frontend/hero-image.png"
+                    src={heroImage}
                     onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/1024x576/ffffff/9ca3af?text=Image+Error'; }}
                     alt="Hero Image"
                     className="mx-auto max-w-full md:max-w-3xl mb-12 rounded-lg shadow-2xl"

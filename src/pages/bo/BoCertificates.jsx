@@ -132,6 +132,7 @@ const BoCertificates = () => {
                 return '';
         }
     };
+    
 
     return (
         <div className="flex min-h-screen bg-bo-bg-light dark:bg-bo-bg-dark transition-colors duration-300">
@@ -139,11 +140,10 @@ const BoCertificates = () => {
             {isSidebarOpen && (
                 <div
                     id="sidebar-overlay"
-                    className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+                    className="fixed inset-0 bg-black bg-opacity-50 z-40"
                     onClick={toggleSidebar}
                 ></div>
             )}
-
             <div id="main-content" className={`flex-grow transition-all duration-300 ease-in-out ${isSidebarOpen ? 'lg:ml-64' : 'lg:ml-0'}`}>
                 <BoNavbar onSidebarToggle={() => setIsSidebarOpen(!isSidebarOpen)} headerTitle="Certificates" />
 

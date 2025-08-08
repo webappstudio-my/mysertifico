@@ -5,6 +5,7 @@ import Stepper from '../../../components/auth/Stepper';
 import AdminDetailsForm from '../../../components/auth/AdminDetailsForm';
 import OrganizationDetailsForm from '../../../components/auth/OrganizationDetailsForm';
 import CountryRestrictionModal from '../../../components/auth/CountryRestrictionModal';
+import logo from '../../../assets/images/logos/logo.png'; // Adjust the path as necessary
 
 const SignUp = () => {
     const [currentStep, setCurrentStep] = useState(1);
@@ -108,8 +109,7 @@ const SignUp = () => {
                 {/* Left Column: Branding and Information (Desktop Only) */}
                 <div className="hidden lg:flex flex-col justify-center p-12 bg-gradient-to-br from-primary-dark to-primary-light h-full lg:col-span-2">
                     <Link to="/" className="flex items-center gap-x-3 mb-8">
-                        {/* Using a placeholder if logo.png is not available */}
-                        <img src="/src/assets/images/logos/logo.png" alt="MySertifico Logo" className="h-12 w-12" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/48x48/ffffff/0d9488?text=M'; }} />
+                        <img src={logo} alt="MySertifico Logo" className="h-12 w-12" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/48x48/ffffff/0d9488?text=M'; }} />
                         <span className="font-poppins text-4xl font-bold text-white">MySertifico</span>
                     </Link>
                     <h1 className="text-4xl font-bold text-white leading-tight mb-4">Unlock the Future of Digital Certification.</h1>
@@ -127,7 +127,7 @@ const SignUp = () => {
                     {/* Logo for mobile/single column view */}
                     <div className="text-center lg:hidden mb-8">
                         <Link to="/" className="flex items-center justify-center gap-x-2">
-                            <img src="/src/assets/images/logos/logo.png" alt="MySertifico Logo" className="h-10 w-10" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/40x40/ffffff/0d9488?text=M'; }} />
+                            <img src={logo} alt="MySertifico Logo" className="h-10 w-10" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/40x40/ffffff/0d9488?text=M'; }} />
                             <span className="font-poppins text-3xl font-bold text-primary">MySertifico</span>
                         </Link>
                     </div>

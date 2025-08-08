@@ -1,6 +1,7 @@
 // src/components/dashboard/DashboardNavbar.jsx
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import logo from '../../assets/images/logos/logo.png'; // Adjust the path as necessary
 
 const DashboardNavbar = ({ onSidebarToggle, theme, onThemeToggle }) => {
     const navigate = useNavigate();
@@ -33,7 +34,7 @@ const DashboardNavbar = ({ onSidebarToggle, theme, onThemeToggle }) => {
                         <i className="ri-menu-line text-2xl"></i>
                     </button>
                     <Link to="/dashboard" className="flex items-center gap-x-2">
-                        <img src="/src/assets/images/logos/logo.png" alt="MySertifico Logo" className="h-8 w-8 rounded-lg" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/32x32/0d9488/ffffff?text=M'; }} />
+                        <img src={logo} alt="MySertifico Logo" className="h-8 w-8 rounded-lg" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/32x32/0d9488/ffffff?text=M'; }} />
                         <span className="font-poppins text-2xl font-bold text-primary hidden sm:block">MySertifico</span>
                     </Link>
                 </div>
