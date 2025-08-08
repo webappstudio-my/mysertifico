@@ -19,6 +19,12 @@ export default { // Ensure 'export default' for Vite
         'primary-light': '#14b8a6', // Teal-500
         'primary-50': '#f0fdfa',
         'accent': '#f59e0b', // Amber-500
+
+        // Back Office Colors
+        'bo-bg-light': '#f8fafc',
+        'bo-bg-dark': '#020617',
+        'bo-surface-light': '#ffffff',
+        'bo-surface-dark': '#1e293b',
       }
     },
   },

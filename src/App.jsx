@@ -13,6 +13,12 @@ import SignUp from './pages/mysertifico/auth/SignUp';
 import SignIn from './pages/mysertifico/auth/SignIn';
 import ForgotPassword from './pages/mysertifico/auth/ForgotPassword';
 import Dashboard from './pages/mysertifico/admin/Dashboard';
+import BoDashboard from './pages/bo/BoDashboard'; // Adjusted import for BO Dashboard
+import BoUsers from './pages/bo/BoUsers'; // Adjusted import for BO Users
+import BoCertificates from './pages/bo/BoCertificates'; // Adjusted import for BO Certificates
+import BoChangePassword from './pages/bo/BoChangePassword'; // Adjusted import for BO Change Password
+import BoForgotPassword from './pages/bo/BoForgotPassword'; // Adjusted import for BO Forgot Password
+import BoMyProfile from './pages/bo/BoMyProfile'; // Adjusted import for BO My Profile
 
 function App() {
   return (
@@ -29,6 +35,13 @@ function App() {
         <Route path="/auth/sign-in" element={<SignIn />} />
         <Route path="/auth/forgot-password" element={<ForgotPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/bo/dashboard" element={<BoDashboard />} />
+        <Route path="/bo/admin/staff" element={<BoUsers />} />
+        <Route path="/bo/certificates" element={<BoCertificates />} />
+        <Route path="/bo/dashboard/change-password" element={<BoChangePassword />} />
+        <Route path="/bo/forgot-password" element={<BoForgotPassword />} />
+        <Route path="/bo/dashboard/my-profile" element={<BoMyProfile />} />
+        {/* Add other routes as needed */}
       </Routes>
     </Router>
   );

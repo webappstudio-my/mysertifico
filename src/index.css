@@ -22,3 +22,8 @@ body {
   color: white;
   /* default text color */
 }
+
+/* ApexCharts tooltip text color override for light mode */
+.apexcharts-tooltip.apexcharts-theme-light {
+  color: #000 !important;
+}

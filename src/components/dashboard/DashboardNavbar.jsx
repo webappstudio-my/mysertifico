@@ -40,8 +40,8 @@ const DashboardNavbar = ({ onSidebarToggle, theme, onThemeToggle }) => {
                 <div className="flex items-center space-x-4">
                     {/* Theme Toggle */}
                     <button id="theme-toggle" className="text-gray-600 dark:text-gray-300 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" onClick={onThemeToggle}>
-                        <i className={`ri-moon-line ${theme === 'dark' ? 'hidden' : 'block'}`}></i>
-                        <i className={`ri-sun-line ${theme === 'dark' ? 'block' : 'hidden'}`}></i>
+                        <i className={`ri-moon-line text-2xl ${theme === 'dark' ? 'hidden' : 'block'}`}></i>
+                        <i className={`ri-sun-line text-2xl ${theme === 'dark' ? 'block' : 'hidden'}`}></i>
                     </button>
                     {/* Profile Dropdown */}
                     <div className="relative">
