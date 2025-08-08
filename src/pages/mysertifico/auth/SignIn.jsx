@@ -99,7 +99,7 @@ const SignIn = () => {
                 {/*logo*/}
                 <div className="flex items-center justify-center text-center mb-8">
                     <img
-                        src="../logos/favicon.png"
+                        src="/favicon.png"
                         alt="Mysertifico Logo"
                         className="h-10 w-auto mr-3"
                     />
