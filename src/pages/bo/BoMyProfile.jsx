@@ -1,49 +1,70 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for toast notifications
+
 import BoSidebar from '../../components/bo/BoSidebar';
 import BoNavbar from '../../components/bo/BoNavbar';
 
-const MyProfile = () => {
+const BoMyProfile = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [fullName, setFullName] = useState('Fikri Nabil');
     const [profileImage, setProfileImage] = useState('https://i.pravatar.cc/150?u=admin');
-    const [isImageChanged, setIsImageChanged] = useState(false);
-    const [fullName, setFullName] = useState('Masta Rob');
-    const [isSuccess, setIsSuccess] = useState(false);
-    const [isError, setIsError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [newProfileImageFile, setNewProfileImageFile] = useState(null);
 
-    const handleImageUpload = (e) => {
-        const file = e.target.files[0];
+    // This useEffect is for simulating the DOMContentLoaded event from the original HTML
+    useEffect(() => {
+        // You could perform initial data fetching here if needed
+    }, []);
+
+    const handleProfileImageChange = (event) => {
+        const file = event.target.files[0];
         if (file) {
+            const allowedTypes = ['image/jpeg', 'image/png'];
+            const maxSize = 2 * 1024 * 1024; // 2MB
+
+            if (!allowedTypes.includes(file.type)) {
+                toast.error('Invalid file type. Please select a JPG or PNG image.');
+                event.target.value = '';
+                return;
+            }
+
+            if (file.size > maxSize) {
+                toast.error('File size exceeds 2MB. Please select a smaller image.');
+                event.target.value = '';
+                return;
+            }
+
             const reader = new FileReader();
-            reader.onload = (event) => {
-                setProfileImage(event.target.result);
-                setIsImageChanged(true);
+            reader.onload = (e) => {
+                setProfileImage(e.target.result);
+                setNewProfileImageFile(file);
             };
             reader.readAsDataURL(file);
         }
     };
 
     const handleSavePicture = () => {
-        // Simulate API call to upload image
-        console.log('Uploading new profile picture...');
-        setTimeout(() => {
-            alert('Profile picture updated successfully!');
-            setIsImageChanged(false);
-        }, 1000);
+        // In a real application, you would upload the file to the server here.
+        // Assuming the upload is successful:
+        toast.success('Profile picture updated successfully!');
+        // Update the navbar image if BoNavbar supports passing props for the image
+        setNewProfileImageFile(null);
     };
 
-    const handleFormSubmit = (e) => {
+    const handleProfileFormSubmit = (e) => {
         e.preventDefault();
-        setIsSuccess(false);
-        setIsError(false);
+        const newName = fullName.trim();
 
-        // Simulate an API call to save profile details
-        console.log('Saving account details...');
+        if (!newName) {
+            toast.error('Full name cannot be empty.');
+            return;
+        }
+
+        // Simulate API call to save profile details
+        console.log('Saving profile details...');
         setTimeout(() => {
-            setIsSuccess(true);
-            setErrorMessage('');
-            // Optional: Reload data from API after successful save
+            toast.success('Profile details saved successfully!');
+            // You might need to update the navbar user name via context or props
         }, 1500);
     };
 
@@ -53,7 +74,8 @@ const MyProfile = () => {
     };
 
     return (
-        <div className="flex min-h-screen bg-bo-bg-light dark:bg-bo-bg-dark transition-colors duration-300">
+        <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+            <BoSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
             <BoSidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
             {isSidebarOpen && (
                 <div
@@ -62,56 +84,40 @@ const MyProfile = () => {
                     onClick={toggleSidebar}
                 ></div>
             )}
-
             <div id="main-content" className={`flex-grow transition-all duration-300 ease-in-out ${isSidebarOpen ? 'lg:ml-64' : 'lg:ml-0'}`}>
-                <BoNavbar onSidebarToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
-
+                <BoNavbar onSidebarToggle={() => setIsSidebarOpen(!isSidebarOpen)} fullName={fullName} profileImage={profileImage} />
                 <main className="p-6 sm:p-8">
                     <div className="max-w-4xl mx-auto">
-                        {isSuccess && (
-                            <div className="bg-green-100 dark:bg-green-900 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-300 px-4 py-3 rounded-lg mb-6 text-sm flex items-start gap-3">
-                                <i className="ri-checkbox-circle-line text-md mt-0.5"></i>
-                                <span>Profile details updated successfully!</span>
-                            </div>
-                        )}
-                        {isError && (
-                            <div className="bg-red-100 dark:bg-red-900 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-300 px-4 py-3 rounded-lg mb-6 text-sm flex items-start gap-3">
-                                <i className="ri-alert-line text-md mt-0.5"></i>
-                                <span>{errorMessage}</span>
-                            </div>
-                        )}
+                        <div className="mb-6">
+                            <h1 className="text-2xl font-bold text-gray-800 dark:text-white">My Profile</h1>
+                            <p className="text-gray-500 dark:text-gray-400 mt-1">Update your profile information.</p>
+                        </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                             {/* Left Column: Profile Picture */}
                             <div className="md:col-span-1">
-                                <div className="bg-bo-surface-light dark:bg-bo-surface-dark rounded-xl shadow-md p-6 text-center">
+                                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 text-center">
                                     <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Profile Picture</h3>
                                     <div className="relative w-32 h-32 mx-auto">
-                                        <img id="profile-image-preview" src={profileImage} alt="Profile Picture" className="w-32 h-32 rounded-full object-cover shadow-lg" />
+                                        <img id="profile-image-preview" src={profileImage} alt="Profile Picture" className="w-32 h-32 rounded-full object-cover shadow-lg" onError={e => e.target.src = 'https://placehold.co/40x40/0d9488/ffffff?text=A'} />
                                         <label htmlFor="profile-image-upload" className="absolute bottom-0 right-0 bg-primary text-white rounded-full p-2 cursor-pointer hover:bg-primary-dark transition-colors">
                                             <i className="ri-camera-line"></i>
-                                            <input type="file" id="profile-image-upload" className="hidden" accept="image/*" onChange={handleImageUpload} />
+                                            <input type="file" id="profile-image-upload" className="hidden" accept="image/jpeg, image/png" onChange={handleProfileImageChange} />
                                         </label>
                                     </div>
-                                    {isImageChanged && (
-                                        <button
-                                            id="save-picture-btn"
-                                            onClick={handleSavePicture}
-                                            className="mt-4 w-full bg-primary text-white font-semibold py-2 px-4 rounded-lg hover:bg-primary-dark transition-colors"
-                                        >
-                                            Save Picture
-                                        </button>
+                                    {newProfileImageFile && (
+                                        <button onClick={handleSavePicture} className="mt-4 w-full bg-primary text-white font-semibold py-2 px-4 rounded-lg hover:bg-primary-dark transition-colors">Save Picture</button>
                                     )}
-                                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">Click the camera icon to change your picture.</p>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">JPG or PNG. Max size of 2MB.</p>
                                 </div>
                             </div>
 
                             {/* Right Column: Profile Details */}
                             <div className="md:col-span-2">
-                                <div className="bg-bo-surface-light dark:bg-bo-surface-dark rounded-xl shadow-md">
+                                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md">
                                     <div className="p-6 border-b border-gray-200 dark:border-gray-700">
                                         <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Account Details</h3>
                                     </div>
-                                    <form onSubmit={handleFormSubmit} className="p-6 space-y-4">
+                                    <form onSubmit={handleProfileFormSubmit} className="p-6 space-y-4">
                                         <div>
                                             <label htmlFor="full-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Full Name</label>
                                             <input
@@ -119,16 +125,16 @@ const MyProfile = () => {
                                                 id="full-name"
                                                 value={fullName}
                                                 onChange={(e) => setFullName(e.target.value)}
-                                                className="mt-1 block w-full font-semibold text-gray-900 dark:text-white border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:border-primary focus:ring-primary bg-white dark:bg-gray-700"
+                                                className="mt-1 block w-full px-4 py-2.5 text-gray-900 dark:text-white border border-gray-400 dark:border-gray-500 rounded-md shadow-sm focus:border-primary focus:ring-primary bg-white dark:bg-gray-700"
                                             />
                                         </div>
                                         <div>
                                             <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email Address</label>
-                                            <input type="email" id="email" value="rob@webapp.studio" disabled className="mt-1 block w-full font-semibold text-gray-900 dark:text-white border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-gray-100 dark:bg-gray-800/50 cursor-not-allowed" />
+                                            <input type="email" id="email" value="fikri.nabil@example.com" disabled className="mt-1 block w-full px-4 py-2.5 text-gray-900 dark:text-white border border-gray-400 dark:border-gray-500 rounded-md shadow-sm bg-gray-100 dark:bg-gray-700/50 cursor-not-allowed" />
                                         </div>
                                         <div>
                                             <label htmlFor="role" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Role</label>
-                                            <input type="text" id="role" value="Super Admin" disabled className="mt-1 block w-full font-semibold text-gray-900 dark:text-white border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-gray-100 dark:bg-gray-800/50 cursor-not-allowed" />
+                                            <input type="text" id="role" value="Super Admin" disabled className="mt-1 block w-full px-4 py-2.5 text-gray-900 dark:text-white border border-gray-400 dark:border-gray-500 rounded-md shadow-sm bg-gray-100 dark:bg-gray-700/50 cursor-not-allowed" />
                                         </div>
                                         <div className="pt-2 text-right">
                                             <button type="submit" className="bg-primary text-white font-semibold py-2 px-6 rounded-lg hover:bg-primary-dark transition-colors">Save Changes</button>
@@ -139,9 +145,10 @@ const MyProfile = () => {
                         </div>
                     </div>
                 </main>
+                <ToastContainer toastClassName="bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700" position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
             </div>
         </div>
     );
 };
 
-export default MyProfile;
+export default BoMyProfile;
