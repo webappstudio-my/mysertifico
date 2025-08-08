@@ -1,5 +1,5 @@
 import React from 'react';
-import certificateMockup from '../../../../assets/images/templates/template1.jpg'; // Make sure this image path is correct
+import certificateMockup from '../../../src/assets/images/templates/template1.jpg'; // Make sure this image path is correct
 
 const BoCertificatePreviewModal = ({ isOpen, onClose, certificate }) => {
     if (!isOpen || !certificate) return null;
