@@ -3,17 +3,15 @@ import React, { useState } from 'react';
 
 const AuthInputField = ({ iconClass, label, type, id, name, value, onChange, required = false, placeholder, error, onBlur, showPasswordStrength = false, passwordStrength = 0, ...props }) => {
     const [showPassword, setShowPassword] = useState(false);
-
     // Determine input type for password field
     const inputType = type === 'password' && showPassword ? 'text' : type;
 
     return (
-        <div>
-            <label htmlFor={id} className="sr-only">{label}</label>
-            <div className="relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i className={`${iconClass} text-gray-400`}></i>
-                </div>
+        <div className='w-full'>
+            <label htmlFor={id} className="block text-sm font-medium text-slate-300 mb-2">
+                {label}
+                </label>
+            <div className="relative">
                 <input
                     type={inputType}
                     id={id}
@@ -23,14 +21,13 @@ const AuthInputField = ({ iconClass, label, type, id, name, value, onChange, req
                     onBlur={onBlur} // Added onBlur for validation
                     required={required}
                     placeholder={placeholder || label}
-                    className={`pl-10 block w-full px-4 py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm ${error ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'
-                        }`}
+                    className=
                     {...props}
                 />
                 {type === 'password' && (
                     <button
                         type="button"
-                        className="password-toggle absolute inset-y-0 right-0 px-3 flex items-center text-gray-500"
+                        className="password-toggle absolute inset-y-0 right-0 px-3 flex items-center text-slate-400 hover:text-slate-200"
                         onClick={() => setShowPassword(!showPassword)}
                     >
                         <i className={showPassword ? 'ri-eye-line' : 'ri-eye-off-line'}></i>
