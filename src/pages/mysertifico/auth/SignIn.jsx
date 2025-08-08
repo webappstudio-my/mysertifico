@@ -136,17 +136,19 @@ const SignIn = () => {
                         errors={errors}
                         loading={loading}
                     />
+
+                    {/* Sign Up Link */}
+                    <div className='mt-8 text-center'>
+                        <p className='text-slate-400 text-sm'>
+                            Don't have an account?{' '}
+                            <Link to="/auth/sign-up" className='text-teal-400 hover:text-teal-300 transition-colors'>
+                                Register here
+                            </Link>
+                        </p>
+                    </div>
                 </div>
 
-                {/* Sign Up Link */}
-                <div className='mt-8 text-center'>
-                    <p className='text-slate-400 text-sm'>
-                        Don't have an account?{' '}
-                        <Link to="/auth/sign-up" className='text-teal-400 hover:text-teal-300 transition-colors'>
-                            Register here
-                        </Link>
-                    </p>
-                </div>
+                
             
 
                 {/* Footer */}
