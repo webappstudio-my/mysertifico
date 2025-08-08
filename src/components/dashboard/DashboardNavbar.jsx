@@ -33,7 +33,7 @@ const DashboardNavbar = ({ onSidebarToggle, theme, onThemeToggle }) => {
                         <i className="ri-menu-line text-2xl"></i>
                     </button>
                     <Link to="/dashboard" className="flex items-center gap-x-2">
-                        <img src="/assets/images/logos/logo.png" alt="MySertifico Logo" className="h-8 w-8 rounded-lg" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/32x32/0d9488/ffffff?text=M'; }} />
+                        <img src="/src/assets/images/logos/logo.png" alt="MySertifico Logo" className="h-8 w-8 rounded-lg" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/32x32/0d9488/ffffff?text=M'; }} />
                         <span className="font-poppins text-2xl font-bold text-primary hidden sm:block">MySertifico</span>
                     </Link>
                 </div>

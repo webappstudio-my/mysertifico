@@ -1,5 +1,5 @@
 // src/pages/bo/BoDashboardPage.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import BoSidebar from '../../components/bo/BoSidebar';
 import BoNavbar from '../../components/bo/BoNavbar';
 import BoStatsCard from '../../components/bo/BoStatsCard';
@@ -9,34 +9,34 @@ import BoSalesSummaryCard from '../../components/bo/BoSalesSummaryCard';
 
 const BoDashboard = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [theme, setTheme] = useState('light'); // 'light' or 'dark'
+    // const [theme, setTheme] = useState('light'); // 'light' or 'dark'
 
     // Initialize theme from localStorage or system preference
-    useEffect(() => {
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            setTheme('dark');
-            document.documentElement.classList.add('dark');
-        } else {
-            setTheme('light');
-            document.documentElement.classList.remove('dark');
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    //         setTheme('dark');
+    //         document.documentElement.classList.add('dark');
+    //     } else {
+    //         setTheme('light');
+    //         document.documentElement.classList.remove('dark');
+    //     }
+    // }, []);
 
     // Effect to apply theme class to html element
-    useEffect(() => {
-        if (theme === 'dark') {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('color-theme', 'dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('color-theme', 'light');
-        }
-    }, [theme]);
+    // useEffect(() => {
+    //     if (theme === 'dark') {
+    //         document.documentElement.classList.add('dark');
+    //         localStorage.setItem('color-theme', 'dark');
+    //     } else {
+    //         document.documentElement.classList.remove('dark');
+    //         localStorage.setItem('color-theme', 'light');
+    //     }
+    // }, [theme]);
 
     // Toggle theme
-    const handleThemeToggle = () => {
-        setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
-    };
+    // const handleThemeToggle = () => {
+    //     setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+    // };
 
     // Toggle sidebar for all screen sizes
     const toggleSidebar = () => {
@@ -58,7 +58,7 @@ const BoDashboard = () => {
                 className={`flex-grow transition-all duration-300 ease-in-out ${isSidebarOpen ? 'ml-64' : 'ml-0'
                     }`}
             >
-                <BoNavbar onSidebarToggle={toggleSidebar} theme={theme} onThemeToggle={handleThemeToggle} />
+                <BoNavbar onSidebarToggle={toggleSidebar} />
                 <main className="p-6 sm:p-8">
                     <div className="max-w-7xl mx-auto">
                         <div className="mb-8">
@@ -99,7 +99,7 @@ const BoDashboard = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
                             <BoSalesSummaryCard />
-                            <BoMonthlySalesCard theme={theme} />
+                            <BoMonthlySalesCard />
                             <BoRecentActivitiesCard />
                         </div>
                     </div>

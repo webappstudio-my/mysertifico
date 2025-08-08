@@ -11,7 +11,7 @@ const HeroSection = () => {
 
                 {/* The image path has been updated to reflect the public folder structure */}
                 <img
-                    src="/assets/images/frontend/hero-image.png"
+                    src="/src/assets/images/frontend/hero-image.png"
                     onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/1024x576/ffffff/9ca3af?text=Image+Error'; }}
                     alt="Hero Image"
                     className="mx-auto max-w-full md:max-w-3xl mb-12 rounded-lg shadow-2xl"

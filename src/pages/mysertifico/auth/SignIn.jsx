@@ -70,7 +70,7 @@ const SignIn = () => {
                 {/* Left Column: Branding and Information (Desktop Only) */}
                 <div className="hidden lg:flex flex-col justify-center p-12 bg-gradient-to-br from-primary-dark to-primary-light h-full lg:col-span-2">
                     <Link to="/" className="flex items-center gap-x-3 mb-8">
-                        <img className="h-12 w-12" src="/assets/images/logos/logo.png" alt="MySertifico Logo" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/48x48/ffffff/0d9488?text=M'; }} />
+                        <img className="h-12 w-12" src="/src/assets/images/logos/logo.png" alt="MySertifico Logo" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/48x48/ffffff/0d9488?text=M'; }} />
                         <span className="font-poppins text-4xl font-bold text-white">MySertifico</span>
                     </Link>
                     <h1 className="text-4xl font-bold text-white leading-tight mb-4">Welcome Back to Your Digital HQ.</h1>
@@ -88,7 +88,7 @@ const SignIn = () => {
                     {/* Logo for mobile/single column view */}
                     <div className="text-center lg:hidden mb-8">
                         <Link to="/" className="flex items-center justify-center gap-x-2">
-                            <img src="/assets/images/logos/logo.png" alt="MySertifico Logo" className="h-10 w-10" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/40x40/ffffff/0d9488?text=M'; }} />
+                            <img src="/src/assets/images/logos/logo.png" alt="MySertifico Logo" className="h-10 w-10" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/40x40/ffffff/0d9488?text=M'; }} />
                             <span className="font-poppins text-3xl font-bold text-primary">MySertifico</span>
                         </Link>
                     </div>
