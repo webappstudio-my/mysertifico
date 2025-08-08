@@ -137,7 +137,7 @@ const BoUsers = () => {
 
             <div id="main-content" className={`flex-grow transition-all duration-300 ease-in-out ${isSidebarOpen ? 'lg:ml-64' : 'lg:ml-0'}`}>
                 {/* Navbar component with state management prop */}
-                <BoNavbar onSidebarToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
+                <BoNavbar onSidebarToggle={() => setIsSidebarOpen(!isSidebarOpen)} headerTitle="Staff Management" />
 
                 <main className="p-6 sm:p-8">
                     <div className="max-w-7xl mx-auto">

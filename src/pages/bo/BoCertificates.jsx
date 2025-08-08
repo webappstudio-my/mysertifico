@@ -145,7 +145,7 @@ const BoCertificates = () => {
             )}
 
             <div id="main-content" className={`flex-grow transition-all duration-300 ease-in-out ${isSidebarOpen ? 'lg:ml-64' : 'lg:ml-0'}`}>
-                <BoNavbar onSidebarToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
+                <BoNavbar onSidebarToggle={() => setIsSidebarOpen(!isSidebarOpen)} headerTitle="Certificates" />
 
                 <main className="p-6 sm:p-8">
                     <div className="max-w-7xl mx-auto">

@@ -75,7 +75,6 @@ const BoMyProfile = () => {
 
     return (
         <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
-            <BoSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
             <BoSidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
             {isSidebarOpen && (
                 <div
@@ -85,7 +84,7 @@ const BoMyProfile = () => {
                 ></div>
             )}
             <div id="main-content" className={`flex-grow transition-all duration-300 ease-in-out ${isSidebarOpen ? 'lg:ml-64' : 'lg:ml-0'}`}>
-                <BoNavbar onSidebarToggle={() => setIsSidebarOpen(!isSidebarOpen)} fullName={fullName} profileImage={profileImage} />
+                <BoNavbar onSidebarToggle={() => setIsSidebarOpen(!isSidebarOpen)} fullName={fullName} profileImage={profileImage} headerTitle="My Profile" />
                 <main className="p-6 sm:p-8">
                     <div className="max-w-4xl mx-auto">
                         <div className="mb-6">

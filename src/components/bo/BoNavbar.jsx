@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-const BoNavbar = ({ onSidebarToggle }) => {
+
+// Added a new prop 'headerTitle' to the component
+const BoNavbar = ({ onSidebarToggle, headerTitle }) => {
     const navigate = useNavigate();
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
@@ -68,11 +70,11 @@ const BoNavbar = ({ onSidebarToggle }) => {
                     >
                         <i className="ri-menu-line text-2xl"></i>
                     </button>
-                    {/* Logo/Brand Name */}
+                    {/* Logo/Brand Name now shows the dynamic headerTitle */}
                     <div className="flex items-center gap-x-2">
-                        <Link to="/bo/dashboard" className="hidden md:block">
-                            <span className="font-poppins text-2xl font-bold text-gray-800 dark:text-white">Dashboard</span>
-                        </Link>
+                        <span className="hidden md:block font-poppins text-2xl font-bold text-gray-800 dark:text-white">
+                            {headerTitle || 'Dashboard'}
+                        </span>
                     </div>
                 </div>
 
