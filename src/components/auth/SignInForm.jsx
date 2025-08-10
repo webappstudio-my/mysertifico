@@ -14,7 +14,7 @@ const SignInForm = ({
         <form className="space-y-5" onSubmit={handleSubmit} noValidate>
             <AuthInputField
                 iconClass="ri-mail-line"
-                label="Email Address"
+                label="Email"
                 type="email"
                 id="email"
                 name="email"
