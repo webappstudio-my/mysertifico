@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SignInForm from '../../../components/auth/SignInForm';
+import logo from '../../../assets/images/logos/favicon.png'; // Adjust the path as necessary
 
 const SignIn = () => {
     // State to manage form data and errors
@@ -99,7 +100,7 @@ const SignIn = () => {
                 {/*logo*/}
                 <div className="flex items-center justify-center text-center mb-8">
                     <img
-                        src="/favicon.png"
+                        src={logo}
                         alt="Mysertifico Logo"
                         className="h-10 w-auto mr-3"
                     />
