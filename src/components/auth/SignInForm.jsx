@@ -12,7 +12,6 @@ const SignInForm = ({
 }) => {
     return (
         <form className="space-y-5" onSubmit={handleSubmit} noValidate>
-            <p>Email</p>
             <AuthInputField
                 iconClass="ri-mail-line"
                 label="Email Address"
@@ -28,7 +27,6 @@ const SignInForm = ({
                 disabled={loading}
                 placeholder={'Enter your email address'}
             />
-            <p>Password</p>
             <AuthInputField
                 iconClass="ri-lock-line"
                 label="Password"

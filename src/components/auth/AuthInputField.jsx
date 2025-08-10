@@ -21,7 +21,7 @@ const AuthInputField = ({ iconClass, label, type, id, name, value, onChange, req
                     onBlur={onBlur} // Added onBlur for validation
                     required={required}
                     placeholder={placeholder || label}
-                    className=
+                    className="block w-full px-3 py-2.5 rounded-md shadow-sm text-slate-200 bg-slate-600 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-teal-500 focus:bg-slate-700 sm:text-sm border-0 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     {...props}
                 />
                 {type === 'password' && (
