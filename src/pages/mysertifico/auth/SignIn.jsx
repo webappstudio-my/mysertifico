@@ -94,7 +94,7 @@ const SignIn = () => {
     };
 
     return (
-        <div className='min-h-screen bg-slate-900 flex flex-col items-center justify-center py-12 px-4'>
+        <div className='min-h-screen bg-gray-900 flex flex-col items-center justify-center py-12 px-4'>
             <div className='w-full max-w-md'>
                 {/*logo*/}
                 <div className="flex items-center justify-center text-center mb-8">
@@ -146,14 +146,12 @@ const SignIn = () => {
                         </Link>
                     </p>
                 </div>
-            
-
-                {/* Footer */}
-                <div className='mt-10 text-center'>
+            </div>
+            {/* Footer */}
+                <div className='mt-6 text-center'>
                     <p className='text-slate-500 text-xs'>
                         © 2025 MySertifico | Webapp Studio Sdn. Bhd.
                     </p>
-                </div>
             </div>
         </div>
     </div>
