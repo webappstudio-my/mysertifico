@@ -13,6 +13,7 @@ import SignUp from './pages/mysertifico/auth/SignUp';
 import SignIn from './pages/mysertifico/auth/SignIn'; {/* Need to remove this import as it conflicts with the BoSignIn component */}
 import BoSignIn from './pages/bo/BoSignIn';
 import ForgotPassword from './pages/mysertifico/auth/ForgotPassword';
+import BoPasswordResetPage from './pages/bo/BoPasswordResetPage'; // Importing the Back Office Password Reset Page
 import Dashboard from './pages/mysertifico/admin/Dashboard';
 
 function App() {
@@ -30,6 +31,8 @@ function App() {
         <Route path="/auth/sign-in" element={<SignIn />} />
         <Route path='/bo/sign-in' element={<BoSignIn />} /> {/* Back Office Sign In */}
         <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+        <Route path="/bo/reset-password" element={<BoPasswordResetPage />} /> {/* Back Office Password Reset Page */}
+        {/* Add other routes as needed */}
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
