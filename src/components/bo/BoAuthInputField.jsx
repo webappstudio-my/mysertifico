@@ -1,4 +1,5 @@
 // src/components/bo/BoAuthInputField.jsx
+// Change for BO authentication input fields
 import React, { useState } from 'react';
 
 const BoAuthInputField = ({ iconClass, label, type, id, name, value, onChange, required = false, placeholder, error, onBlur, showPasswordStrength = false, passwordStrength = 0, ...props }) => {
