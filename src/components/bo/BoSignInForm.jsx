@@ -14,7 +14,7 @@ const BoSignInForm = ({
         <form className="space-y-5" onSubmit={handleSubmit} noValidate>
             <BoAuthInputField
                 iconClass="ri-mail-line"
-                label="Email"
+                label="Email Address"
                 type="email"
                 id="email"
                 name="email"
