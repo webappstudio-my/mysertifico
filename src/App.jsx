@@ -10,7 +10,8 @@ import PrivacyPolicy from './pages/mysertifico/landing/PrivacyPolicy';
 import TermsOfService from './pages/mysertifico/landing/TermsOfService';
 import SecurityPolicy from './pages/mysertifico/landing/SecurityPolicy';
 import SignUp from './pages/mysertifico/auth/SignUp';
-import SignIn from './pages/mysertifico/auth/SignIn';
+import SignIn from './pages/mysertifico/auth/SignIn'; {/* Need to remove this import as it conflicts with the BoSignIn component */}
+import BoSignIn from './pages/bo/BoSignIn';
 import ForgotPassword from './pages/mysertifico/auth/ForgotPassword';
 import Dashboard from './pages/mysertifico/admin/Dashboard';
 
@@ -27,6 +28,7 @@ function App() {
         <Route path="/security-policy" element={<SecurityPolicy />} />
         <Route path="/auth/sign-up" element={<SignUp />} />
         <Route path="/auth/sign-in" element={<SignIn />} />
+        <Route path='/bo/sign-in' element={<BoSignIn />} /> {/* Back Office Sign In */}
         <Route path="/auth/forgot-password" element={<ForgotPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
