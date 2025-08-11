@@ -14,18 +14,62 @@ const BoPasswordResetPage = () => {
     const [generalError, setGeneralError] = useState('');
     const [success, setSuccess] = useState(false);
 
+    // Password validate function
+    const validatePassword = (password) => {
+        const minLength = 8;
+        const hasSymbols = /[@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password);
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasLowerCase = /[a-z]/.test(password);
+        const hasNumbers = /\d/.test(password);
+
+        let strength = 0;
+        let errors = [];
+
+        if (password.length >= minLength) {
+            strength += 25;
+        } else {
+            errors.push(`Password must be at least ${minLength} characters long.`);
+        }
+
+        if (hasSymbols) {
+            strength += 25;
+        } else {
+            errors.push('Password must contain at least one special character (@, #, $, etc.).');
+        }
+
+        if (hasUpperCase) {
+            strength += 25;
+        } else {
+            errors.push('Password must contain at least one uppercase letter.');
+        }
+
+        if (hasLowerCase && hasNumbers) {
+            strength += 25;
+        } else if (!hasLowerCase) {
+            errors.push('Password must contain at least one lowercase letter.');
+        } else if (!hasNumbers) {
+            errors.push('Password must contain at least one number.');
+        }
+
+        return { strength, errors, isValid: errors.length === 0}
+   
+   
+    };
+
+    // Handle form change
     const handleChange = (e) => {
+        // Update form data state
         const { name, value } = e.target;
         setFormData((prev) => ({
             ...prev,
             [name]: value,
         }));
         setErrors((prev) => ({ ...prev, [name]: '' }));
-
+        // Reset general error if any field is changed
         if (generalError) {
             setGeneralError('');
         }
-        
+        // Reset success state if any field is changed
         if (success) {
             setSuccess(false);
         }
@@ -84,6 +128,9 @@ const BoPasswordResetPage = () => {
         }, 1000);
     }
 
+    //Calculate password strength for display
+    const passwordStrength = formData.newPassword ? validatePassword(formData.newPassword).strength : 0;
+
     return (
         <div className='min-h-screen bg-gray-900 flex flex-col items-center justify-center py-12 px-4'>
             <div className='w-full max-w-md'>
@@ -139,6 +186,7 @@ const BoPasswordResetPage = () => {
                         handleSubmit={handleSubmit}
                         errors={errors}
                         loading={loading}
+                        passwordStrength={passwordStrength}
                     />
 
                     {/* Click to Login/Sign-In Link */}

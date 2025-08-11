@@ -8,6 +8,7 @@ const BoPasswordResetForm = ({
     handleSubmit,
     errors,
     loading = false,
+    passwordStrength = 0, // New prop for password strength
 }) => {
     return (
         <div className='space-y-5' onSubmit={handleSubmit}>
@@ -24,6 +25,8 @@ const BoPasswordResetForm = ({
                 error={errors.newPassword}
                 disabled={loading}
                 placeholder={'Enter your new password'}
+                showPasswordStrength={true} // Show password strength indicator
+                passwordStrength={passwordStrength} // Pass the password strength
             />
 
             <BoAuthInputField
