@@ -1,8 +1,8 @@
 // src/pages/bo/BoSignIn.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import BoSignInForm from '../../../components/bo/BoSignInForm';
-import logo from '../../../assets/images/logos/favicon.png'; // Adjust the path as necessary
+import BoSignInForm from '../../components/bo/BoSignInForm';
+import logo from '../../assets/images/logos/favicon.png'; // Adjust the path as necessary
 
 const BoSignIn = () => {
     // State to manage form data and errors
