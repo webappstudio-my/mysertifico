@@ -1,7 +1,7 @@
 // src/pages/bo/BoSignIn.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import SignInForm from '../../../components/bo/BoSignInForm';
+import BoSignInForm from '../../../components/bo/BoSignInForm';
 import logo from '../../../assets/images/logos/favicon.png'; // Adjust the path as necessary
 
 const BoSignIn = () => {
@@ -130,7 +130,7 @@ const BoSignIn = () => {
                         </div>
                     )}
 
-                   <SignInForm
+                   <BoSignInForm
                         formData={formData}
                         handleChange={handleChange}
                         handleSubmit={handleSubmit}

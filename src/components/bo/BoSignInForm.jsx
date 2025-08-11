@@ -1,7 +1,7 @@
 // src/components/bo/BoSignInForm.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import AuthInputField from './BoAuthInputField'; // Reusing the AuthInputField component
+import BoAuthInputField from './BoAuthInputField'; // Reusing the AuthInputField component
 
 const BoSignInForm = ({ 
     formData, 
@@ -12,7 +12,7 @@ const BoSignInForm = ({
 }) => {
     return (
         <form className="space-y-5" onSubmit={handleSubmit} noValidate>
-            <AuthInputField
+            <BoAuthInputField
                 iconClass="ri-mail-line"
                 label="Email"
                 type="email"
@@ -27,7 +27,7 @@ const BoSignInForm = ({
                 disabled={loading}
                 placeholder={'Enter your email address'}
             />
-            <AuthInputField
+            <BoAuthInputField
                 iconClass="ri-lock-line"
                 label="Password"
                 type="password"
