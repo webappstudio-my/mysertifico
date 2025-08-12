@@ -72,7 +72,7 @@ const BoUsers = () => {
         if (!user) return;
 
         setUserToUpdateId(userId);
-        const isActivating = user.status === 'Active' ? 'Inactive' : 'Active';
+        const isActivating = user.status === 'Inactive';
 
         setModalConfig({
             iconClass: isActivating ? 'ri-checkbox-circle-line text-green-600 dark:text-green-400' : 'ri-close-circle-line text-red-600 dark:text-red-400',
