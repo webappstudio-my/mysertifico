@@ -9,34 +9,6 @@ import BoSalesSummaryCard from '../../components/bo/BoSalesSummaryCard';
 
 const BoDashboard = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    // const [theme, setTheme] = useState('light'); // 'light' or 'dark'
-
-    // Initialize theme from localStorage or system preference
-    // useEffect(() => {
-    //     if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    //         setTheme('dark');
-    //         document.documentElement.classList.add('dark');
-    //     } else {
-    //         setTheme('light');
-    //         document.documentElement.classList.remove('dark');
-    //     }
-    // }, []);
-
-    // Effect to apply theme class to html element
-    // useEffect(() => {
-    //     if (theme === 'dark') {
-    //         document.documentElement.classList.add('dark');
-    //         localStorage.setItem('color-theme', 'dark');
-    //     } else {
-    //         document.documentElement.classList.remove('dark');
-    //         localStorage.setItem('color-theme', 'light');
-    //     }
-    // }, [theme]);
-
-    // Toggle theme
-    // const handleThemeToggle = () => {
-    //     setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
-    // };
 
     // Toggle sidebar for all screen sizes
     const toggleSidebar = () => {

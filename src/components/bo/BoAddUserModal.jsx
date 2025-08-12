@@ -4,6 +4,7 @@ const BoAddUserModal = ({ isOpen, onClose, onAddUser }) => {
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [role, setRole] = useState('');
+    const [status, setStatus] = useState('');
     const [error, setError] = useState('');
     const modalPanelRef = useRef(null);
 
@@ -13,6 +14,7 @@ const BoAddUserModal = ({ isOpen, onClose, onAddUser }) => {
             setFullName('');
             setEmail('');
             setRole('');
+            setStatus('');
             setError('');
         }
     }, [isOpen]);
@@ -34,7 +36,7 @@ const BoAddUserModal = ({ isOpen, onClose, onAddUser }) => {
         e.preventDefault();
         setError(''); // Clear previous errors
 
-        if (!fullName || !email || !role) {
+        if (!fullName || !email || !role || !status) {
             setError('Please fill in all fields.');
             return;
         }
@@ -45,7 +47,7 @@ const BoAddUserModal = ({ isOpen, onClose, onAddUser }) => {
             return;
         }
 
-        onAddUser({ fullName, email, role });
+        onAddUser({ fullName, email, role, status });
         onClose(); // Close modal after successful submission
     };
 
@@ -72,7 +74,7 @@ const BoAddUserModal = ({ isOpen, onClose, onAddUser }) => {
                             <input
                                 type="text"
                                 id="new-user-name"
-                                className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:border-primary focus:ring-primary bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary text-gray-900 dark:text-white pr-10"
                                 value={fullName}
                                 onChange={(e) => setFullName(e.target.value)}
                             />
@@ -82,7 +84,7 @@ const BoAddUserModal = ({ isOpen, onClose, onAddUser }) => {
                             <input
                                 type="email"
                                 id="new-user-email"
-                                className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:border-primary focus:ring-primary bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary text-gray-900 dark:text-white pr-10"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
@@ -91,7 +93,7 @@ const BoAddUserModal = ({ isOpen, onClose, onAddUser }) => {
                             <label htmlFor="new-user-role" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Role</label>
                             <select
                                 id="new-user-role"
-                                className="mt-1 block w-full border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:border-primary focus:ring-primary bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary text-gray-900 dark:text-white pr-10"
                                 value={role}
                                 onChange={(e) => setRole(e.target.value)}
                             >
@@ -99,6 +101,19 @@ const BoAddUserModal = ({ isOpen, onClose, onAddUser }) => {
                                 <option value="Super Admin">Super Admin</option>
                                 <option value="Admin">Admin</option>
                                 <option value="Manager">Manager</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label htmlFor="status" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+                            <select
+                                id="status"
+                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary text-gray-900 dark:text-white"
+                                value={status}
+                                onChange={(e) => setStatus(e.target.value)}
+                            >
+                                <option value="">Select Status</option>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
                             </select>
                         </div>
                     </div>

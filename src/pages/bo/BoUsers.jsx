@@ -72,7 +72,7 @@ const BoUsers = () => {
         if (!user) return;
 
         setUserToUpdateId(userId);
-        const isActivating = user.status === 'Inactive';
+        const isActivating = user.status === 'Active' ? 'Inactive' : 'Active';
 
         setModalConfig({
             iconClass: isActivating ? 'ri-checkbox-circle-line text-green-600 dark:text-green-400' : 'ri-close-circle-line text-red-600 dark:text-red-400',
@@ -101,14 +101,14 @@ const BoUsers = () => {
         setUserToUpdateId(null);
     };
 
-    const handleAddUser = ({ fullName, email, role }) => {
+    const handleAddUser = ({ fullName, email, role, status, }) => {
         const newUser = {
             id: Date.now(), // Simple unique ID
             name: fullName,
             email: email,
             role: role,
             dateJoined: new Date().toISOString().slice(0, 10),
-            status: 'Active', // New users are active by default
+            status: status,
         };
         setUserData(prevUserData => [newUser, ...prevUserData]);
     };
