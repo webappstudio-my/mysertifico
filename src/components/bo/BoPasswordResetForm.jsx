@@ -11,7 +11,7 @@ const BoPasswordResetForm = ({
     passwordStrength = 0, // New prop for password strength
 }) => {
     return (
-        <div className='space-y-5' onSubmit={handleSubmit}>
+        <form className='space-y-5' onSubmit={handleSubmit}>
             <BoAuthInputField
                 iconClass='ri-lock-line'
                 label='New Password'
@@ -62,7 +62,7 @@ const BoPasswordResetForm = ({
                     )}
                 </button>
             </div>
-        </div>
+        </form>
     );
 };
 
