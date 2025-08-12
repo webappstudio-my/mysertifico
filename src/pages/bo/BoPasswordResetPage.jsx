@@ -14,6 +14,14 @@ const BoPasswordResetPage = () => {
     const [generalError, setGeneralError] = useState('');
     const [success, setSuccess] = useState(false);
 
+    // Dummy registered users for client-side validation (replace with actual backend check)
+    const registeredUsersPassword = [
+        { id: 1, email: 'admin@mysertifico.com', currentPassword: 'password123'},
+        { id: 2, email: 'user@example.com', currentPassword: 'securepass'},
+    ];
+    
+    const currentUser = registeredUsersPassword[0]; // Simulating current user, replace with actual user data
+    
     // Password validate function
     const validatePassword = (password) => {
         const minLength = 8;
@@ -52,8 +60,6 @@ const BoPasswordResetPage = () => {
         }
 
         return { strength, errors, isValid: errors.length === 0}
-   
-   
     };
 
     // Handle form change
@@ -85,16 +91,25 @@ const BoPasswordResetPage = () => {
         let isValid = true;
 
         // Validate New Password
-        if (!formData.newPassword) {
+        if (!formData.newPassword.trim()) {
             newErrors.newPassword = 'New password is required.';
             isValid = false;
+        } else if (formData.newPassword === currentUser.currentPassword) {
+            newErrors.newPassword = 'New password cannot be the same as the current password.';
+            isValid = false;   
         } else if (formData.newPassword.length < 8) {
             newErrors.newPassword = 'Password must be at least 8 characters long.';
             isValid = false;
+        } else {
+            const passwordValidation = validatePassword(formData.newPassword);
+            if (!passwordValidation.isValid) {
+                newErrors.newPassword = `Password must have: ${passwordValidation.errors.join(', ')}`;
+                isValid = false;
+            }
         }
 
         // Validate Confirm Password
-        if (!formData.confirmPassword) {
+        if (!formData.confirmPassword.trim()) {
             newErrors.confirmPassword = 'Please confirm your new password.';
             isValid = false;
         } else if (formData.newPassword !== formData.confirmPassword) {
