@@ -1,5 +1,6 @@
 // src/pages/bo/BoTemplates.jsx
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import BoSidebar from '../../components/bo/BoSidebar';
 import BoNavbar from '../../components/bo/BoNavbar';
 import BoPagination from '../../components/bo/BoPagination';
@@ -24,34 +25,30 @@ const BoTemplateManagement = ({ userRole = 'admin' }) => {
     const [selectedTemplate, setSelectedTemplate] = useState(null);
     const [templateToDelete, setTemplateToDelete] = useState(null);
 
-    // Form data for adding/editing templates
-    /*const [formData, setFormData] = useState({
-        title: '',
-        style: '',
-        orientation: '',
-        alignment: '',
-        color: '',
-        image: null,
-    }); */
-
     const fileInputRef = useRef(null);
     const itemsPerPage = 12;
     const [templateData, setTemplateData] = useState([
         // Sample data for demonstration purposes
-        { id: 1, code: 'CLLC-GOLD-001', title: 'Classic · Landscape · Center · Gold', thumb: 'https://placehold.co/400x300/f59e0b/fff?text=Certificate', style: 'Classic', orientation: 'Landscape', color: 'GOLD', alignment: 'Centre' },
-        { id: 2, code: 'CLPC-BLUE-002', title: 'Classic · Portrait · Center · Blue', thumb: 'https://placehold.co/300x400/3b82f6/fff?text=Certificate', style: 'Classic', orientation: 'Portrait', color: 'BLUE', alignment: 'Centre' },
-        { id: 3, code: 'MDLC-PURPLE-003', title: 'Modern · Landscape · Center · Purple', thumb: 'https://placehold.co/400x300/8b5cf6/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'PURPLE', alignment: 'Centre' },
-        { id: 4, code: 'MDLC-GOLD-004', title: 'Modern · Landscape · Center · Gold', thumb: 'https://placehold.co/400x300/f59e0b/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'GOLD', alignment: 'Centre' },
-        { id: 5, code: 'MDPL-RED-005', title: 'Modern · Portrait · Left · Red', thumb: 'https://placehold.co/300x400/ef4444/fff?text=Certificate', style: 'Modern', orientation: 'Portrait', color: 'RED', alignment: 'Left' },
-        { id: 6, code: 'MDLC-BLACK-006', title: 'Modern · Landscape · Center · Black', thumb: 'https://placehold.co/400x300/1f2937/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'BLACK', alignment: 'Centre' },
-        { id: 6, code: 'MDLC-BLACK-006', title: 'Modern · Landscape · Center · Black', thumb: 'https://placehold.co/400x300/1f2937/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'BLACK', alignment: 'Centre' },
-        { id: 6, code: 'MDLC-BLACK-006', title: 'Modern · Landscape · Center · Black', thumb: 'https://placehold.co/400x300/1f2937/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'BLACK', alignment: 'Centre' },
-        { id: 6, code: 'MDLC-BLACK-006', title: 'Modern · Landscape · Center · Black', thumb: 'https://placehold.co/400x300/1f2937/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'BLACK', alignment: 'Centre' },
-        { id: 6, code: 'MDLC-BLACK-006', title: 'Modern · Landscape · Center · Black', thumb: 'https://placehold.co/400x300/1f2937/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'BLACK', alignment: 'Centre' },
-        { id: 6, code: 'MDLC-BLACK-006', title: 'Modern · Landscape · Center · Black', thumb: 'https://placehold.co/400x300/1f2937/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'BLACK', alignment: 'Centre' },
-        { id: 6, code: 'MDLC-BLACK-006', title: 'Modern · Landscape · Center · Black', thumb: 'https://placehold.co/400x300/1f2937/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'BLACK', alignment: 'Centre' },
-        { id: 6, code: 'MDLC-BLACK-006', title: 'Modern · Landscape · Center · Black', thumb: 'https://placehold.co/400x300/1f2937/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'BLACK', alignment: 'Centre' },
-        { id: 6, code: 'MDLC-BLACK-006', title: 'Modern · Landscape · Center · Black', thumb: 'https://placehold.co/400x300/1f2937/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'BLACK', alignment: 'Centre' },
+        { id: 1, code: 'CLLC-GOLD-001', title: 'Classic · Landscape · Center · Gold', thumb: 'https://placehold.co/400x300/f59e0b/fff?text=Certificate', style: 'Classic', orientation: 'Landscape', color: 'GOLD', alignment: 'Centre', name: 'Classic Gold Certificate', organization: 'MySertifico', dateIssued: '2024-01-15', status: 'Active' },
+        { id: 2, code: 'CLPC-BLUE-002', title: 'Classic · Portrait · Center · Blue', thumb: 'https://placehold.co/300x400/3b82f6/fff?text=Certificate', style: 'Classic', orientation: 'Portrait', color: 'BLUE', alignment: 'Centre', name: 'Classic Blue Certificate', organization: 'MySertifico', dateIssued: '2024-01-16', status: 'Active' },
+        { id: 3, code: 'MDLC-PURPLE-003', title: 'Modern · Landscape · Center · Purple', thumb: 'https://placehold.co/400x300/8b5cf6/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'PURPLE', alignment: 'Centre', name: 'Modern Purple Certificate', organization: 'MySertifico', dateIssued: '2024-01-17', status: 'Active' },
+        { id: 4, code: 'MDLC-GOLD-004', title: 'Modern · Landscape · Center · Gold', thumb: 'https://placehold.co/400x300/f59e0b/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'GOLD', alignment: 'Centre', name: 'Modern Gold Certificate', organization: 'MySertifico', dateIssued: '2024-01-18', status: 'Active' },
+        { id: 5, code: 'MDPL-RED-005', title: 'Modern · Portrait · Left · Red', thumb: 'https://placehold.co/300x400/ef4444/fff?text=Certificate', style: 'Modern', orientation: 'Portrait', color: 'RED', alignment: 'Left', name: 'Modern Red Certificate', organization: 'MySertifico', dateIssued: '2024-01-19', status: 'Active' },
+        { id: 6, code: 'MDLC-BLACK-006', title: 'Modern · Landscape · Center · Black', thumb: 'https://placehold.co/400x300/1f2937/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'BLACK', alignment: 'Centre', name: 'Modern Black Certificate', organization: 'MySertifico', dateIssued: '2024-01-20', status: 'Active' },
+        { id: 7, code: 'CLPR-GREEN-007', title: 'Classic · Portrait · Right · Green', thumb: 'https://placehold.co/300x400/10b981/fff?text=Certificate', style: 'Classic', orientation: 'Portrait', color: 'GREEN', alignment: 'Right', name: 'Classic Green Certificate', organization: 'MySertifico', dateIssued: '2024-01-21', status: 'Active' },
+        { id: 8, code: 'MDLR-BROWN-008', title: 'Modern · Landscape · Right · Brown', thumb: 'https://placehold.co/400x300/92400e/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'BROWN', alignment: 'Right', name: 'Modern Brown Certificate', organization: 'MySertifico', dateIssued: '2024-01-22', status: 'Active' },
+        { id: 9, code: 'CLLL-PURPLE-009', title: 'Classic · Landscape · Left · Purple', thumb: 'https://placehold.co/400x300/8b5cf6/fff?text=Certificate', style: 'Classic', orientation: 'Landscape', color: 'PURPLE', alignment: 'Left', name: 'Classic Purple Certificate', organization: 'MySertifico', dateIssued: '2024-01-23', status: 'Active' },
+        { id: 10, code: 'MDPC-BLUE-010', title: 'Modern · Portrait · Center · Blue', thumb: 'https://placehold.co/300x400/3b82f6/fff?text=Certificate', style: 'Modern', orientation: 'Portrait', color: 'BLUE', alignment: 'Centre', name: 'Modern Blue Certificate', organization: 'MySertifico', dateIssued: '2024-01-24', status: 'Active' },
+        { id: 11, code: 'CLLC-RED-011', title: 'Classic · Landscape · Center · Red', thumb: 'https://placehold.co/400x300/ef4444/fff?text=Certificate', style: 'Classic', orientation: 'Landscape', color: 'RED', alignment: 'Centre', name: 'Classic Red Certificate', organization: 'MySertifico', dateIssued: '2024-01-25', status: 'Active' },
+        { id: 12, code: 'MDPR-BLACK-012', title: 'Modern · Portrait · Right · Black', thumb: 'https://placehold.co/300x400/1f2937/fff?text=Certificate', style: 'Modern', orientation: 'Portrait', color: 'BLACK', alignment: 'Right', name: 'Modern Black Portrait Certificate', organization: 'MySertifico', dateIssued: '2024-01-26', status: 'Active' },
+        { id: 13, code: 'CLLR-GOLD-013', title: 'Classic · Landscape · Right · Gold', thumb: 'https://placehold.co/400x300/f59e0b/fff?text=Certificate', style: 'Classic', orientation: 'Landscape', color: 'GOLD', alignment: 'Right', name: 'Classic Gold Right Certificate', organization: 'MySertifico', dateIssued: '2024-01-27', status: 'Active' },
+        { id: 14, code: 'MDLL-GREEN-014', title: 'Modern · Landscape · Left · Green', thumb: 'https://placehold.co/400x300/10b981/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'GREEN', alignment: 'Left', name: 'Modern Green Certificate', organization: 'MySertifico', dateIssued: '2024-01-28', status: 'Active' },
+        { id: 15, code: 'CLPL-BLUE-015', title: 'Classic · Portrait · Left · Blue', thumb: 'https://placehold.co/300x400/3b82f6/fff?text=Certificate', style: 'Classic', orientation: 'Portrait', color: 'BLUE', alignment: 'Left', name: 'Classic Blue Left Certificate', organization: 'MySertifico', dateIssued: '2024-01-29', status: 'Active' },
+        { id: 16, code: 'MDLR-PURPLE-016', title: 'Modern · Landscape · Right · Purple', thumb: 'https://placehold.co/400x300/8b5cf6/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'PURPLE', alignment: 'Right', name: 'Modern Purple Right Certificate', organization: 'MySertifico', dateIssued: '2024-01-30', status: 'Active' },
+        { id: 17, code: 'CLPC-GREEN-017', title: 'Classic · Portrait · Center · Green', thumb: 'https://placehold.co/300x400/10b981/fff?text=Certificate', style: 'Classic', orientation: 'Portrait', color: 'GREEN', alignment: 'Centre', name: 'Classic Green Center Certificate', organization: 'MySertifico', dateIssued: '2024-01-31', status: 'Active' },
+        { id: 18, code: 'MDLL-RED-018', title: 'Modern · Landscape · Left · Red', thumb: 'https://placehold.co/400x300/ef4444/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'RED', alignment: 'Left', name: 'Modern Red Left Certificate', organization: 'MySertifico', dateIssued: '2024-02-01', status: 'Active' },
+        { id: 19, code: 'CLPR-BROWN-019', title: 'Classic · Portrait · Right · Brown', thumb: 'https://placehold.co/300x400/92400e/fff?text=Certificate', style: 'Classic', orientation: 'Portrait', color: 'BROWN', alignment: 'Right', name: 'Classic Brown Right Certificate', organization: 'MySertifico', dateIssued: '2024-02-02', status: 'Active' },
+        { id: 20, code: 'MDPC-GOLD-020', title: 'Modern · Portrait · Center · Gold', thumb: 'https://placehold.co/300x400/f59e0b/fff?text=Certificate', style: 'Modern', orientation: 'Portrait', color: 'GOLD', alignment: 'Centre', name: 'Modern Gold Portrait Certificate', organization: 'MySertifico', dateIssued: '2024-02-03', status: 'Active' },
     ]);
     
     //search and filter logic
@@ -130,7 +127,7 @@ const BoTemplateManagement = ({ userRole = 'admin' }) => {
         return `${styleCode}${orientationCode}${alignmentCode}-${colorCode}-${number}`;
     };
 
-    const handleSidebarToggle = () => {
+    const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
@@ -178,50 +175,68 @@ const BoTemplateManagement = ({ userRole = 'admin' }) => {
     );
 
     const renderListView = () => (
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
             <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <table className="w-full">
+                    <thead className="bg-gray-50 dark:bg-gray-700">
                         <tr>
-                            <th className="px-6 py-3">Template</th>
-                            <th className="px-6 py-3 text-right">Actions</th>
+                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                Template
+                            </th>
+                            <th className="px-6 py-4 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                Actions
+                            </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                         {paginatedData.map(template => (
-                            <tr key={template.id} className="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600/20">
-                                <td className="px-6 py-4 font-medium text-gray-900 dark:text-white flex items-center gap-4">
-                                    <div className="w-16 h-10 bg-gray-200 dark:bg-gray-700 flex items-center justify-center overflow-hidden rounded-md">
-                                        <img src={template.thumb} alt={template.title} className="w-full h-full object-cover" />
-                                    </div>
-                                    <div>
-                                        <p className="font-semibold">{template.code}</p>
-                                        <p className="text-xs text-gray-500">{template.title}</p>
+                            <tr key={template.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                                <td className="px-6 py-4">
+                                    <div className="flex items-center gap-4">
+                                        <div className="flex-shrink-0 w-16 h-12 bg-gray-100 dark:bg-gray-600 rounded-lg overflow-hidden flex items-center justify-center">
+                                            <img 
+                                                src={template.thumb} 
+                                                alt={template.title} 
+                                                className="w-full h-full object-cover"
+                                                onError={(e) => {
+                                                    e.target.onerror = null;
+                                                    e.target.src = 'https://placehold.co/64x48/e5e7eb/9ca3af?text=IMG';
+                                                }}
+                                            />
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+                                                {template.code}
+                                            </p>
+                                            <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                                                {template.title}
+                                            </p>
+                                        </div>
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 text-right">
                                     <div className="flex justify-end items-center gap-1">
                                         <button 
                                             onClick={() => handleView(template)}
-                                            className="p-2 text-gray-500 hover:text-teal-600 dark:hover:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" 
+                                            className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors" 
                                             title="View"
                                         >
-                                            <i className="ri-eye-line"></i>
+                                            <i className="ri-eye-line text-lg"></i>
                                         </button>
                                         <button 
                                             onClick={() => handleEdit(template)}
-                                            className="p-2 text-gray-500 hover:text-teal-600 dark:hover:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" 
+                                            className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors" 
                                             title="Edit"
                                         >
-                                            <i className="ri-pencil-line"></i>
+                                            <i className="ri-pencil-line text-lg"></i>
                                         </button>
                                         {userRole === 'admin' && (
                                             <button 
                                                 onClick={() => handleDelete(template)}
-                                                className="p-2 text-red-500 hover:text-white rounded-lg hover:bg-red-500" 
+                                                className="p-2 text-gray-400 hover:text-red-600 dark:hover:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors" 
                                                 title="Delete"
                                             >
-                                                <i className="ri-delete-bin-line"></i>
+                                                <i className="ri-delete-bin-line text-lg"></i>
                                             </button>
                                         )}
                                     </div>
@@ -235,15 +250,23 @@ const BoTemplateManagement = ({ userRole = 'admin' }) => {
     );
 
     return (
-        <div className="bg-slate-50 dark:bg-slate-950 min-h-screen font-sans">
-            <BoSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+        <div className="min-h-screen bg-bo-bg-light dark:bg-bo-bg-dark transition-colors duration-300">
+            <BoSidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
+
+            {/* Dimmed background when sidebar is open*/}
             {isSidebarOpen && 
-                <div className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" onClick={() => setIsSidebarOpen(false)}>
+                <div 
+                className="fixed inset-0 bg-black bg-opacity-50 z-40" 
+                onClick={toggleSidebar}>
                 </div>
             }
             
-            <div className="relative min-h-screen transition-all duration-300 ease-in-out lg:pl-64">
-                <BoNavbar onSidebarToggle={handleSidebarToggle} headerTitle="Template Management" />
+            <div className={`relative min-h-screen transition-all duration-300 ease-in-out ${isSidebarOpen ? 'lg:pl-64' : 'lg:pl-0'}`}>
+                <BoNavbar 
+                    onSidebarToggle={toggleSidebar} 
+                    headerTitle="Template Management" 
+                    isSidebarOpen={isSidebarOpen}
+                />
                 <main className="p-6 sm:p-8">
                     <div className="max-w-7xl mx-auto">
                         {/* Header Section */}
@@ -252,13 +275,21 @@ const BoTemplateManagement = ({ userRole = 'admin' }) => {
                                 <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-200">Certificate Templates</h2>
                                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Manage, create, and publish certificate templates.</p>
                             </div>
-                            <button 
+                            {/* "Add New Template" Button that links to create template*/}
+                            <Link
+                                to="/bo/create-template"
+                                classNameclassName="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 px-4 rounded-lg inline-flex items-center gap-2 transition-colors w-full sm:w-auto"
+                                >
+                                <i className="ri-add-line"></i>
+                                <span>Add New Template</span>
+                            </Link>
+                            {/*<button 
                                 onClick={handleAddNew}
                                 className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 px-4 rounded-lg inline-flex items-center gap-2 transition-colors w-full sm:w-auto"
                             >
                                 <i className="ri-add-line"></i>
                                 <span>Add New Template</span>
-                            </button>
+                            </button> */}
                         </div>
 
                         {/* Toolbar Section */}
@@ -305,11 +336,14 @@ const BoTemplateManagement = ({ userRole = 'admin' }) => {
                         </div>
 
                         {/* Pagination */}
-                        <BoPagination
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            onPageChange={setCurrentPage}
-                        />
+                        <div className="mt-8 flex justify-center">
+                            <BoPagination
+                                currentPage={currentPage}
+                                totalItems={filteredData.length}
+                                itemsPerPage={itemsPerPage}
+                                onPageChange={setCurrentPage}
+                            />
+                        </div>
                     </div>
                 </main>
             </div>
