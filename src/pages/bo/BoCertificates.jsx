@@ -14,8 +14,8 @@ const initialCertificateData = [
     { id: 6, name: 'UI/UX Design Course', recipient: 'Eve Davis', organization: 'Design Hub', dateIssued: '2024-06-01', status: 'Issued', template: 'Tpl-101' },
     { id: 7, name: 'Project Management', recipient: 'Frank White', organization: 'PM Solutions', dateIssued: '2024-06-05', status: 'Issued', template: 'Tpl-303' },
     { id: 8, name: 'Cloud Computing Basics', recipient: 'Grace Wilson', organization: 'Cloud Ninjas', dateIssued: '2024-06-08', status: 'Draft', template: 'Tpl-202' },
-    { id: 9, name: 'AI & Machine Learning', recipient: 'Heidi Clark', organization: 'AI Frontier', dateIssued: '2024-06-10', status: 'Issued', template: 'Tpl-101' },
-    { id: 10, name: 'Financial Analysis', recipient: 'Ivan Lewis', organization: 'Finance Pros', dateIssued: '2024-06-12', status: 'Issued', template: 'Tpl-303' },
+    { id: 9, name: 'AI & Machine Learning', recipient: 'Heidi Clark', organization: 'AI Frontier', dateIssued: '2024-06-10', status: 'Pending', template: 'Tpl-101' },
+    { id: 10, name: 'Financial Analysis', recipient: 'Ivan Lewis', organization: 'Finance Pros', dateIssued: '2024-06-12', status: 'Pending', template: 'Tpl-303' },
     { id: 11, name: 'Business Strategy', recipient: 'Judy Harris', organization: 'Biz Solutions', dateIssued: '2024-06-14', status: 'Issued', template: 'Tpl-202' },
     { id: 12, name: 'Python for Beginners', recipient: 'Kyle Walker', organization: 'Code Academy', dateIssued: '2024-06-16', status: 'Draft', template: 'Tpl-101' },
     { id: 13, name: 'Graphic Design', recipient: 'Liam King', organization: 'Design Hub', dateIssued: '2024-06-18', status: 'Issued', template: 'Tpl-303' },
@@ -124,6 +124,8 @@ const BoCertificates = () => {
         switch (status) {
             case 'Issued':
                 return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
+            case 'Pending':
+                return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300';
             case 'Draft':
                 return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
             case 'Revoked':
@@ -206,6 +208,7 @@ const BoCertificates = () => {
                                 >
                                     <option value="all">All Statuses</option>
                                     <option value="Issued">Issued</option>
+                                    <option value="Pending">Pending</option>
                                     <option value="Draft">Draft</option>
                                     <option value="Revoked">Revoked</option>
                                 </select>
@@ -240,9 +243,9 @@ const BoCertificates = () => {
                                                 <button onClick={() => openPreviewModal(cert.id)} className="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                                                     <i className="ri-eye-line text-lg"></i>
                                                 </button>
-                                                <button onClick={() => handleDeleteCertificate(cert.id)} className="text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors">
+                                                {/* <button onClick={() => handleDeleteCertificate(cert.id)} className="text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors">
                                                     <i className="ri-delete-bin-line text-lg"></i>
-                                                </button>
+                                                </button> */}
                                             </div>
                                         </div>
                                     ))
@@ -316,9 +319,9 @@ const BoCertificates = () => {
                                                             <button onClick={() => openPreviewModal(cert.id)} className="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                                                                 <i className="ri-eye-line text-lg"></i>
                                                             </button>
-                                                            <button onClick={() => handleDeleteCertificate(cert.id)} className="text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors">
+                                                            {/* <button onClick={() => handleDeleteCertificate(cert.id)} className="text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors">
                                                                 <i className="ri-delete-bin-line text-lg"></i>
-                                                            </button>
+                                                            </button> */}
                                                         </div>
                                                     </td>
                                                 </tr>
