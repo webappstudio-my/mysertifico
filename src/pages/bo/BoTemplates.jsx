@@ -276,10 +276,12 @@ const BoTemplateManagement = ({ userRole = 'admin' }) => {
                                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Manage, create, and publish certificate templates.</p>
                             </div>
                             {/* "Add New Template" Button that links to create template*/}
-                            <Link
+                            
+                            <Link 
                                 to="/bo/create-template"
-                                classNameclassName="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 px-4 rounded-lg inline-flex items-center gap-2 transition-colors w-full sm:w-auto"
-                                >
+                                className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 px-4 rounded-lg inline-flex items-center gap-2 transition-colors shadow-sm hover:shadow-md"
+                                
+                            >
                                 <i className="ri-add-line"></i>
                                 <span>Add New Template</span>
                             </Link>
@@ -299,7 +301,7 @@ const BoTemplateManagement = ({ userRole = 'admin' }) => {
                                 <input 
                                     type="text" 
                                     placeholder="Search by code or title..." 
-                                    className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-slate-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500" 
+                                    className="w-full pl-10 pr-4 py-2 text-black border border-gray-300 dark:border-gray-600 rounded-lg bg-slate-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500" 
                                     value={searchTerm} 
                                     onChange={(e) => setSearchTerm(e.target.value)} 
                                 />
@@ -327,7 +329,7 @@ const BoTemplateManagement = ({ userRole = 'admin' }) => {
                                     <div className="flex flex-col items-center">
                                         <i className="ri-search-eye-line text-6xl text-gray-400 mb-4"></i>
                                         <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200">No Templates Found</h3>
-                                        <p className="text-gray-500 dark:text-gray-400 mt-1">Your search did not match any templates.</p>
+                                        <p className="text-gray-500 dark:text-gray-400 mt-1">Your search did not match any templates. Try another keyword.</p>
                                     </div>
                                 </div>
                             ) : (
