@@ -1,6 +1,6 @@
 // src/pages/bo/BoPasswordResetPage.jsx
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import BoPasswordResetForm from '../../components/bo/BoPasswordResetForm';
 import logo from '../../assets/images/logos/favicon.png'; // Adjust the path as necessary
 
@@ -21,7 +21,9 @@ const BoPasswordResetPage = () => {
     ];
     
     const currentUser = registeredUsersPassword[0]; // Simulating current user, replace with actual user data
-    
+
+    const navigate = useNavigate();
+
     // Password validate function
     const validatePassword = (password) => {
         const minLength = 8;
@@ -125,6 +127,7 @@ const BoPasswordResetPage = () => {
 
             if (isValid) {
                 setSuccess(true);
+
                 // Clear form data after successful reset
                 setFormData({
                     newPassword: '',
@@ -133,7 +136,7 @@ const BoPasswordResetPage = () => {
                 // In a real application, you would handle the password reset
                 // and redirect the user to the sign-in page after a delay
                 setTimeout(() => {
-                    alert('Redirecting to login page...');
+                    navigate('/bo/sign-in');
                 }, 2000);
             } else {
                 if (newErrors.newPassword || newErrors.confirmPassword) {
@@ -146,8 +149,10 @@ const BoPasswordResetPage = () => {
     //Calculate password strength for display
     const passwordStrength = formData.newPassword ? validatePassword(formData.newPassword).strength : 0;
 
+    const currentYear = new Date().getFullYear();
+
     return (
-        <div className='min-h-screen bg-gray-900 flex flex-col items-center justify-center py-12 px-4'>
+        <div className='min-h-screen bg-bo-bg-dark flex flex-col items-center justify-center py-12 px-4'>
             <div className='w-full max-w-md'>
                 {/* Logo */}
                 <div className="flex items-center justify-center text-center mb-8">
@@ -156,11 +161,11 @@ const BoPasswordResetPage = () => {
                         alt="Mysertifico Logo"
                         className="h-10 w-auto mr-3"
                     />
-                    <h1 className='text-white text-2xl font-bold tracking-wide'>MySertifico</h1>
+                    <h1 className='font-poppins text-white text-2xl font-bold tracking-wide'>MySertifico</h1>
                 </div>
 
                 {/* Reset Password Card */}
-                <div className='bg-slate-800 rounded-xl p-8 shadow-xl'>
+                <div className='bg-bo-surface-dark rounded-xl p-8 shadow-xl'>
                     <div className='text-center mb-6'>
                         <h2 className='text-white text-2xl font-bold'>
                             Reset Your Password
@@ -207,7 +212,7 @@ const BoPasswordResetPage = () => {
                     {/* Click to Login/Sign-In Link */}
                     <div className='mt-8 text-center'>
                         <Link to="/bo/sign-in" className="text-teal-400 hover:text-teal-300 transition-colors text-sm">
-                        ← Back to Login
+                        ← Back to Sign In
                         </Link>
 
                     </div>
@@ -216,7 +221,7 @@ const BoPasswordResetPage = () => {
                 {/* Footer */}
                 <div className='mt-6 text-center'>
                     <p className='text-slate-500 text-xs'>
-                        © 2025 MySertifico | Webapp Studio Sdn. Bhd.
+                        © {currentYear} MySertifico | Webapp Studio Sdn. Bhd.
                     </p>
                 </div>
 

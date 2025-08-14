@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Assuming you use react-router-dom for navigation
+import { Link, useNavigate } from 'react-router-dom'; // Assuming you use react-router-dom for navigation
 import logo from '../../assets/images/logos/logo.png'; // Adjust the path as necessary
 
 const BoForgotPassword = () => {
@@ -8,6 +8,10 @@ const BoForgotPassword = () => {
     const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+
+    const currentYear = new Date().getFullYear();
+
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -26,9 +30,12 @@ const BoForgotPassword = () => {
         // Simulate an API call
         console.log('Sending reset email to:', email);
         setTimeout(() => {
-            if (email === 'test@example.com') { // Simulating a successful request
+            if (email === 'admin@mysertifico.com') { // Simulating a successful request
                 setIsSuccess(true);
                 setEmail('');
+                setTimeout(() => {
+                    navigate('/bo/sign-in'); // Use navigate to go to sign-in
+                }, 2000); // Wait 2 seconds before redirecting
             } else { // Simulating an error case
                 setIsError(true);
                 setErrorMessage('Email not found. Please check your email and try again.');
@@ -38,29 +45,29 @@ const BoForgotPassword = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-bo-bg-dark text-gray-200">
+        <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-bo-bg-dark">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 mb-8">
                 <img src={logo} alt="Logo" className="h-10" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/32x32/0d9488/ffffff?text=M'; }} />
-                <span className="font-poppins text-2xl font-bold text-gray-50">MySertifico</span>
+                <span className="font-poppins text-2xl font-bold text-white">MySertifico</span>
             </Link>
 
             {/* Forgot Password Card */}
-            <div className="bg-bo-surface-dark rounded-xl shadow-md p-6 sm:p-8 w-full max-w-sm">
+            <div className="bg-bo-surface-dark rounded-xl p-8 w-full max-w-md shadow-xl">
                 <div className="text-center mb-6">
-                    <h1 className="text-xl font-semibold text-gray-50">Forgot your password?</h1>
+                    <h1 className="text-2xl font-bold text-gray-50">Forgot your password?</h1>
                     <p className="text-sm text-gray-400 mt-2">No problem. Just enter your email and we'll send you a password reset link.</p>
                 </div>
 
                 {isSuccess && (
-                    <div className="bg-green-800 border border-green-700 text-green-300 px-4 py-3 rounded-lg mb-4 text-sm flex items-start gap-3">
-                        <i className="ri-checkbox-circle-line text-md mt-0.5"></i>
-                        <span>A password reset link has been sent to your email.</span>
+                    <div className="bg-green-900/50 border border-green-500/30 text-green-200 px-4 py-3 rounded-lg mb-4 text-sm flex items-start gap-3">
+                        <i className="ri-checkbox-circle-line text-green-400 mt-0.5"></i>
+                        <span>A password reset link has been sent to your email. Redirecting to sign in...</span>
                     </div>
                 )}
                 {isError && (
-                    <div className="bg-red-800 border border-red-700 text-red-300 px-4 py-3 rounded-lg mb-4 text-sm flex items-start gap-3">
-                        <i className="ri-alert-line text-md mt-0.5"></i>
+                    <div className="bg-red-900/50 border border-red-500/30 text-red-200 px-4 py-3 rounded-lg mb-4 text-sm flex items-start gap-3">
+                        <i className="ri-alert-line text-red-400 mt-0.5"></i>
                         <span>{errorMessage}</span>
                     </div>
                 )}
@@ -93,9 +100,15 @@ const BoForgotPassword = () => {
                 <div className="mt-6 text-center text-sm">
                     <p className="text-gray-400">
                         Remember your password?
-                        <Link to="/login" className="text-primary hover:underline ml-1">Log In</Link>
+                        <Link to="/bo/sign-in" className="text-primary font-semibold hover:underline ml-1">Sign In</Link>
                     </p>
                 </div>
+            </div>
+            {/* Footer */}
+            <div className='mt-6 text-center'>
+                <p className='text-slate-500 text-xs'>
+                    © {currentYear} MySertifico | Webapp Studio Sdn. Bhd.
+                </p>
             </div>
         </div>
     );
