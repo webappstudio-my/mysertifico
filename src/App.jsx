@@ -25,6 +25,7 @@ import BoTemplateManagement from './pages/bo/BoTemplates'; // Adjusted import fo
 import BoLogosBadges from './pages/bo/BoLogosBadges';
 import BoOrganizationUsers from './pages/bo/BoOrganizationUsers';
 import BoMyWallUsers from './pages/bo/BoMyWallUsers'; // Adjusted import for BO My Wall Users
+import BoOrganizations from './pages/bo/BoOrganizations'; // Adjusted import for BO Organizations
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
         <Route path="/bo/logos-badges" element={<BoLogosBadges />} />
         <Route path="/bo/organization-users" element={<BoOrganizationUsers />} />
         <Route path="/bo/mywall-users" element={<BoMyWallUsers />} />
+        <Route path="/bo/organizations" element={<BoOrganizations />} />
       </Routes>
     </Router>
   );
