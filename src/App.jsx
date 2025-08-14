@@ -23,6 +23,7 @@ import BoForgotPassword from './pages/bo/BoForgotPassword'; // Adjusted import f
 import BoMyProfile from './pages/bo/BoMyProfile'; // Adjusted import for BO My Profile
 import BoTemplateManagement from './pages/bo/BoTemplates'; // Adjusted import for BO Template Management
 import BoLogosBadges from './pages/bo/BoLogosBadges';
+import BoOrganizationUsers from './pages/bo/BoOrganizationUsers';
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
         <Route path="/bo/dashboard/my-profile" element={<BoMyProfile />} />
         <Route path="/bo/templates" element={<BoTemplateManagement />} />
         <Route path="/bo/logos-badges" element={<BoLogosBadges />} />
+        <Route path="/bo/organization-users" element={<BoOrganizationUsers />} />
       </Routes>
     </Router>
   );
