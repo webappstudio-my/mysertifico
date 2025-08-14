@@ -22,6 +22,7 @@ import BoChangePassword from './pages/bo/BoChangePassword'; // Adjusted import f
 import BoForgotPassword from './pages/bo/BoForgotPassword'; // Adjusted import for BO Forgot Password
 import BoMyProfile from './pages/bo/BoMyProfile'; // Adjusted import for BO My Profile
 import BoTemplateManagement from './pages/bo/BoTemplates'; // Adjusted import for BO Template Management
+import BoLogosBadges from './pages/bo/BoLogosBadges';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
         <Route path="/bo/reset-password" element={<BoPasswordResetPage />} />
         <Route path="/bo/dashboard/my-profile" element={<BoMyProfile />} />
         <Route path="/bo/templates" element={<BoTemplateManagement />} />
+        <Route path="/bo/logos-badges" element={<BoLogosBadges />} />
       </Routes>
     </Router>
   );
