@@ -210,7 +210,7 @@ const BoLogosBadges = () => {
   };
 
   return (
-    <div className="bg-slate-50 dark:bg-slate-950 transition-colors duration-300 min-h-screen">
+    <div className="min-h-screen bg-bo-bg-light dark:bg-bo-bg-dark transition-colors duration-300">
       
       {/* Sidebar */}
       <BoSidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
@@ -218,7 +218,7 @@ const BoLogosBadges = () => {
       {/* Sidebar Overlay */}
       {isSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black bg-opacity-50 z-40"
           onClick={closeSidebar}
         ></div>
       )}

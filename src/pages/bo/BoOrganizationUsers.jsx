@@ -122,16 +122,16 @@ const BoOrganizationUsers = () => {
     const modalConfig = getModalConfig();
 
     return (
-        <div className="bg-slate-50 dark:bg-slate-950 transition-colors duration-300 min-h-screen">
+        <div className="min-h-screen bg-bo-bg-light dark:bg-bo-bg-dark transition-colors duration-300">
             {/* Sidebar */}
             <BoSidebar isOpen={isSidebarOpen} onClose={handleCloseSidebar} />
             
             {/* Sidebar Overlay */}
             {isSidebarOpen && (
                 <div 
-                    className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
-                    onClick={handleCloseSidebar}
-                ></div>
+                    className="fixed inset-0 bg-black bg-opacity-50 z-40" 
+                    onClick={handleCloseSidebar}>
+                </div>
             )}
 
             {/* Main Content */}
