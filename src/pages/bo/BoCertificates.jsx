@@ -5,20 +5,21 @@ import BoPagination from '../../components/bo/BoPagination';
 import BoConfirmationModal from '../../components/bo/BoConfirmationModal';
 import BoCertificatePreviewModal from '../../components/bo/BoCertificatePreviewModal';
 
+// Updated initialCertificateData with organization status
 const initialCertificateData = [
-    { id: 1, name: 'Certificate of Completion', recipient: 'John Doe', organization: 'Code Academy', dateIssued: '2024-05-15', status: 'Issued', template: 'Tpl-101' },
-    { id: 2, name: 'Web Development Mastery', recipient: 'Jane Smith', organization: 'Tech Innovators', dateIssued: '2024-05-20', status: 'Draft', template: 'Tpl-202' },
-    { id: 3, name: 'Data Science Fundamentals', recipient: 'Alice Johnson', organization: 'Data Minds', dateIssued: '2024-05-22', status: 'Revoked', template: 'Tpl-101' },
-    { id: 4, name: 'Cybersecurity Expert', recipient: 'Bob Williams', organization: 'SecureNet', dateIssued: '2024-05-25', status: 'Issued', template: 'Tpl-303' },
-    { id: 5, name: 'Digital Marketing Pro', recipient: 'Charlie Brown', organization: 'MarketWise', dateIssued: '2024-05-28', status: 'Draft', template: 'Tpl-202' },
-    { id: 6, name: 'UI/UX Design Course', recipient: 'Eve Davis', organization: 'Design Hub', dateIssued: '2024-06-01', status: 'Issued', template: 'Tpl-101' },
-    { id: 7, name: 'Project Management', recipient: 'Frank White', organization: 'PM Solutions', dateIssued: '2024-06-05', status: 'Issued', template: 'Tpl-303' },
-    { id: 8, name: 'Cloud Computing Basics', recipient: 'Grace Wilson', organization: 'Cloud Ninjas', dateIssued: '2024-06-08', status: 'Draft', template: 'Tpl-202' },
-    { id: 9, name: 'AI & Machine Learning', recipient: 'Heidi Clark', organization: 'AI Frontier', dateIssued: '2024-06-10', status: 'Pending', template: 'Tpl-101' },
-    { id: 10, name: 'Financial Analysis', recipient: 'Ivan Lewis', organization: 'Finance Pros', dateIssued: '2024-06-12', status: 'Pending', template: 'Tpl-303' },
-    { id: 11, name: 'Business Strategy', recipient: 'Judy Harris', organization: 'Biz Solutions', dateIssued: '2024-06-14', status: 'Issued', template: 'Tpl-202' },
-    { id: 12, name: 'Python for Beginners', recipient: 'Kyle Walker', organization: 'Code Academy', dateIssued: '2024-06-16', status: 'Draft', template: 'Tpl-101' },
-    { id: 13, name: 'Graphic Design', recipient: 'Liam King', organization: 'Design Hub', dateIssued: '2024-06-18', status: 'Issued', template: 'Tpl-303' },
+    { id: 101, certificateName: 'Sijil Tamat Sekolah Kohort 2025', recipient: '55 Recipients', organization: 'SEKOLAH MENENGAH KEBANGSAAN PINGGIRAN CYBERJAYA', dateIssued: '2025-08-01', orgStatus: 'Active' },
+    { id: 102, certificateName: 'English Debate Competition', recipient: '12 Recipients', organization: 'SMK Taman Indah', dateIssued: '2025-07-28', orgStatus: 'Active' },
+    { id: 103, certificateName: 'Science Fair Participants', recipient: '30 Recipients', organization: 'SK Seri Mutiara', dateIssued: '2025-07-25', orgStatus: 'Active' },
+    { id: 104, certificateName: 'Prefectorial Board Appointment', recipient: '40 Recipients', organization: 'SMK Taman Indah', dateIssued: '2025-07-22', orgStatus: 'Active' },
+    { id: 105, certificateName: 'Automotive Course Completion', recipient: '25 Recipients', organization: 'Kolej Vokasional Maju', dateIssued: '2025-07-20', orgStatus: 'Blocked' },
+    { id: 106, certificateName: 'Graduation Day Class of 2025', recipient: '120 Recipients', organization: 'SK Seri Mutiara', dateIssued: '2025-07-18', orgStatus: 'Active' },
+    { id: 107, certificateName: 'Cross Country Championship', recipient: '250 Recipients', organization: 'SMK Taman Indah', dateIssued: '2025-07-15', orgStatus: 'Active' },
+    { id: 108, certificateName: 'Baking Workshop', recipient: '18 Recipients', organization: 'Kolej Vokasional Maju', dateIssued: '2025-07-12', orgStatus: 'Blocked' },
+    { id: 109, certificateName: 'Best Attendance Award', recipient: '15 Recipients', organization: 'SK Seri Mutiara', dateIssued: '2025-07-10', orgStatus: 'Active' },
+    { id: 110, certificateName: 'Inter-Class Football', recipient: '80 Recipients', organization: 'SMK Taman Indah', dateIssued: '2025-07-08', orgStatus: 'Active' },
+    { id: 111, certificateName: 'Welding Course Completion', recipient: '22 Recipients', organization: 'Kolej Vokasional Maju', dateIssued: '2025-07-05', orgStatus: 'Blocked' },
+    { id: 112, certificateName: 'Library Prefects 2025', recipient: '35 Recipients', organization: 'SK Seri Mutiara', dateIssued: '2025-07-02', orgStatus: 'Active' },
+    { id: 113, certificateName: 'Kenji Tanaka', recipient: '1 Recipient', organization: 'SMK Taman Indah', dateIssued: '2025-06-30', orgStatus: 'Active' },
 ];
 
 const itemsPerPage = 10;
@@ -27,66 +28,73 @@ const BoCertificates = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [certificates, setCertificates] = useState(initialCertificateData);
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedStatus, setSelectedStatus] = useState('all');
     const [currentPage, setCurrentPage] = useState(1);
     const [displayedCertificates, setDisplayedCertificates] = useState([]);
 
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [modalConfig, setModalConfig] = useState({});
-    const [certificateToUpdate, setCertificateToUpdate] = useState(null);
+    const [orgToUpdate, setOrgToUpdate] = useState(null);
+    const [actionType, setActionType] = useState(null);
 
     const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
     const [selectedCertificate, setSelectedCertificate] = useState(null);
 
     useEffect(() => {
-        const filteredData = certificates.filter(cert => {
-            const matchesSearch = cert.name.toLowerCase().includes(searchTerm.toLowerCase()) || cert.recipient.toLowerCase().includes(searchTerm.toLowerCase());
-            const matchesStatus = selectedStatus === 'all' || cert.status === selectedStatus;
-            return matchesSearch && matchesStatus;
-        });
+        const filteredData = certificates.filter(cert =>
+            cert.certificateName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            cert.organization.toLowerCase().includes(searchTerm.toLowerCase())
+        );
 
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
         setDisplayedCertificates(filteredData.slice(startIndex, endIndex));
-    }, [certificates, searchTerm, selectedStatus, currentPage]);
+    }, [certificates, searchTerm, currentPage]);
 
     useEffect(() => {
         setCurrentPage(1);
-    }, [searchTerm, selectedStatus]);
+    }, [searchTerm]);
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
-    };
-
-    const handleStatusChange = (e) => {
-        setSelectedStatus(e.target.value);
     };
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
 
-    const handleDeleteCertificate = (certificateId) => {
-        const certificate = certificates.find(c => c.id === certificateId);
-        if (!certificate) return;
+    const handleBlockUnblockOrg = (organizationName, action) => {
+        setOrgToUpdate(organizationName);
+        setActionType(action);
 
-        setCertificateToUpdate(certificate);
-        setModalConfig({
-            iconClass: 'ri-delete-bin-line text-red-600 dark:text-red-400',
-            title: 'Delete Certificate?',
-            message: `Are you sure you want to delete the certificate for "${certificate.recipient}"? This action cannot be undone.`,
-            confirmButtonText: 'Yes, Delete',
-            confirmButtonClass: 'bg-red-600 hover:bg-red-700 text-white',
-        });
+        if (action === 'block') {
+            setModalConfig({
+                iconClass: 'ri-lock-line text-red-600 dark:text-red-400',
+                title: 'Block Organization?',
+                message: `Are you sure you want to block "${organizationName}"? They will no longer be able to generate new certificates.`,
+                confirmButtonText: 'Yes, Block',
+                confirmButtonClass: 'bg-red-600 hover:bg-red-700 text-white',
+            });
+        } else {
+            setModalConfig({
+                iconClass: 'ri-lock-unlock-line text-green-600 dark:text-green-400',
+                title: 'Unblock Organization?',
+                message: `Are you sure you want to unblock "${organizationName}"? They will be able to generate certificates again.`,
+                confirmButtonText: 'Yes, Unblock',
+                confirmButtonClass: 'bg-green-600 hover:bg-green-700 text-white',
+            });
+        }
         setIsConfirmationModalOpen(true);
     };
 
-    const confirmDelete = () => {
+    const confirmAction = () => {
         setCertificates(prevCertificates =>
-            prevCertificates.filter(cert => cert.id !== certificateToUpdate.id)
+            prevCertificates.map(cert =>
+                cert.organization === orgToUpdate ? { ...cert, orgStatus: actionType === 'block' ? 'Blocked' : 'Active' } : cert
+            )
         );
         setIsConfirmationModalOpen(false);
-        setCertificateToUpdate(null);
+        setOrgToUpdate(null);
+        setActionType(null);
     };
 
     const openPreviewModal = (certificateId) => {
@@ -104,37 +112,22 @@ const BoCertificates = () => {
 
     const closeModal = () => {
         setIsConfirmationModalOpen(false);
-        setCertificateToUpdate(null);
+        setOrgToUpdate(null);
+        setActionType(null);
     };
 
-    const totalCertificateBatches = new Set(certificates.map(cert => cert.name)).size;
-    const totalRecipients = new Set(certificates.map(cert => cert.recipient)).size;
+    // Calculate total certificates and recipients based on the new data
+    const totalCertificateBatches = new Set(certificates.map(cert => cert.certificateName)).size;
+    const totalRecipients = certificates.reduce((sum, cert) => sum + parseInt(cert.recipient.split(' ')[0]), 0);
 
-    const totalFilteredItems = certificates.filter(cert => {
-        const matchesSearch = cert.name.toLowerCase().includes(searchTerm.toLowerCase()) || cert.recipient.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesStatus = selectedStatus === 'all' || cert.status === selectedStatus;
-        return matchesSearch && matchesStatus;
-    }).length;
+    const totalFilteredItems = certificates.filter(cert =>
+        cert.certificateName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        cert.organization.toLowerCase().includes(searchTerm.toLowerCase())
+    ).length;
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
-
-    const getStatusClasses = (status) => {
-        switch (status) {
-            case 'Issued':
-                return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
-            case 'Pending':
-                return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300';
-            case 'Draft':
-                return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
-            case 'Revoked':
-                return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
-            default:
-                return '';
-        }
-    };
-    
 
     return (
         <div className="flex min-h-screen bg-bo-bg-light dark:bg-bo-bg-dark transition-colors duration-300">
@@ -187,31 +180,19 @@ const BoCertificates = () => {
 
                         {/* Main Content Card */}
                         <div className="bg-bo-surface-light dark:bg-bo-surface-dark rounded-xl shadow-md">
-                            {/* Toolbar: Search & Filter */}
+                            {/* Toolbar: Search */}
                             <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex flex-col sm:flex-row items-center gap-4">
-                                <div className="relative w-full sm:w-80">
+                                <div className="relative w-full md:w-80">
                                     <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                                     <input
                                         type="text"
                                         id="search-input"
-                                        placeholder="Search by recipient or certificate name..."
+                                        placeholder="Search by certificate or organization..."
                                         className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-bo-bg-light dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary text-gray-900 dark:text-white"
                                         value={searchTerm}
                                         onChange={handleSearchChange}
                                     />
                                 </div>
-                                <select
-                                    id="status-filter"
-                                    className="w-full sm:w-auto py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-bo-bg-light dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary text-gray-900 dark:text-white"
-                                    value={selectedStatus}
-                                    onChange={handleStatusChange}
-                                >
-                                    <option value="all">All Statuses</option>
-                                    <option value="Issued">Issued</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="Draft">Draft</option>
-                                    <option value="Revoked">Revoked</option>
-                                </select>
                             </div>
 
                             {/* Certificates List - Cards for Small Screens */}
@@ -221,31 +202,31 @@ const BoCertificates = () => {
                                         <div key={cert.id} className="bg-bo-bg-light dark:bg-gray-700 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600">
                                             <div className="flex items-center justify-between mb-2">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-300">
-                                                        <i className="ri-file-text-line text-lg"></i>
-                                                    </div>
                                                     <div>
-                                                        <div className="font-semibold text-gray-900 dark:text-white text-base leading-tight">{cert.name}</div>
+                                                        <div className="font-semibold text-gray-900 dark:text-white text-base leading-tight">{cert.certificateName}</div>
                                                         <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                                            {cert.recipient}
+                                                            {cert.organization}
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClasses(cert.status)}`}>
-                                                    {cert.status}
+                                                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${cert.orgStatus === 'Active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'}`}>
+                                                    {cert.orgStatus}
                                                 </span>
                                             </div>
                                             <div className="text-sm text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-600 pt-2 mt-2">
-                                                <p>Organization: {cert.organization}</p>
+                                                <p>Recipients: {cert.recipient}</p>
                                                 <p>Issued: {cert.dateIssued}</p>
                                             </div>
                                             <div className="flex justify-end space-x-2 mt-4 pt-2 border-t border-gray-200 dark:border-gray-600">
                                                 <button onClick={() => openPreviewModal(cert.id)} className="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                                                     <i className="ri-eye-line text-lg"></i>
                                                 </button>
-                                                {/* <button onClick={() => handleDeleteCertificate(cert.id)} className="text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors">
-                                                    <i className="ri-delete-bin-line text-lg"></i>
-                                                </button> */}
+                                                <button
+                                                    onClick={() => handleBlockUnblockOrg(cert.organization, cert.orgStatus === 'Active' ? 'block' : 'unblock')}
+                                                    className={`${cert.orgStatus === 'Active' ? 'text-red-500 hover:text-red-700 dark:hover:text-red-400' : 'text-green-500 hover:text-green-700 dark:hover:text-green-400'} transition-colors`}
+                                                >
+                                                    <i className={`ri-${cert.orgStatus === 'Active' ? 'lock-line' : 'lock-unlock-line'} text-lg`}></i>
+                                                </button>
                                             </div>
                                         </div>
                                     ))
@@ -265,18 +246,15 @@ const BoCertificates = () => {
                                                 Certificate Name
                                             </th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                                Recipient
-                                            </th>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider hidden md:table-cell">
                                                 Organization
                                             </th>
-                                            <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider hidden lg:table-cell">
-                                                Date Issued
+                                            <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                                Recipients
                                             </th>
                                             <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                                Status
+                                                Issue Date
                                             </th>
-                                            <th scope="col" className="relative px-6 py-3">
+                                            <th scope="col" className="px-6 py-3 text-right">
                                                 <span className="sr-only">Actions</span>
                                             </th>
                                         </tr>
@@ -286,49 +264,41 @@ const BoCertificates = () => {
                                             displayedCertificates.map((cert) => (
                                                 <tr key={cert.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                                                     <td className="px-6 py-4 whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                            <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-300">
-                                                                <i className="ri-file-text-line text-lg"></i>
-                                                            </div>
-                                                            <div className="ml-4">
-                                                                <div className="text-sm font-medium text-gray-900 dark:text-white">
-                                                                    {cert.name}
-                                                                </div>
-                                                                <div className="text-sm text-gray-500 dark:text-gray-400">
-                                                                    Template: {cert.template}
-                                                                </div>
-                                                            </div>
+                                                        <div className="text-sm font-medium text-gray-900 dark:text-white">
+                                                            {cert.certificateName}
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4 whitespace-nowrap">
+                                                        <div className="text-sm text-gray-500 dark:text-gray-400">{cert.organization}</div>
+                                                        <div className={`text-xs ${cert.orgStatus === 'Active' ? 'text-green-500' : 'text-red-500'}`}>
+                                                            {cert.orgStatus}
                                                         </div>
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap">
                                                         <div className="text-sm text-gray-900 dark:text-white">{cert.recipient}</div>
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap hidden md:table-cell">
-                                                        <div className="text-sm text-gray-900 dark:text-white">{cert.organization}</div>
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 hidden lg:table-cell">
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                                         {cert.dateIssued}
-                                                    </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap">
-                                                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClasses(cert.status)}`}>
-                                                            {cert.status}
-                                                        </span>
                                                     </td>
                                                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                                         <div className="flex items-center justify-end space-x-2">
-                                                            <button onClick={() => openPreviewModal(cert.id)} className="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                                                            <button onClick={() => openPreviewModal(cert.id)} className="text-gray-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors" title="View">
                                                                 <i className="ri-eye-line text-lg"></i>
                                                             </button>
-                                                            {/* <button onClick={() => handleDeleteCertificate(cert.id)} className="text-red-500 hover:text-red-700 dark:hover:text-red-400 transition-colors">
-                                                                <i className="ri-delete-bin-line text-lg"></i>
-                                                            </button> */}
+                                                            <button
+                                                                onClick={() => handleBlockUnblockOrg(cert.organization, cert.orgStatus === 'Active' ? 'block' : 'unblock')}
+                                                                className={`${cert.orgStatus === 'Active' ? 'text-red-500 hover:bg-red-500 hover:text-white' : 'text-green-500 hover:bg-green-500 hover:text-white'} p-2 rounded-lg transition-colors`}
+                                                                title={`${cert.orgStatus === 'Active' ? 'Block Organization' : 'Unblock Organization'}`}
+                                                            >
+                                                                <i className={`ri-${cert.orgStatus === 'Active' ? 'lock-line' : 'lock-unlock-line'} text-lg`}></i>
+                                                            </button>
                                                         </div>
                                                     </td>
                                                 </tr>
                                             ))
                                         ) : (
                                             <tr>
-                                                <td colSpan="6" className="px-6 py-12 text-center text-gray-500 dark:text-gray-400 text-sm">
+                                                <td colSpan="5" className="px-6 py-12 text-center text-gray-500 dark:text-gray-400 text-sm">
                                                     No certificates found.
                                                 </td>
                                             </tr>
@@ -360,7 +330,7 @@ const BoCertificates = () => {
                 iconClass={modalConfig.iconClass}
                 confirmButtonText={modalConfig.confirmButtonText}
                 confirmButtonClass={modalConfig.confirmButtonClass}
-                onConfirm={confirmDelete}
+                onConfirm={confirmAction}
             />
 
             {/* Certificate Preview Modal */}
