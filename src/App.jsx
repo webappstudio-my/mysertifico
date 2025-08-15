@@ -27,6 +27,7 @@ import BoOrganizationUsers from './pages/bo/BoOrganizationUsers';
 import BoMyWallUsers from './pages/bo/BoMyWallUsers'; // Adjusted import for BO My Wall Users
 import BoOrganizations from './pages/bo/BoOrganizations'; // Adjusted import for BO Organizations
 import BoMyWallPlans from './pages/bo/BoMyWallPlans';
+import BoSupportHelp from './pages/bo/BoSupportHelp';
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
         <Route path="/bo/mywall-users" element={<BoMyWallUsers />} />
         <Route path="/bo/organizations" element={<BoOrganizations />} />
         <Route path="/bo/mywall-plans" element={<BoMyWallPlans />} />
+        <Route path="/bo/support-help" element={<BoSupportHelp />} />
       </Routes>
     </Router>
   );
