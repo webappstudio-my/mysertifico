@@ -111,10 +111,10 @@ const BoNavbar = ({ onSidebarToggle, headerTitle }) => {
                             className={`absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-white dark:bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${isProfileMenuOpen ? '' : 'hidden'}`}
                         >
                             <div className="py-1">
-                                <Link to="/bo/dashboard/my-profile" className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setIsProfileMenuOpen(false)}>
+                                <Link to="/bo/my-profile" className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setIsProfileMenuOpen(false)}>
                                     <i className="ri-user-line mr-3"></i>My Profile
                                 </Link>
-                                <Link to="/bo/dashboard/change-password" className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setIsProfileMenuOpen(false)}>
+                                <Link to="/bo/change-password" className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setIsProfileMenuOpen(false)}>
                                     <i className="ri-lock-password-line mr-3"></i>Change Password
                                 </Link>
                                 <hr className="border-gray-200 dark:border-gray-700 my-1" />

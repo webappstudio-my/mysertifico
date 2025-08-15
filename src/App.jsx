@@ -47,18 +47,18 @@ function App() {
         <Route path="/bo/dashboard" element={<BoDashboard />} />
         <Route path="/bo/admin/staff" element={<BoUsers />} />
         <Route path="/bo/certificates" element={<BoCertificates />} />
-        <Route path="/bo/dashboard/change-password" element={<BoChangePassword />} />
+        <Route path="/bo/change-password" element={<BoChangePassword />} />
         <Route path="/bo/forgot-password" element={<BoForgotPassword />} />
         <Route path='/bo/sign-in' element={<BoSignIn />} />
         <Route path="/bo/reset-password" element={<BoPasswordResetPage />} />
-        <Route path="/bo/dashboard/my-profile" element={<BoMyProfile />} />
+        <Route path="/bo/my-profile" element={<BoMyProfile />} />
         <Route path="/bo/templates" element={<BoTemplateManagement />} />
         <Route path="/bo/logos-badges" element={<BoLogosBadges />} />
-        <Route path="/bo/organization-users" element={<BoOrganizationUsers />} />
-        <Route path="/bo/mywall-users" element={<BoMyWallUsers />} />
-        <Route path="/bo/organizations" element={<BoOrganizations />} />
-        <Route path="/bo/mywall-plans" element={<BoMyWallPlans />} />
-        <Route path="/bo/support-help" element={<BoSupportHelp />} />
+        <Route path="/bo/users/organization-users" element={<BoOrganizationUsers />} />
+        <Route path="/bo/users/mywall-users" element={<BoMyWallUsers />} />
+        <Route path="/bo/users/organizations" element={<BoOrganizations />} />
+        <Route path="/bo/admin/mywall-plans" element={<BoMyWallPlans />} />
+        <Route path="/bo/admin/support-help" element={<BoSupportHelp />} />
       </Routes>
     </Router>
   );
