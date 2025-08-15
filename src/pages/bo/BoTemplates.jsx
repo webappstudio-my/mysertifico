@@ -1,344 +1,466 @@
-// src/pages/bo/BoTemplates.jsx
+// src/pages/bo/BoTemplateManagement.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import BoSidebar from '../../components/bo/BoSidebar';
 import BoNavbar from '../../components/bo/BoNavbar';
 import BoPagination from '../../components/bo/BoPagination';
+import BoConfirmationModal from '../../components/bo/BoConfirmationModal';
 import BoTemplateAddEditModal from '../../components/bo/BoTemplateAddEditModal';
 import BoTemplatePreviewModal from '../../components/bo/BoTemplatePreviewModal';
-import BoConfirmationModal from '../../components/bo/BoConfirmationModal';
 
-// userRole is passed as a prop to render conditional features such as DELETE button for templates
-const BoTemplateManagement = ({ userRole = 'admin' }) => {
+// Import sample images - adjust paths as needed
+import sampleLogo from '../../assets/images/logos/logo.png'; // Adjust the path as necessary
+import sampleSignature from '../../assets/images/logos/signature.png'; // Adjust the path as necessary
+import sampleQrCode from '../../assets/images/logos/qr-code.png'; // Adjust the path as necessary
+
+const BoTemplateManagement = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [currentView, setCurrentView] = useState('grid');
-    const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    
-    // Modal state for adding/editing templates
-    const [showModal, setShowModal] = useState(false);
-    const [showViewModal, setShowViewModal] = useState(false);
-    const [showConfirmModal, setShowConfirmModal] = useState(false);
-
-    // Data for modals
-    const [editingTemplate, setEditingTemplate] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
     const [selectedTemplate, setSelectedTemplate] = useState(null);
+    const [isAddEditModalOpen, setIsAddEditModalOpen] = useState(false);
+    const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [templateToDelete, setTemplateToDelete] = useState(null);
+    
+    const itemsPerPage = 8;
 
-    const fileInputRef = useRef(null);
-    const itemsPerPage = 12;
-    const [templateData, setTemplateData] = useState([
-        // Sample data for demonstration purposes
-        { id: 1, code: 'CLLC-GOLD-001', title: 'Classic · Landscape · Center · Gold', thumb: 'https://placehold.co/400x300/f59e0b/fff?text=Certificate', style: 'Classic', orientation: 'Landscape', color: 'GOLD', alignment: 'Centre', name: 'Classic Gold Certificate', organization: 'MySertifico', dateIssued: '2024-01-15', status: 'Active' ,usageCount: 123 },
-        { id: 2, code: 'CLPC-BLUE-002', title: 'Classic · Portrait · Center · Blue', thumb: 'https://placehold.co/300x400/3b82f6/fff?text=Certificate', style: 'Classic', orientation: 'Portrait', color: 'BLUE', alignment: 'Centre', name: 'Classic Blue Certificate', organization: 'MySertifico', dateIssued: '2024-01-16', status: 'Active', usageCount: 98 },
-        { id: 3, code: 'MDLC-PURPLE-003', title: 'Modern · Landscape · Center · Purple', thumb: 'https://placehold.co/400x300/8b5cf6/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'PURPLE', alignment: 'Centre', name: 'Modern Purple Certificate', organization: 'MySertifico', dateIssued: '2024-01-17', status: 'Active', usageCount: 75 },
-        { id: 4, code: 'MDLC-GOLD-004', title: 'Modern · Landscape · Center · Gold', thumb: 'https://placehold.co/400x300/f59e0b/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'GOLD', alignment: 'Centre', name: 'Modern Gold Certificate', organization: 'MySertifico', dateIssued: '2024-01-18', status: 'Active', usageCount: 45 },
-        { id: 5, code: 'MDPL-RED-005', title: 'Modern · Portrait · Left · Red', thumb: 'https://placehold.co/300x400/ef4444/fff?text=Certificate', style: 'Modern', orientation: 'Portrait', color: 'RED', alignment: 'Left', name: 'Modern Red Certificate', organization: 'MySertifico', dateIssued: '2024-01-19', status: 'Active', usageCount: 60 },
-        { id: 6, code: 'MDLC-BLACK-006', title: 'Modern · Landscape · Center · Black', thumb: 'https://placehold.co/400x300/1f2937/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'BLACK', alignment: 'Centre', name: 'Modern Black Certificate', organization: 'MySertifico', dateIssued: '2024-01-20', status: 'Active', usageCount: 30 },
-        { id: 7, code: 'CLPR-GREEN-007', title: 'Classic · Portrait · Right · Green', thumb: 'https://placehold.co/300x400/10b981/fff?text=Certificate', style: 'Classic', orientation: 'Portrait', color: 'GREEN', alignment: 'Right', name: 'Classic Green Certificate', organization: 'MySertifico', dateIssued: '2024-01-21', status: 'Active', usageCount: 85 },
-        { id: 8, code: 'MDLR-BROWN-008', title: 'Modern · Landscape · Right · Brown', thumb: 'https://placehold.co/400x300/92400e/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'BROWN', alignment: 'Right', name: 'Modern Brown Certificate', organization: 'MySertifico', dateIssued: '2024-01-22', status: 'Active', usageCount: 50 },
-        { id: 9, code: 'CLLL-PURPLE-009', title: 'Classic · Landscape · Left · Purple', thumb: 'https://placehold.co/400x300/8b5cf6/fff?text=Certificate', style: 'Classic', orientation: 'Landscape', color: 'PURPLE', alignment: 'Left', name: 'Classic Purple Certificate', organization: 'MySertifico', dateIssued: '2024-01-23', status: 'Active', usageCount: 40 },
-        { id: 10, code: 'MDPC-BLUE-010', title: 'Modern · Portrait · Center · Blue', thumb: 'https://placehold.co/300x400/3b82f6/fff?text=Certificate', style: 'Modern', orientation: 'Portrait', color: 'BLUE', alignment: 'Centre', name: 'Modern Blue Certificate', organization: 'MySertifico', dateIssued: '2024-01-24', status: 'Active', usageCount: 70 },
-        { id: 11, code: 'CLLC-RED-011', title: 'Classic · Landscape · Center · Red', thumb: 'https://placehold.co/400x300/ef4444/fff?text=Certificate', style: 'Classic', orientation: 'Landscape', color: 'RED', alignment: 'Centre', name: 'Classic Red Certificate', organization: 'MySertifico', dateIssued: '2024-01-25', status: 'Active', usageCount: 55 },
-        { id: 12, code: 'MDPR-BLACK-012', title: 'Modern · Portrait · Right · Black', thumb: 'https://placehold.co/300x400/1f2937/fff?text=Certificate', style: 'Modern', orientation: 'Portrait', color: 'BLACK', alignment: 'Right', name: 'Modern Black Portrait Certificate', organization: 'MySertifico', dateIssued: '2024-01-26', status: 'Active', usageCount: 65 },
-        { id: 13, code: 'CLLR-GOLD-013', title: 'Classic · Landscape · Right · Gold', thumb: 'https://placehold.co/400x300/f59e0b/fff?text=Certificate', style: 'Classic', orientation: 'Landscape', color: 'GOLD', alignment: 'Right', name: 'Classic Gold Right Certificate', organization: 'MySertifico', dateIssued: '2024-01-27', status: 'Active', usageCount: 80 },
-        { id: 14, code: 'MDLL-GREEN-014', title: 'Modern · Landscape · Left · Green', thumb: 'https://placehold.co/400x300/10b981/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'GREEN', alignment: 'Left', name: 'Modern Green Certificate', organization: 'MySertifico', dateIssued: '2024-01-28', status: 'Active', usageCount: 90 },
-        { id: 15, code: 'CLPL-BLUE-015', title: 'Classic · Portrait · Left · Blue', thumb: 'https://placehold.co/300x400/3b82f6/fff?text=Certificate', style: 'Classic', orientation: 'Portrait', color: 'BLUE', alignment: 'Left', name: 'Classic Blue Left Certificate', organization: 'MySertifico', dateIssued: '2024-01-29', status: 'Active', usageCount: 110 },
-        { id: 16, code: 'MDLR-PURPLE-016', title: 'Modern · Landscape · Right · Purple', thumb: 'https://placehold.co/400x300/8b5cf6/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'PURPLE', alignment: 'Right', name: 'Modern Purple Right Certificate', organization: 'MySertifico', dateIssued: '2024-01-30', status: 'Active', usageCount: 95 },
-        { id: 17, code: 'CLPC-GREEN-017', title: 'Classic · Portrait · Center · Green', thumb: 'https://placehold.co/300x400/10b981/fff?text=Certificate', style: 'Classic', orientation: 'Portrait', color: 'GREEN', alignment: 'Centre', name: 'Classic Green Center Certificate', organization: 'MySertifico', dateIssued: '2024-01-31', status: 'Active', usageCount: 120 },
-        { id: 18, code: 'MDLL-RED-018', title: 'Modern · Landscape · Left · Red', thumb: 'https://placehold.co/400x300/ef4444/fff?text=Certificate', style: 'Modern', orientation: 'Landscape', color: 'RED', alignment: 'Left', name: 'Modern Red Left Certificate', organization: 'MySertifico', dateIssued: '2024-02-01', status: 'Active', usageCount: 100 },
-        { id: 19, code: 'CLPR-BROWN-019', title: 'Classic · Portrait · Right · Brown', thumb: 'https://placehold.co/300x400/92400e/fff?text=Certificate', style: 'Classic', orientation: 'Portrait', color: 'BROWN', alignment: 'Right', name: 'Classic Brown Right Certificate', organization: 'MySertifico', dateIssued: '2024-02-02', status: 'Active', usageCount: 85 },
-        { id: 20, code: 'MDPC-GOLD-020', title: 'Modern · Portrait · Center · Gold', thumb: 'https://placehold.co/300x400/f59e0b/fff?text=Certificate', style: 'Modern', orientation: 'Portrait', color: 'GOLD', alignment: 'Centre', name: 'Modern Gold Portrait Certificate', organization: 'MySertifico', dateIssued: '2024-02-03', status: 'Active', usageCount: 75 },
+    // Sample template data
+     const [templateData, setTemplateData] = useState([
+        { 
+            id: 1, 
+            code: 'CLLC-GOLD-001', 
+            title: 'Classic · Landscape · Center · Gold', 
+            thumb: '/src/images/templates/cllc-gold-001.svg',
+            style: 'Classic', 
+            orientation: 'Landscape', 
+            color: 'GOLD', 
+            alignment: 'Centre',
+            name: 'Classic Gold Certificate',
+            organization: 'Sample Organization',
+            template: 'Classic Template',
+            dateIssued: '2024-01-15',
+            status: 'Active',
+            recipient: 'John Doe',
+            usageCount: 1247
+        },
+        { 
+            id: 2, 
+            code: 'CLPC-BLUE-002', 
+            title: 'Classic · Portrait · Center · Blue', 
+            thumb: '/src/images/templates/clpc-blue-002.svg',
+            style: 'Classic', 
+            orientation: 'Portrait', 
+            color: 'BLUE', 
+            alignment: 'Centre',
+            name: 'Classic Blue Certificate',
+            organization: 'Sample Organization',
+            template: 'Classic Template',
+            dateIssued: '2024-01-16',
+            status: 'Active',
+            recipient: 'Jane Smith',
+            usageCount: 856
+        },
+        { 
+            id: 3, 
+            code: 'MDLC-PURPLE-003', 
+            title: 'Modern · Landscape · Center · Purple', 
+            thumb: '/src/images/templates/mdlc-purple-003.svg',
+            style: 'Modern', 
+            orientation: 'Landscape', 
+            color: 'PURPLE', 
+            alignment: 'Centre',
+            name: 'Modern Purple Certificate',
+            organization: 'Sample Organization',
+            template: 'Modern Template',
+            dateIssued: '2024-01-17',
+            status: 'Active',
+            recipient: 'Bob Johnson',
+            usageCount: 342
+        },
+        { 
+            id: 4, 
+            code: 'MDLC-GOLD-004', 
+            title: 'Modern · Landscape · Center · Gold', 
+            thumb: '/src/images/templates/mdlc-gold-004.svg',
+            style: 'Modern', 
+            orientation: 'Landscape', 
+            color: 'GOLD', 
+            alignment: 'Centre',
+            name: 'Modern Gold Certificate',
+            organization: 'Sample Organization',
+            template: 'Modern Template',
+            dateIssued: '2024-01-18',
+            status: 'Active',
+            recipient: 'Alice Williams',
+            usageCount: 2103
+        },
+        { 
+            id: 5, 
+            code: 'MDPL-RED-005', 
+            title: 'Modern · Portrait · Left · Red', 
+            thumb: '/src/images/templates/mdpl-red-005.svg',
+            style: 'Modern', 
+            orientation: 'Portrait', 
+            color: 'RED', 
+            alignment: 'Left',
+            name: 'Modern Red Certificate',
+            organization: 'Sample Organization',
+            template: 'Modern Template',
+            dateIssued: '2024-01-19',
+            status: 'Active',
+            recipient: 'Charlie Brown',
+            usageCount: 78
+        },
+        { 
+            id: 6, 
+            code: 'MDLC-BLACK-006', 
+            title: 'Modern · Landscape · Center · Black', 
+            thumb: '/src/images/templates/mdlc-black-006.svg',
+            style: 'Modern', 
+            orientation: 'Landscape', 
+            color: 'BLACK', 
+            alignment: 'Centre',
+            name: 'Modern Black Certificate',
+            organization: 'Sample Organization',
+            template: 'Modern Template',
+            dateIssued: '2024-01-20',
+            status: 'Active',
+            recipient: 'Diana Prince',
+            usageCount: 524
+        },
     ]);
-    
-    //search and filter logic
-    const filteredData = templateData.filter(template =>
-        template.code.toLowerCase().includes(searchTerm.toLowerCase()) || 
-        template.title.toLowerCase().includes(searchTerm.toLowerCase()) 
+
+    // Sample elements data for certificate preview
+    const elementsData = [
+        { element_id: "logo", type: "image", content: sampleLogo, position_x: 561, position_y: 90, width: 100, height: 100, alignment: "Centre" },
+        { element_id: "organization_name", type: "text", content: "{OrganizationName}", position_x: 561, position_y: 190, font_family: "Montserrat", font_size: 20, font_weight: "500", color: "#111827", alignment: "Centre" },
+        { element_id: "certificate_title", type: "text", content: "CERTIFICATE TITLE", position_x: 561, position_y: 270, font_family: "EB Garamond", font_size: 60, font_weight: "bold", color: "#92400e", alignment: "Centre" },
+        { element_id: "recipient_name", type: "text", content: "{RecipientName}", position_x: 561, position_y: 410, font_family: "EB Garamond", font_size: 24, font_weight: "bold", color: "#000000", alignment: "Centre" },
+        { element_id: "signature_image", type: "image", content: sampleSignature, position_x: 300, position_y: 560, width: 180, height: 70 },
+        { element_id: "qr_code", type: "image", content: sampleQrCode, position_x: 820, position_y: 590, width: 100, height: 100 }
+    ];
+
+    // Filter templates based on search
+    const filteredTemplates = templateData.filter(t => 
+        t.code.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        t.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    
-    const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+    // Paginate filtered data
     const startIndex = (currentPage - 1) * itemsPerPage;
-    const paginatedData = filteredData.slice(startIndex, startIndex + itemsPerPage);
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedData = filteredTemplates.slice(startIndex, endIndex);
 
-    // Modal handlers
-    const handleAddNew = () => {
-        setEditingTemplate(null);
-        setShowModal(true);
+    // Handle page change
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
     };
 
-    const handleEdit = (template) => {
-        setEditingTemplate(template);
-        setShowModal(true);
+    // Handle search change
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+        setCurrentPage(1); // Reset to first page on search
     };
 
-    const handleView = (template) => {
+    // Handle template actions
+    const handleViewTemplate = (template) => {
         setSelectedTemplate(template);
-        setShowViewModal(true);
+        setIsPreviewModalOpen(true);
     };
 
-    const handleDelete = (template) => {
+    const handleEditTemplate = (template) => {
+        setSelectedTemplate(template);
+        setIsAddEditModalOpen(true);
+    };
+
+    const handleDeleteTemplate = (template) => {
         setTemplateToDelete(template);
-        setShowConfirmModal(true);
+        setIsDeleteModalOpen(true);
     };
 
-    const handleSave = (templateData) => {
-        if (editingTemplate) {
-            // Update existing template
-            setTemplateData(prev => prev.map(template => 
-                template.id === editingTemplate.id 
-                    ? { ...template, ...templateData }
-                    : template
-            ));
-        } else {
-            // Add new template
-            const newId = Math.max(...templateData.map(t => t.id)) + 1;
-            const newCode = generateTemplateCode(templateData);
-            const newTemplate = {
-                id: newId,
-                code: newCode,
-                thumb: `https://placehold.co/400x300/666/fff?text=${encodeURIComponent(templateData.title)}`,
-                name: templateData.title,
-                organization: 'MySertifico',
-                dateIssued: new Date().toISOString().split('T')[0],
-                status: 'Active',
-                ...templateData
-            };
-            setTemplateData(prev => [...prev, newTemplate]);
-        }
-        setShowModal(false);
-        setEditingTemplate(null);
-    };
-
-    const handleConfirmDelete = () => {
+    const confirmDelete = () => {
         if (templateToDelete) {
-            setTemplateData(prev => prev.filter(template => template.id !== templateToDelete.id));
-            setShowConfirmModal(false);
+            setTemplateData(prev => prev.filter(t => t.id !== templateToDelete.id));
+            setIsDeleteModalOpen(false);
             setTemplateToDelete(null);
         }
     };
 
-    const generateTemplateCode = (formData) => {
-        const styleCode = formData.style === 'Classic' ? 'CL' : 'MD';
-        const orientationCode = formData.orientation === 'Landscape' ? 'L' : 'P';
-        const alignmentCode = formData.alignment === 'Centre' ? 'C' : (formData.alignment === 'Left' ? 'L' : 'R');
-        const colorCode = formData.color;
-        const number = String(templateData.length + 1).padStart(3, '0');
-        return `${styleCode}${orientationCode}${alignmentCode}-${colorCode}-${number}`;
+    const handleSaveTemplate = (formData) => {
+        if (formData.id) {
+            // Edit existing template
+            setTemplateData(prev => prev.map(t => 
+                t.id === formData.id 
+                    ? { ...t, ...formData }
+                    : t
+            ));
+        } else {
+            // Add new template (this would typically be done on a separate page)
+            const newId = Math.max(...templateData.map(t => t.id)) + 1;
+            const newTemplate = {
+                ...formData,
+                id: newId,
+                code: `NEW-${formData.style.toUpperCase()}-${String(newId).padStart(3, '0')}`,
+                name: formData.title,
+                thumb: '/src/images/templates/default.svg',
+                organization: 'Sample Organization',
+                template: `${formData.style} Template`,
+                dateIssued: new Date().toISOString().split('T')[0],
+                status: 'Active',
+                recipient: 'New Recipient',
+                usageCount: 0
+            };
+            setTemplateData(prev => [...prev, newTemplate]);
+        }
+        setIsAddEditModalOpen(false);
+        setSelectedTemplate(null);
     };
 
-    const toggleSidebar = () => {
-        setIsSidebarOpen(!isSidebarOpen);
-    };
+    // Certificate Preview Component
+    const CertificatePreview = ({ template, scale = 1 }) => {
+        const originalWidth = template.orientation === 'Landscape' ? 1123 : 794;
+        const originalHeight = template.orientation === 'Landscape' ? 794 : 1123;
 
-    const renderGridView = () => (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {paginatedData.map(template => (
-                <div key={template.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden group">
-                    <div className="relative w-full h-40 bg-gray-200 dark:bg-gray-700 overflow-hidden flex items-center justify-center">
-                        <img src={template.thumb} alt={template.title} className="w-full h-full object-cover" />
-                    </div>
-                    <div className="p-4">
-                        <h4 className="font-semibold text-gray-800 dark:text-white truncate">{template.code}</h4>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{template.title}</p>
-                    </div>
-                    <div className="p-2 border-t border-gray-100 dark:border-gray-700">
-                        <div className="flex justify-end items-center gap-1">
-                            <button 
-                                onClick={() => handleView(template)}
-                                className="p-2 text-gray-500 hover:text-teal-600 dark:hover:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" 
-                                title="View"
-                            >
-                                <i className="ri-eye-line"></i>
-                            </button>
-                            <button 
-                                onClick={() => handleEdit(template)}
-                                className="p-2 text-gray-500 hover:text-teal-600 dark:hover:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" 
-                                title="Edit"
-                            >
-                                <i className="ri-pencil-line"></i>
-                            </button>
-                            {userRole === 'admin' && (
-                                <button 
-                                    onClick={() => handleDelete(template)}
-                                    className="p-2 text-red-500 hover:text-white rounded-lg hover:bg-red-500" 
-                                    title="Delete"
+        return (
+            <div 
+                className="certificate-preview-container relative"
+                style={{
+                    width: `${originalWidth * scale}px`,
+                    height: `${originalHeight * scale}px`,
+                    backgroundImage: `url(${template.thumb})`,
+                    backgroundSize: 'contain',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    transform: `scale(${scale})`,
+                    transformOrigin: 'center center'
+                }}
+            >
+                {elementsData.map((element, index) => {
+                    const baseWidth = 1123;
+                    const scaleRatio = originalWidth / baseWidth;
+                    const positionX = element.position_x * scaleRatio;
+                    
+                    const alignment = (element.alignment || template.alignment || 'Centre').toLowerCase();
+                    let transform = '';
+                    if (alignment === 'centre') transform = 'translateX(-50%)';
+                    else if (alignment === 'right') transform = 'translateX(-100%)';
+
+                    return (
+                        <div
+                            key={index}
+                            className="absolute"
+                            style={{
+                                left: `${positionX}px`,
+                                top: `${element.position_y}px`,
+                                transform: transform
+                            }}
+                        >
+                            {element.type === 'text' ? (
+                                <span
+                                    style={{
+                                        fontFamily: `'${element.font_family}', sans-serif`,
+                                        fontSize: `${element.font_size * scale}px`,
+                                        fontWeight: element.font_weight || 'normal',
+                                        color: element.color,
+                                        whiteSpace: 'nowrap'
+                                    }}
                                 >
-                                    <i className="ri-delete-bin-line"></i>
-                                </button>
+                                    {element.content}
+                                </span>
+                            ) : (
+                                <img
+                                    src={element.content}
+                                    alt=""
+                                    style={{
+                                        width: `${element.width * scale}px`,
+                                        height: `${element.height * scale}px`
+                                    }}
+                                />
                             )}
                         </div>
-                    </div>
-                </div>
-            ))}
-        </div>
-    );
+                    );
+                })}
+            </div>
+        );
+    };
 
-    const renderListView = () => (
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
-            <div className="overflow-x-auto">
-                <table className="w-full">
-                    <thead className="bg-gray-50 dark:bg-gray-700">
-                        <tr>
-                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                Template
-                            </th>
-                            <th className="px-6 py-4 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                Usage Stats
-                            </th>
-                            <th className="px-12 py-4 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                Actions
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                        {paginatedData.map(template => (
-                            <tr key={template.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                                <td className="px-6 py-4">
-                                    <div className="flex items-center gap-4">
-                                        <div className="flex-shrink-0 w-16 h-12 bg-gray-100 dark:bg-gray-600 rounded-lg overflow-hidden flex items-center justify-center">
-                                            <img 
-                                                src={template.thumb} 
-                                                alt={template.title} 
-                                                className="w-full h-full object-cover"
-                                                onError={(e) => {
-                                                    e.target.onerror = null;
-                                                    e.target.src = 'https://placehold.co/64x48/e5e7eb/9ca3af?text=IMG';
-                                                }}
-                                            />
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                            <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
-                                                {template.code}
-                                            </p>
-                                            <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
-                                                {template.title}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td className="px-6 py-4 text-center">
-                                    <div className="flex flex-col items-center gap-1">
-                                        <div className="flex items-center gap-1 text-sm font-medium text-gray-900 dark:text-white">
-                                            <i className="ri-bar-chart-line text-blue-600"></i>
-                                            <span>{template.usageCount}</span>
-                                        </div>
-                                        <div className="text-xs text-gray-500 dark:text-gray-400">
-                                            times used
-                                        </div>
-                                    </div>
-                                </td>
-                                <td className="px-6 py-4 text-right">
-                                    <div className="flex justify-end items-center gap-1">
-                                        <button 
-                                            onClick={() => handleView(template)}
-                                            className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors" 
-                                            title="View"
-                                        >
-                                            <i className="ri-eye-line text-lg"></i>
-                                        </button>
-                                        <button 
-                                            onClick={() => handleEdit(template)}
-                                            className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors" 
-                                            title="Edit"
-                                        >
-                                            <i className="ri-pencil-line text-lg"></i>
-                                        </button>
-                                        {userRole === 'admin' && (
-                                            <button 
-                                                onClick={() => handleDelete(template)}
-                                                className="p-2 text-gray-400 hover:text-red-600 dark:hover:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors" 
-                                                title="Delete"
-                                            >
-                                                <i className="ri-delete-bin-line text-lg"></i>
-                                            </button>
-                                        )}
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+    // Template Card Component with Usage Count
+    const TemplateCard = ({ template }) => (
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden group flex flex-col">
+            <div className="relative w-full h-40 bg-gray-200 dark:bg-gray-700 overflow-hidden flex items-center justify-center">
+                <CertificatePreview template={template} scale={0.15} />
+                {/* Usage count badge */}
+                <div className="absolute top-2 right-2 bg-teal-600 text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                    <i className="ri-file-copy-2-line text-xs"></i>
+                    <span>{template.usageCount.toLocaleString()}</span>
+                </div>
+            </div>
+            <div className="p-4 flex-grow">
+                <h4 className="font-semibold text-gray-800 dark:text-white truncate">{template.code}</h4>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{template.title}</p>
+                <div className="mt-2 flex items-center gap-2">
+                    <span className="text-xs text-gray-600 dark:text-gray-400">
+                        <i className="ri-bar-chart-box-line mr-1"></i>
+                        {template.usageCount.toLocaleString()} {template.usageCount === 1 ? 'use' : 'uses'}
+                    </span>
+                </div>
+            </div>
+            <div className="p-2 border-t border-gray-100 dark:border-gray-700">
+                <div className="flex justify-end items-center gap-1">
+                    <button 
+                        className="p-2 text-gray-500 hover:text-teal-600 dark:hover:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                        title="View"
+                        onClick={() => handleViewTemplate(template)}
+                    >
+                        <i className="ri-eye-line"></i>
+                    </button>
+                    <button 
+                        className="p-2 text-gray-500 hover:text-teal-600 dark:hover:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                        title="Edit"
+                        onClick={() => handleEditTemplate(template)}
+                    >
+                        <i className="ri-pencil-line"></i>
+                    </button>
+                    <button 
+                        className="p-2 text-red-500 hover:text-white rounded-lg hover:bg-red-500"
+                        title="Delete"
+                        onClick={() => handleDeleteTemplate(template)}
+                    >
+                        <i className="ri-delete-bin-line"></i>
+                    </button>
+                </div>
             </div>
         </div>
     );
 
-    return (
-        <div className="min-h-screen bg-bo-bg-light dark:bg-bo-bg-dark transition-colors duration-300">
-            <BoSidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
+    // Template List Row Component with Usage Count
+    const TemplateRow = ({ template }) => (
+        <tr className="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600/20">
+            <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                <div className="flex items-center gap-4">
+                    <div className="w-16 h-10 bg-gray-200 dark:bg-gray-700 flex items-center justify-center overflow-hidden rounded-md">
+                        <CertificatePreview template={template} scale={0.05} />
+                    </div>
+                    <div>
+                        <p className="font-semibold">{template.code}</p>
+                        <p className="text-xs text-gray-500">{template.title}</p>
+                    </div>
+                </div>
+            </td>
+            <td className="px-6 py-4">
+                <div className="flex items-center justify-center">
+                    <div className="text-center">
+                        <span className="text-lg font-semibold text-gray-800 dark:text-white">
+                            {template.usageCount.toLocaleString()}
+                        </span>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                            {template.usageCount === 1 ? 'certificate' : 'certificates'}
+                        </p>
+                    </div>
+                </div>
+            </td>
+            <td className="px-6 py-4 text-right">
+                <div className="flex justify-end items-center gap-1">
+                    <button 
+                        className="p-2 text-gray-500 hover:text-teal-600 dark:hover:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                        title="View"
+                        onClick={() => handleViewTemplate(template)}
+                    >
+                        <i className="ri-eye-line"></i>
+                    </button>
+                    <button 
+                        className="p-2 text-gray-500 hover:text-teal-600 dark:hover:text-white rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                        title="Edit"
+                        onClick={() => handleEditTemplate(template)}
+                    >
+                        <i className="ri-pencil-line"></i>
+                    </button>
+                    <button 
+                        className="p-2 text-red-500 hover:text-white rounded-lg hover:bg-red-500"
+                        title="Delete"
+                        onClick={() => handleDeleteTemplate(template)}
+                    >
+                        <i className="ri-delete-bin-line"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    );
 
-            {/* Dimmed background when sidebar is open*/}
-            {isSidebarOpen && 
+    return (
+        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+            <BoSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+            {isSidebarOpen && (
                 <div 
                     className="fixed inset-0 bg-black bg-opacity-50 z-40" 
-                    onClick={toggleSidebar}>
+                    onClick={() => setIsSidebarOpen(false)}>
                 </div>
-            }
+            )}
             
-            <div className={`relative min-h-screen transition-all duration-300 ease-in-out ${isSidebarOpen ? 'lg:pl-64' : 'lg:pl-0'}`}>
+            <div className={`transition-all duration-300 ${isSidebarOpen ? 'lg:ml-64' : ''}`}>
                 <BoNavbar 
-                    onSidebarToggle={toggleSidebar} 
-                    headerTitle="Template Management" 
-                    isSidebarOpen={isSidebarOpen}
+                    onSidebarToggle={() => setIsSidebarOpen(!isSidebarOpen)} 
+                    headerTitle="Template Management"
                 />
+                
                 <main className="p-6 sm:p-8">
                     <div className="max-w-7xl mx-auto">
-                        {/* Header Section */}
+                        {/* Header & Main Action Button */}
                         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                             <div>
                                 <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-200">Certificate Templates</h2>
                                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Manage, create, and publish certificate templates.</p>
                             </div>
-                            {/* "Add New Template" Button that links to create template*/}
-                            
                             <Link 
-                                to="/bo/create-template"
-                                className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 px-4 rounded-lg inline-flex items-center gap-2 transition-colors shadow-sm hover:shadow-md"
-                                
-                            >
-                                <i className="ri-add-line"></i>
-                                <span>Add New Template</span>
-                            </Link>
-                            {/*<button 
-                                onClick={handleAddNew}
+                                to="/bo/templates/create" 
                                 className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 px-4 rounded-lg inline-flex items-center gap-2 transition-colors w-full sm:w-auto"
                             >
                                 <i className="ri-add-line"></i>
                                 <span>Add New Template</span>
-                            </button> */}
+                            </Link>
                         </div>
 
-                        {/* Toolbar Section */}
+                        {/* Toolbar: Search, Filter, View Toggle */}
                         <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md">
                             <div className="relative w-full md:w-80">
                                 <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                                 <input 
                                     type="text" 
-                                    placeholder="Search by code or title..." 
-                                    className="w-full pl-10 pr-4 py-2 text-black border border-gray-300 dark:border-gray-600 rounded-lg bg-slate-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500" 
-                                    value={searchTerm} 
-                                    onChange={(e) => setSearchTerm(e.target.value)} 
+                                    placeholder="Search by code or title..."
+                                    value={searchTerm}
+                                    onChange={handleSearchChange}
+                                    className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-600 text-gray-900 dark:text-white"
                                 />
                             </div>
                             <div className="flex items-center p-1 bg-gray-200 dark:bg-gray-900/50 rounded-lg">
                                 <button 
-                                    className={`p-2 rounded-md ${currentView === 'grid' ? 'bg-white dark:bg-gray-800 text-teal-600 shadow' : 'text-gray-500 dark:text-gray-400'}`} 
                                     onClick={() => setCurrentView('grid')}
+                                    className={`p-2 rounded-md transition-colors ${
+                                        currentView === 'grid' 
+                                            ? 'bg-white dark:bg-gray-800 text-teal-600 shadow' 
+                                            : 'text-gray-500 dark:text-gray-400'
+                                    }`}
                                 >
                                     <i className="ri-layout-grid-fill"></i>
                                 </button>
                                 <button 
-                                    className={`p-2 rounded-md ${currentView === 'list' ? 'bg-white dark:bg-gray-800 text-teal-600 shadow' : 'text-gray-500 dark:text-gray-400'}`} 
                                     onClick={() => setCurrentView('list')}
+                                    className={`p-2 rounded-md transition-colors ${
+                                        currentView === 'list' 
+                                            ? 'bg-white dark:bg-gray-800 text-teal-600 shadow' 
+                                            : 'text-gray-500 dark:text-gray-400'
+                                    }`}
                                 >
                                     <i className="ri-list-check-2"></i>
                                 </button>
                             </div>
                         </div>
                         
-                        {/* Templates Container */}
-                        <div>
-                            {filteredData.length === 0 ? (
+                        {/* Main Content Area */}
+                        <div id="templates-container">
+                            {filteredTemplates.length === 0 ? (
                                 <div className="text-center py-16">
                                     <div className="flex flex-col items-center">
                                         <i className="ri-search-eye-line text-6xl text-gray-400 mb-4"></i>
@@ -346,61 +468,88 @@ const BoTemplateManagement = ({ userRole = 'admin' }) => {
                                         <p className="text-gray-500 dark:text-gray-400 mt-1">Your search did not match any templates. Try another keyword.</p>
                                     </div>
                                 </div>
+                            ) : currentView === 'grid' ? (
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                    {paginatedData.map(template => (
+                                        <TemplateCard key={template.id} template={template} />
+                                    ))}
+                                </div>
                             ) : (
-                                currentView === 'grid' ? renderGridView() : renderListView()
+                                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md">
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-sm text-left">
+                                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                                <tr>
+                                                    <th className="px-6 py-3">Template</th>
+                                                    <th className="px-6 py-3 text-center">Usage</th>
+                                                    <th className="px-6 py-3 text-right">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {paginatedData.map(template => (
+                                                    <TemplateRow key={template.id} template={template} />
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             )}
                         </div>
-
+                        
                         {/* Pagination */}
-                        <div className="mt-8 flex justify-center">
-                            <BoPagination
-                                currentPage={currentPage}
-                                totalItems={filteredData.length}
-                                itemsPerPage={itemsPerPage}
-                                onPageChange={setCurrentPage}
-                            />
-                        </div>
+                        {filteredTemplates.length > 0 && (
+                            <div className="mt-8 flex justify-center">
+                                <BoPagination
+                                    currentPage={currentPage}
+                                    totalItems={filteredTemplates.length}
+                                    itemsPerPage={itemsPerPage}
+                                    onPageChange={handlePageChange}
+                                />
+                            </div>
+                        )}
                     </div>
                 </main>
             </div>
 
-            {/* Add/Edit Modal */}
+            {/* Modals */}
             <BoTemplateAddEditModal
-                isOpen={showModal}
+                isOpen={isAddEditModalOpen}
                 onClose={() => {
-                    setShowModal(false);
-                    setEditingTemplate(null);
+                    setIsAddEditModalOpen(false);
+                    setSelectedTemplate(null);
                 }}
-                onSave={handleSave}
-                template={editingTemplate}
+                onSave={handleSaveTemplate}
+                template={selectedTemplate}
+                onPreview={(previewTemplate) => {
+                    setSelectedTemplate(previewTemplate);
+                    setIsPreviewModalOpen(true);
+                }}
             />
 
-            {/* Preview Modal */}
             <BoTemplatePreviewModal
-                isOpen={showViewModal}
+                isOpen={isPreviewModalOpen}
                 onClose={() => {
-                    setShowViewModal(false);
+                    setIsPreviewModalOpen(false);
                     setSelectedTemplate(null);
                 }}
                 template={selectedTemplate}
             />
 
-            {/* Confirmation Modal */}
             <BoConfirmationModal
-                isOpen={showConfirmModal}
+                isOpen={isDeleteModalOpen}
                 onClose={() => {
-                    setShowConfirmModal(false);
+                    setIsDeleteModalOpen(false);
                     setTemplateToDelete(null);
                 }}
-                title="Delete Template"
-                message={`Are you sure you want to delete "${templateToDelete?.code}"? This action cannot be undone.`}
-                iconClass="ri-delete-bin-line text-red-500"
-                confirmButtonText="Delete"
-                confirmButtonClass="bg-red-500 hover:bg-red-600 text-white"
-                onConfirm={handleConfirmDelete}
+                title="Delete Template?"
+                message={`Are you sure you want to delete the template "${templateToDelete?.code}"? This action cannot be undone.`}
+                iconClass="ri-error-warning-line text-red-600 dark:text-red-400"
+                confirmButtonText="Yes, Delete"
+                confirmButtonClass="bg-red-600 text-white hover:bg-red-700 transition-colors"
+                onConfirm={confirmDelete}
             />
         </div>
     );
-}
+};
 
 export default BoTemplateManagement;
