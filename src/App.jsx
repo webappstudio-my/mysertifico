@@ -21,6 +21,13 @@ import BoCertificates from './pages/bo/BoCertificates'; // Adjusted import for B
 import BoChangePassword from './pages/bo/BoChangePassword'; // Adjusted import for BO Change Password
 import BoForgotPassword from './pages/bo/BoForgotPassword'; // Adjusted import for BO Forgot Password
 import BoMyProfile from './pages/bo/BoMyProfile'; // Adjusted import for BO My Profile
+import BoTemplateManagement from './pages/bo/BoTemplates'; // Adjusted import for BO Template Management
+import BoLogosBadges from './pages/bo/BoLogosBadges';
+import BoOrganizationUsers from './pages/bo/BoOrganizationUsers';
+import BoMyWallUsers from './pages/bo/BoMyWallUsers'; // Adjusted import for BO My Wall Users
+import BoOrganizations from './pages/bo/BoOrganizations'; // Adjusted import for BO Organizations
+import BoMyWallPlans from './pages/bo/BoMyWallPlans';
+import BoSupportHelp from './pages/bo/BoSupportHelp';
 
 function App() {
   return (
@@ -40,11 +47,18 @@ function App() {
         <Route path="/bo/dashboard" element={<BoDashboard />} />
         <Route path="/bo/admin/staff" element={<BoUsers />} />
         <Route path="/bo/certificates" element={<BoCertificates />} />
-        <Route path="/bo/dashboard/change-password" element={<BoChangePassword />} />
+        <Route path="/bo/change-password" element={<BoChangePassword />} />
         <Route path="/bo/forgot-password" element={<BoForgotPassword />} />
         <Route path='/bo/sign-in' element={<BoSignIn />} />
         <Route path="/bo/reset-password" element={<BoPasswordResetPage />} />
-        <Route path="/bo/dashboard/my-profile" element={<BoMyProfile />} />
+        <Route path="/bo/my-profile" element={<BoMyProfile />} />
+        <Route path="/bo/templates" element={<BoTemplateManagement />} />
+        <Route path="/bo/logos-badges" element={<BoLogosBadges />} />
+        <Route path="/bo/users/organization-users" element={<BoOrganizationUsers />} />
+        <Route path="/bo/users/mywall-users" element={<BoMyWallUsers />} />
+        <Route path="/bo/users/organizations" element={<BoOrganizations />} />
+        <Route path="/bo/admin/mywall-plans" element={<BoMyWallPlans />} />
+        <Route path="/bo/admin/support-help" element={<BoSupportHelp />} />
       </Routes>
     </Router>
   );
