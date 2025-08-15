@@ -2,7 +2,7 @@
 // Change for BO authentication input fields
 import React, { useState } from 'react';
 
-const BoAuthInputField = ({ iconClass, label, type, id, name, value, onChange, required = false, placeholder, error, onBlur, showPasswordStrength = false, passwordStrength = 0, ...props }) => {
+const BoAuthInputField = ({  label, type, id, name, value, onChange, required = false, placeholder, error, onBlur, showPasswordStrength = false, passwordStrength = 0, ...props }) => {
     const [showPassword, setShowPassword] = useState(false);
     // Determine input type for password field
     const inputType = type === 'password' && showPassword ? 'text' : type;
@@ -12,7 +12,7 @@ const BoAuthInputField = ({ iconClass, label, type, id, name, value, onChange, r
         if (passwordStrength <= 25) return { text: 'Weak', color: 'text-red-400' };
         if (passwordStrength <= 50) return { text: 'Fair', color: 'text-amber-400' };
         if (passwordStrength <= 75) return { text: 'Good', color: 'text-blue-400' };
-        return { text: 'Strong', color: 'bg-green-500' };
+        return { text: 'Strong', color: 'text-green-500' };
     };
 
     const strengthInfo = getPasswordStrengthInfo();
@@ -50,8 +50,8 @@ const BoAuthInputField = ({ iconClass, label, type, id, name, value, onChange, r
             {showPasswordStrength && type === 'password' && value && (
                 <div className='mt-2'>
                     <div className='flex justify-between items-center mb-1'>
-                        <span className='text-xs text-slate-400'>Password Strength</span>
-                        <span className='text-xs font-medium ${strengthInfo.color}'>
+                        <span className='text-xs text-slate-300 font-medium'>Password Strength</span>
+                        <span className={`text-xs font-medium ${strengthInfo.color}`}>
                             {strengthInfo.text}
                         </span>
                     </div>

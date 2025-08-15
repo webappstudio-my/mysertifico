@@ -16,6 +16,46 @@ const BoChangePassword = () => {
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
 
+    // Password validate function
+    const validatePassword = (password) => {
+        const minLength = 8;
+        const hasSymbols = /[@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password);
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasLowerCase = /[a-z]/.test(password);
+        const hasNumbers = /\d/.test(password);
+
+        let strength = 0;
+        let errors = [];
+
+        if (password.length >= minLength) {
+            strength += 25;
+        } else {
+            errors.push(`${minLength} characters long`);
+        }
+
+        if (hasSymbols) {
+            strength += 25;
+        } else {
+            errors.push('one special character (@, #, $, etc.)');
+        }
+
+        if (hasUpperCase) {
+            strength += 25;
+        } else {
+            errors.push('one uppercase letter');
+        }
+
+        if (hasLowerCase && hasNumbers) {
+            strength += 25;
+        } else if (!hasLowerCase) {
+            errors.push('one lowercase letter');
+        } else if (!hasNumbers) {
+            errors.push('one number');
+        }
+
+        return { strength, errors, isValid: errors.length === 0 }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setIsSuccess(false);
@@ -40,6 +80,14 @@ const BoChangePassword = () => {
             return;
         }
 
+        // Validate new password using the validatePassword function
+        const newPasswordValidation = validatePassword(newPassword);
+        if (!newPasswordValidation.isValid) {
+            setIsError(true);
+            setErrorMessage(`New password must have at least: ${newPasswordValidation.errors.join(', ')}`);
+            return;
+        }
+
         // Simulate an API call to change the password
         console.log('Changing password...');
         setTimeout(() => {
@@ -52,9 +100,32 @@ const BoChangePassword = () => {
         }, 1500);
     };
 
+    // Calculate password strength for display
+    const passwordStrength = newPassword ? validatePassword(newPassword).strength : 0;
+    // const newPasswordErrors = newPassword ? validatePassword(newPassword).errors : [];
+
     // Toggle sidebar for all screen sizes
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
+    };
+
+    // Password strength text and color
+    const getPasswordStrengthInfo = () => {
+        if (passwordStrength <= 25) return { text: 'Weak', color: 'text-red-400' };
+        if (passwordStrength <= 50) return { text: 'Fair', color: 'text-amber-400' };
+        if (passwordStrength <= 75) return { text: 'Good', color: 'text-blue-400' };
+        return { text: 'Strong', color: 'text-green-500' };
+    };
+
+    const strengthInfo = getPasswordStrengthInfo();
+
+    // Helper function to determine strength bar color
+    const getStrengthBarColor = (strength) => {
+        if (strength === 0) return 'w-0';
+        if (strength <= 25) return 'bg-red-500 w-1/4';
+        if (strength <= 50) return 'bg-amber-500 w-2/4';
+        if (strength <= 75) return 'bg-blue-500 w-3/4';
+        return 'bg-green-500 w-full';
     };
 
     return (
@@ -103,7 +174,7 @@ const BoChangePassword = () => {
                                                 name="currentPassword"
                                                 value={currentPassword}
                                                 onChange={(e) => setCurrentPassword(e.target.value)}
-                                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-bo-bg-light dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary text-gray-900 dark:text-white pr-10" // Add padding for the icon
+                                                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-bo-bg-light dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary text-gray-900 dark:text-white pr-10"
                                             />
                                             <button
                                                 type="button"
@@ -133,6 +204,48 @@ const BoChangePassword = () => {
                                                 <i className={`ri-${showNewPassword ? 'eye' : 'eye-off'}-line`}></i>
                                             </button>
                                         </div>
+                                        {/* Password Strength Indicator and Requirements */}
+                                        {newPassword && (
+                                            <div className="mt-2">
+                                                {/* Password Strength Bar */}
+                                                <div className='flex justify-between items-center mb-1'>
+                                                    <span className='text-xs font-medium text-gray-700 dark:text-gray-200'>Password Strength</span>
+                                                    <span className={`text-xs font-medium ${strengthInfo.color}`}>
+                                                        {strengthInfo.text}
+                                                    </span>
+                                                </div>
+                                                <div className="h-2 w-full bg-gray-300 dark:bg-gray-600 rounded-full overflow-hidden">
+                                                    <div
+                                                        className={`h-full transition-all duration-300 rounded-full ${getStrengthBarColor(passwordStrength)}`}
+                                                        style={{ width: `${passwordStrength}%` }}
+                                                    ></div>
+                                                </div>
+
+                                                {/* Password Requirements */}
+                                                <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                                                    <div className="space-y-1">
+                                                        <div className="font-medium text-gray-700 dark:text-gray-200">Password must contain at least:</div>
+                                                        <div className="ml-2 space-y-0.5">
+                                                            <div className={newPassword?.length >= 8 ? 'text-green-500' : 'text-gray-500 dark:text-gray-400'}>
+                                                                • 8 characters
+                                                            </div>
+                                                            <div className={/[A-Z]/.test(newPassword) ? 'text-green-500' : 'text-gray-500 dark:text-gray-400'}>
+                                                                • One uppercase letter
+                                                            </div>
+                                                            <div className={/[a-z]/.test(newPassword) ? 'text-green-500' : 'text-gray-500 dark:text-gray-400'}>
+                                                                • One lowercase letter
+                                                            </div>
+                                                            <div className={/\d/.test(newPassword) ? 'text-green-500' : 'text-gray-500 dark:text-gray-400'}>
+                                                                • One number
+                                                            </div>
+                                                            <div className={/[@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(newPassword) ? 'text-green-500' : 'text-gray-500 dark:text-gray-400'}>
+                                                                • One symbol (@, #, $, %, etc.)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                     <div>
                                         <label htmlFor="confirmNewPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Confirm New Password</label>

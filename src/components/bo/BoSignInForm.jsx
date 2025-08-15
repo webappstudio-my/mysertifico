@@ -63,7 +63,7 @@ const BoSignInForm = ({
                         </label>
                 </div>
                 <div className="text-sm">
-                    <Link to="/auth/forgot-password" className="font-medium text-teal-400 hover:text-teal-300 transition-colors">
+                    <Link to="/bo/forgot-password" className="font-medium text-teal-400 hover:text-teal-300 transition-colors">
                     Forgot your password?
                     </Link>
                 </div>

@@ -1,5 +1,5 @@
 // src/components/bo/BoPasswordResetForm.jsx
-import react, { useState } from 'react';
+import React from 'react';
 import BoAuthInputField from './BoAuthInputField';
 
 const BoPasswordResetForm = ({
@@ -56,7 +56,6 @@ const BoPasswordResetForm = ({
                         </>
                     ) : (
                         <>
-                            <i className='ri-check-line'></i>
                             Reset Password
                         </>
                     )}
