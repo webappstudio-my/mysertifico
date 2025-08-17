@@ -103,7 +103,7 @@ const BoSidebar = ({ isOpen, onClose }) => {
                         <ul id="submenu-admin" className={`${openSubmenus['submenu-admin'] ? '' : 'hidden'} py-1 space-y-1 pl-4`}>
                             <li><NavLink to="/bo/admin/general" className={getSubmenuLinkClass} onClick={onClose}><i className="ri-list-settings-line"></i><span>General</span></NavLink></li>
                             <li><NavLink to="/bo/admin/staff" className={getSubmenuLinkClass} onClick={onClose}><i className="ri-group-line"></i><span>Staff</span></NavLink></li>
-                            <li><NavLink to="/bo/admin/mywall-plans" className={getSubmenuLinkClass} onClick={onClose}><i className="ri-shopping-cart-2-line"></i><span>Plans & Subscriptions</span></NavLink></li>
+                            <li><NavLink to="/bo/admin/mysertifico-plans" className={getSubmenuLinkClass} onClick={onClose}><i className="ri-shopping-cart-2-line"></i><span>Plans & Subscriptions</span></NavLink></li>
                             <li><NavLink to="/bo/admin/support-help" className={getSubmenuLinkClass} onClick={onClose}><i className="ri-customer-service-2-line"></i><span>Support & Help</span></NavLink></li>
                         </ul>
                     </li>
