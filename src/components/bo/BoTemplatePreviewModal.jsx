@@ -1,6 +1,6 @@
 //src/components/bo/BoTemplatePreviewModal.jsx
 import React from 'react';
-import templateMockup from '../../../src/assets/images/templates/template1.jpg'; // Make sure this image path is correct
+// import templateMockup from '../../../src/assets/images/templates/template1.jpg';
 
 const BoTemplatePreviewModal = ({ isOpen, onClose, template }) => {
     if (!isOpen || !template) return null;

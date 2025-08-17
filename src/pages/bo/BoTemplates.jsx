@@ -1,5 +1,5 @@
 // src/pages/bo/BoTemplateManagement.jsx
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import BoSidebar from '../../components/bo/BoSidebar';
 import BoNavbar from '../../components/bo/BoNavbar';
@@ -414,7 +414,7 @@ const BoTemplateManagement = () => {
                                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Manage, create, and publish certificate templates.</p>
                             </div>
                             <Link 
-                                to="/bo/templates/create" 
+                                to="/bo/templates/create-template" 
                                 className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 px-4 rounded-lg inline-flex items-center gap-2 transition-colors w-full sm:w-auto"
                             >
                                 <i className="ri-add-line"></i>

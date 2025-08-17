@@ -28,6 +28,7 @@ import BoMyWallUsers from './pages/bo/BoMyWallUsers'; // Adjusted import for BO 
 import BoOrganizations from './pages/bo/BoOrganizations'; // Adjusted import for BO Organizations
 import BoMyWallPlans from './pages/bo/BoMyWallPlans';
 import BoSupportHelp from './pages/bo/BoSupportHelp';
+import CreateTemplate from './pages/bo/CreateTemplate';
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
         <Route path="/bo/users/organizations" element={<BoOrganizations />} />
         <Route path="/bo/admin/mywall-plans" element={<BoMyWallPlans />} />
         <Route path="/bo/admin/support-help" element={<BoSupportHelp />} />
+        <Route path="/bo/templates/create-template" element={<CreateTemplate />} />
       </Routes>
     </Router>
   );
