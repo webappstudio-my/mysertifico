@@ -4,7 +4,11 @@ import logo from '../../assets/images/logos/logo.png'; // Adjust the path as nec
 
 const BoSidebar = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
-    const [openSubmenus, setOpenSubmenus] = useState({});
+    // Initialize the admin and plans submenus to be open by default for better UX
+    const [openSubmenus, setOpenSubmenus] = useState({
+        'submenu-admin': true,
+        'submenu-plans': true,
+    });
 
     const toggleSubmenu = (menuId) => {
         setOpenSubmenus((prev) => ({
@@ -15,20 +19,28 @@ const BoSidebar = ({ isOpen, onClose }) => {
 
     const handleLogout = (e) => {
         e.preventDefault();
+        // Add actual logout logic here (e.g., clearing tokens)
         navigate('/');
     };
 
     const getNavLinkClass = ({ isActive }) =>
         `flex items-center py-2.5 px-4 rounded-lg transition-colors ${isActive
-            ? 'bg-primary text-white dark:bg-primary-dark shadow-md'
+            ? 'bg-teal-600 text-white shadow-md'
             : 'text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
         }`;
 
     const getSubmenuLinkClass = ({ isActive }) =>
-        `flex items-center gap-3 block py-2 px-4 rounded-lg text-sm transition-colors ${isActive
-            ? 'bg-gray-100 dark:bg-gray-700 text-primary-dark dark:text-primary-light'
+        `flex items-center gap-3 block py-2 px-4 rounded-lg text-sm transition-colors w-full ${isActive
+            ? 'bg-gray-100 dark:bg-gray-700 text-teal-600 dark:text-teal-400'
             : 'text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700'
         }`;
+
+    const getNestedSubmenuLinkClass = ({ isActive }) =>
+        `block py-2 px-4 rounded-lg text-xs transition-colors w-full ${isActive
+            ? 'text-teal-600 bg-teal-50 dark:bg-teal-900/50 dark:text-teal-300'
+            : 'text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700'
+        }`;
+
 
     return (
         <aside
@@ -40,7 +52,7 @@ const BoSidebar = ({ isOpen, onClose }) => {
             <div className={`flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700`}>
                 <Link to="/bo/dashboard" className="flex items-center gap-3">
                     <img src={logo} className="h-8 w-8 rounded-lg" alt="Logo" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/32x32/0d9488/ffffff?text=M'; }} />
-                    <h2 className="font-poppins text-xl font-bold text-primary dark:text-primary-light">MySertifico</h2>
+                    <h2 className="font-poppins text-xl font-bold text-teal-600">MySertifico</h2>
                 </Link>
                 <button id="close-sidebar" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white lg:hidden" onClick={onClose}>
                     <i className="ri-close-line text-2xl"></i>
@@ -101,25 +113,36 @@ const BoSidebar = ({ isOpen, onClose }) => {
                             <i className={`ri-arrow-down-s-line transition-transform duration-200 ${openSubmenus['submenu-admin'] ? 'rotate-180' : ''}`}></i>
                         </button>
                         <ul id="submenu-admin" className={`${openSubmenus['submenu-admin'] ? '' : 'hidden'} py-1 space-y-1 pl-4`}>
-                            <li><NavLink to="/bo/admin/general" className={getSubmenuLinkClass} onClick={onClose}><i className="ri-list-settings-line"></i><span>General</span></NavLink></li>
                             <li><NavLink to="/bo/admin/staff" className={getSubmenuLinkClass} onClick={onClose}><i className="ri-group-line"></i><span>Staff</span></NavLink></li>
-                            <li><NavLink to="/bo/admin/mysertifico-plans" className={getSubmenuLinkClass} onClick={onClose}><i className="ri-shopping-cart-2-line"></i><span>Plans & Subscriptions</span></NavLink></li>
+
+                            <li>
+                                <button
+                                    type="button"
+                                    className="w-full flex items-center justify-between py-2 px-4 rounded-lg text-sm text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
+                                    onClick={() => toggleSubmenu('submenu-plans')}
+                                >
+                                    {/* === FIX IS HERE === */}
+                                    <span className="flex items-center gap-3"><i className="ri-price-tag-3-line"></i><span>Plans & Subscriptions</span></span>
+                                    <i className={`ri-arrow-down-s-line transition-transform duration-200 ${openSubmenus['submenu-plans'] ? 'rotate-180' : ''}`}></i>
+                                </button>
+                                <ul id="submenu-plans" className={`${openSubmenus['submenu-plans'] ? '' : 'hidden'} py-1 space-y-1 pl-8`}>
+                                    <li>
+                                        <NavLink to="/bo/admin/mysertifico-plans" className={getNestedSubmenuLinkClass} onClick={onClose}>
+                                            MySertifico Plans
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to="/bo/admin/mywall-plans" className={getNestedSubmenuLinkClass} onClick={onClose}>
+                                            MyWall Plans
+                                        </NavLink>
+                                    </li>
+                                </ul>
+                            </li>
+
                             <li><NavLink to="/bo/admin/support-help" className={getSubmenuLinkClass} onClick={onClose}><i className="ri-customer-service-2-line"></i><span>Support & Help</span></NavLink></li>
                         </ul>
                     </li>
-                    {/* <li>
-                        <NavLink to="/bo/api-access" className={getNavLinkClass} onClick={onClose}>
-                            <i className="ri-key-2-line mr-3 text-lg"></i>
-                            <span>API Access</span>
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/bo/integrations" className={getNavLinkClass} onClick={onClose}>
-                            <i className="ri-link-m mr-3 text-lg"></i>
-                            <span>Integrations</span>
-                        </NavLink>
-                    </li> */}
-                    <li className="pt-4 mt-4 border-t border-gray-200 dark:border-gray-800">
+                    <li className="pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
                         <a href="#" id="logout-sidebar" className="flex items-center py-2.5 px-4 rounded-lg text-red-500 hover:bg-red-100 hover:text-red-600 dark:text-red-400 dark:hover:bg-red-500 dark:hover:text-white transition-colors" onClick={handleLogout}>
                             <i className="ri-logout-box-r-line mr-3 text-lg"></i>
                             <span>Log Out</span>
