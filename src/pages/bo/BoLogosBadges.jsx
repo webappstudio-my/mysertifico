@@ -4,11 +4,13 @@ import BoSidebar from '../../components/bo/BoSidebar';
 import BoNavbar from '../../components/bo/BoNavbar';
 import BoPagination from '../../components/bo/BoPagination';
 import BoConfirmationModal from '../../components/bo/BoConfirmationModal';
+import SearchInput from '../../components/bo/BoSearchInput';
 
 const BoLogosBadges = () => {
   // State management
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchInput, setSearchInput] = useState(''); // Separate state for input field
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
@@ -198,10 +200,16 @@ const BoLogosBadges = () => {
     }
   };
 
-  // Search handler
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
+  // Search handlers
+  const handleSearchSubmit = () => {
+    setSearchTerm(searchInput);
     setCurrentPage(1); // Reset to first page when searching
+  };
+
+  const handleClearSearch = () => {
+    setSearchInput('');
+    setSearchTerm('');
+    setCurrentPage(1);
   };
 
   // Pagination
@@ -246,18 +254,17 @@ const BoLogosBadges = () => {
               </button>
             </div>
 
-            {/* Toolbar: Search */}
-            <div className="flex items-center justify-between gap-4 mb-6 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md">
-              <div className="relative w-full md:w-80">
-                <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                <input 
-                  type="text" 
-                  value={searchTerm}
-                  onChange={handleSearch}
-                  placeholder="Search by name..." 
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-slate-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary text-gray-900 dark:text-white"
-                />
-              </div>
+            {/* Toolbar: Search - Using the SearchInput Component */}
+            <div className="mb-6 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md">
+              <SearchInput
+                value={searchInput}
+                onChange={setSearchInput}
+                onSearch={handleSearchSubmit}
+                onClear={handleClearSearch}
+                placeholder="Search by name..."
+                activeSearchTerm={searchTerm}
+                className="w-full"
+              />
             </div>
             
             {/* Assets Grid */}
@@ -267,6 +274,14 @@ const BoLogosBadges = () => {
                   <i className="ri-search-eye-line text-6xl text-gray-400 mb-4"></i>
                   <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200">No Assets Found</h3>
                   <p className="text-gray-500 dark:text-gray-400 mt-1">Your search did not match any assets. Try another keyword.</p>
+                  {searchTerm && (
+                    <button
+                      onClick={handleClearSearch}
+                      className="mt-4 bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded-lg transition-colors"
+                    >
+                      Clear Search
+                    </button>
+                  )}
                 </div>
               </div>
             ) : (
@@ -317,14 +332,16 @@ const BoLogosBadges = () => {
             )}
             
             {/* Pagination */}
-            <div className="mt-8 flex justify-center">
-              <BoPagination
-                currentPage={currentPage}
-                totalItems={filteredAssets.length}
-                itemsPerPage={itemsPerPage}
-                onPageChange={handlePageChange}
-              />
-            </div>
+            {filteredAssets.length > 0 && (
+              <div className="mt-8 flex justify-center">
+                <BoPagination
+                  currentPage={currentPage}
+                  totalItems={filteredAssets.length}
+                  itemsPerPage={itemsPerPage}
+                  onPageChange={handlePageChange}
+                />
+              </div>
+            )}
           </div>
         </main>
       </div>
