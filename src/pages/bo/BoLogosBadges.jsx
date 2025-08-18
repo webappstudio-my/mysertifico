@@ -4,7 +4,7 @@ import BoSidebar from '../../components/bo/BoSidebar';
 import BoNavbar from '../../components/bo/BoNavbar';
 import BoPagination from '../../components/bo/BoPagination';
 import BoConfirmationModal from '../../components/bo/BoConfirmationModal';
-import SearchInput from '../../components/bo/BoSearchInput';
+import BoSearchInput from '../../components/bo/BoSearchInput';
 
 const BoLogosBadges = () => {
   // State management
@@ -254,9 +254,9 @@ const BoLogosBadges = () => {
               </button>
             </div>
 
-            {/* Toolbar: Search - Using the SearchInput Component */}
+            {/* Toolbar: Search - Using the BoSearchInput Component */}
             <div className="mb-6 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md">
-              <SearchInput
+              <BoSearchInput
                 value={searchInput}
                 onChange={setSearchInput}
                 onSearch={handleSearchSubmit}
