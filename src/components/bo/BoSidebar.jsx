@@ -118,22 +118,25 @@ const BoSidebar = ({ isOpen, onClose }) => {
                             <li>
                                 <button
                                     type="button"
-                                    className="w-full flex items-center justify-between py-2 px-4 rounded-lg text-sm text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
+                                    // <-- FIX #1: Added text-left to align content and whitespace-nowrap to prevent wrapping
+                                    className="w-full flex items-center justify-between py-2 px-4 rounded-lg text-sm text-left text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
                                     onClick={() => toggleSubmenu('submenu-plans')}
                                 >
-                                    {/* === FIX IS HERE === */}
-                                    <span className="flex items-center gap-3"><i className="ri-price-tag-3-line"></i><span>Plans & Subscriptions</span></span>
+                                    <span className="flex items-center gap-3 whitespace-nowrap"><i className="ri-price-tag-3-line"></i><span>Plans & Subscriptions</span></span>
                                     <i className={`ri-arrow-down-s-line transition-transform duration-200 ${openSubmenus['submenu-plans'] ? 'rotate-180' : ''}`}></i>
                                 </button>
-                                <ul id="submenu-plans" className={`${openSubmenus['submenu-plans'] ? '' : 'hidden'} py-1 space-y-1 pl-8`}>
+                                {/* <-- FIX #2: Changed pl-8 to pl-4 for better alignment */}
+                                <ul id="submenu-plans" className={`${openSubmenus['submenu-plans'] ? '' : 'hidden'} py-1 space-y-1 pl-4`}>
                                     <li>
                                         <NavLink to="/bo/admin/mysertifico-plans" className={getNestedSubmenuLinkClass} onClick={onClose}>
-                                            MySertifico Plans
+                                            <i className="ri-shopping-cart-2-line"></i>
+                                            <span className='ml-2'>MySertifico Plans</span>
                                         </NavLink>
                                     </li>
                                     <li>
                                         <NavLink to="/bo/admin/mywall-plans" className={getNestedSubmenuLinkClass} onClick={onClose}>
-                                            MyWall Plans
+                                            <i className="ri-wallet-3-line"></i>
+                                            <span className='ml-2'>MyWall Plans</span>
                                         </NavLink>
                                     </li>
                                 </ul>
