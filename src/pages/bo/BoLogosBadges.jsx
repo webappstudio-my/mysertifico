@@ -266,14 +266,14 @@ const BoLogosBadges = () => {
                   <i className="ri-search-eye-line text-6xl text-gray-400 mb-4"></i>
                   <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200">No Assets Found</h3>
                   <p className="text-gray-500 dark:text-gray-400 mt-1">Your search did not match any assets. Try another keyword.</p>
-                  {searchTerm && (
+                  {/*{searchTerm && (
                     <button
                       onClick={handleClearSearch}
                       className="mt-4 bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded-lg transition-colors"
                     >
                       Clear Search
                     </button>
-                  )}
+                  )}*/}
                 </div>
               </div>
             ) : (
