@@ -102,24 +102,16 @@ const BoLogosBadges = () => {
     setItemToDelete(null);
   };
 
-  // File handling
+  // File handling - SVG ONLY, NO SIZE LIMIT
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     const newErrors = { ...errors };
     delete newErrors.file;
 
     if (file) {
-      // Validate file type
+      // Validate file type - only SVG allowed
       if (file.type !== 'image/svg+xml') {
         newErrors.file = 'Invalid file type. Only SVG is allowed.';
-        setErrors(newErrors);
-        e.target.value = '';
-        return;
-      }
-      
-      // Validate file size (1MB limit)
-      if (file.size > 1 * 1024 * 1024) {
-        newErrors.file = 'File is too large. Maximum size is 1MB.';
         setErrors(newErrors);
         e.target.value = '';
         return;
@@ -396,7 +388,7 @@ const BoLogosBadges = () => {
                             />
                           </label>
                         </div>
-                        <p className="text-xs text-gray-500">SVG only, max 1MB</p>
+                        <p className="text-xs text-gray-500">SVG only</p>
                       </div>
                     </div>
                   ) : (
