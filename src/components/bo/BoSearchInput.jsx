@@ -18,8 +18,8 @@ const BoSearchInput = ({
 
   return (
     <div className={`flex flex-col gap-3 ${className}`}>
-      <div className="flex flex-col sm:flex-row gap-3 w-full">
-        <div className="relative flex-1 max-w-md">
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="relative min-w-20">
           <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
           <input 
             type="text" 
@@ -49,12 +49,8 @@ const BoSearchInput = ({
             <span>Search</span>
           </button>
         </div>
+
       </div>
-      {activeSearchTerm && (
-        <div className="text-sm text-gray-600 dark:text-gray-400">
-          Showing results for: <span className="font-semibold text-gray-800 dark:text-gray-200">"{activeSearchTerm}"</span>
-        </div>
-      )}
     </div>
   );
 };

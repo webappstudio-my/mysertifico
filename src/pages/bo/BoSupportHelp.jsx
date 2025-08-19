@@ -57,6 +57,7 @@ const BoSupportHelp = () => {
     
     const [filteredData, setFilteredData] = useState([...ticketData]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [searchInput, setSearchInput] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
     
     // Pagination
@@ -79,7 +80,18 @@ const BoSupportHelp = () => {
         'In Progress': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
         'Resolved': 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
     };
-    
+
+    //For BoSearchInput variables
+    const handleSearchSubmit = () => {
+    setSearchTerm(searchInput);
+    setCurrentPage(1); // Reset to first page when searching
+  };
+
+  const handleClearSearch = () => {
+    setSearchInput('');
+    setSearchTerm('');
+    setCurrentPage(1);
+  };
     // Apply filters
     useEffect(() => {
         let filtered = ticketData;
@@ -201,6 +213,17 @@ const BoSupportHelp = () => {
                         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md">
                             {/* Toolbar: Search & Filter */}
                             <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex flex-col md:flex-row items-center gap-4">
+                                <BoSearchInput
+                                    value={searchInput}
+                                    onChange={setSearchInput}
+                                    onSearch={handleSearchSubmit}
+                                    onClear={handleClearSearch}
+                                    placeholder="Search by subject or email..."
+                                    activeSearchTerm={searchTerm}
+                                    className="w-full md:w-80"
+                                />
+                                
+                                {/*
                                 <div className="relative w-full md:w-80">
                                     <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                                     <input 
@@ -211,6 +234,7 @@ const BoSupportHelp = () => {
                                         className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-600"
                                     />
                                 </div>
+                                */}
                                 <select 
                                     value={statusFilter}
                                     onChange={(e) => setStatusFilter(e.target.value)}
