@@ -178,7 +178,7 @@ const BoOrganizationUsers = () => {
                                     onChange={setSearchInput}
                                     onSearch={handleSearchSubmit}
                                     onClear={handleClearSearch}
-                                    placeholder="Search by subject or email..."
+                                    placeholder="Search by name or email..."
                                     activeSearchTerm={searchTerm}
                                     className="w-full md:w-auto"
                                 />

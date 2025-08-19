@@ -7,6 +7,7 @@ import BoPagination from '../../components/bo/BoPagination';
 import BoConfirmationModal from '../../components/bo/BoConfirmationModal';
 import BoTemplateAddEditModal from '../../components/bo/BoTemplateAddEditModal';
 import BoTemplatePreviewModal from '../../components/bo/BoTemplatePreviewModal';
+import BoSearchInput from '../../components/bo/BoSearchInput';
 
 // Import sample images - adjust paths as needed
 import sampleLogo from '../../assets/images/logos/logo.png'; // Adjust the path as necessary
@@ -18,6 +19,7 @@ const BoTemplateManagement = () => {
     const [currentView, setCurrentView] = useState('grid');
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
+    const [searchInput, setSearchInput] = useState('');
     const [selectedTemplate, setSelectedTemplate] = useState(null);
     const [isAddEditModalOpen, setIsAddEditModalOpen] = useState(false);
     const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
@@ -216,6 +218,18 @@ const BoTemplateManagement = () => {
         }
         setIsAddEditModalOpen(false);
         setSelectedTemplate(null);
+    };
+
+    //For BoSearchInput variables
+    const handleSearchSubmit = () => {
+    setSearchTerm(searchInput);
+    setCurrentPage(1); // Reset to first page when searching
+    };
+
+    const handleClearSearch = () => {
+    setSearchInput('');
+    setSearchTerm('');
+    setCurrentPage(1);
     };
 
     // Certificate Preview Component
@@ -424,7 +438,16 @@ const BoTemplateManagement = () => {
 
                         {/* Toolbar: Search, Filter, View Toggle */}
                         <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md">
-                            <div className="relative w-full md:w-80">
+                            <BoSearchInput
+                                    value={searchInput}
+                                    onChange={setSearchInput}
+                                    onSearch={handleSearchSubmit}
+                                    onClear={handleClearSearch}
+                                    placeholder="Search by code or title..."
+                                    activeSearchTerm={searchTerm}
+                                    className="w-full md:w-auto"
+                            />
+                            {/*<div className="relative w-full md:w-80">
                                 <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                                 <input 
                                     type="text" 
@@ -433,7 +456,7 @@ const BoTemplateManagement = () => {
                                     onChange={handleSearchChange}
                                     className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-600 text-gray-900 dark:text-white"
                                 />
-                            </div>
+                            </div>*/}
                             <div className="flex items-center p-1 bg-gray-200 dark:bg-gray-900/50 rounded-lg">
                                 <button 
                                     onClick={() => setCurrentView('grid')}
