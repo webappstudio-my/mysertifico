@@ -292,7 +292,7 @@ const BoMyWallPlans = () => {
                                                     <th className="px-6 py-3">#</th>
                                                     <th className="px-6 py-3">Country</th>
                                                     <th className="px-6 py-3">Plan Name</th>
-                                                    <th className="px-6 py-3">Total Price (/year)</th>
+                                                    <th className="px-6 py-3">Total Price (per year)</th>
                                                     <th className="px-6 py-3">Subscription Fee</th>
                                                     <th className="px-6 py-3">Token Allocation</th>
                                                     <th className="px-6 py-3">Status</th>
