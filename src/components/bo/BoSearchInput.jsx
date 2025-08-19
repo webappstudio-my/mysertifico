@@ -27,7 +27,7 @@ const BoSearchInput = ({
             onChange={(e) => onChange(e.target.value)}
             onKeyDown={handleKeyPress}
             placeholder={placeholder}
-            className="w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-slate-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary text-gray-900 dark:text-white"
+            className="pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-slate-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary text-gray-900 dark:text-white"
           />
           {showClearButton && (value || activeSearchTerm) && (
             <button

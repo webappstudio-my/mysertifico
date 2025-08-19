@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import BoSidebar from '../../components/bo/BoSidebar';
 import BoNavbar from '../../components/bo/BoNavbar';
 import BoPagination from '../../components/bo/BoPagination';
+import BoSearchInput from '../../components/bo/BoSearchInput';
 
 const BoSupportHelp = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);

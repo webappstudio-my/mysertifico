@@ -263,7 +263,7 @@ const BoLogosBadges = () => {
                 onClear={handleClearSearch}
                 placeholder="Search by name..."
                 activeSearchTerm={searchTerm}
-                className="w-full"
+                className="w-full md:w-80"
               />
             </div>
             
