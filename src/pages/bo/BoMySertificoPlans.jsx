@@ -139,9 +139,8 @@ const BoMySertificoPlans = () => {
                         {/* Main Content Card */}
                         <div className="bg-white dark:bg-slate-800 rounded-xl shadow-md">
                             {/* Toolbar: Search & Filter */}
-                            <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex flex-col md:flex-row items-center gap-4">
+                            <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex flex-col md:flex-row flex-wrap items-center gap-4">
                                 {/* BoSearchInput component */}
-                                <div className="flex-1 w-full md:max-w-80">
                                     <BoSearchInput
                                         value={searchInput}
                                         onChange={setSearchInput}
@@ -151,7 +150,6 @@ const BoMySertificoPlans = () => {
                                         activeSearchTerm={searchTerm}
                                         className="w-full md:w-auto"
                                     />
-                                </div>
 
                                 {/*} Previous search input
                                 <div className="relative w-full md:w-80">

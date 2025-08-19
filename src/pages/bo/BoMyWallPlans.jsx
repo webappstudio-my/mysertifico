@@ -228,9 +228,9 @@ const BoMyWallPlans = () => {
                                     onChange={setSearchInput}
                                     onSearch={handleSearchSubmit}
                                     onClear={handleClearSearch}
-                                    placeholder="Search by subject or email..."
+                                    placeholder="Search by plan name..."
                                     activeSearchTerm={searchTerm}
-                                    className="w-full md:w-80"
+                                    className="w-full md:w-auto"
                                 />
                                 {/*
                                 <div className="relative w-full md:w-auto md:flex-grow">
