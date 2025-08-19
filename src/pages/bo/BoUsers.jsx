@@ -24,6 +24,13 @@ const initialUserData = [
 
 const itemsPerPage = 10;
 
+// Role hierarchy for sorting (lower number = higher priority)
+const roleHierarchy = {
+    'Super Admin' : 1,
+    'Admin' : 2,
+    'Manager' : 3,
+}
+
 const BoUsers = () => {
     // Correctly initialize and manage sidebar state
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -45,6 +52,17 @@ const BoUsers = () => {
             const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) || user.email.toLowerCase().includes(searchTerm.toLowerCase());
             const matchesRole = selectedRole === 'all' || user.role === selectedRole;
             return matchesSearch && matchesRole;
+        });
+
+        // Sort by role hierarchy first, then by name
+        const sortedData = filteredData.sort((a, b) => {
+            // 999 is default priority (extremely low priority)
+            const roleComparison = (roleHierarchy[a.role] || 999) - (roleHierarchy[b.role] || 999);
+            if (roleComparison !== 0) {
+                return roleComparison;
+            }
+            // If roles are the same, sort by name
+            return a.name.localeCompare(b.name);
         });
 
         const startIndex = (currentPage - 1) * itemsPerPage;
