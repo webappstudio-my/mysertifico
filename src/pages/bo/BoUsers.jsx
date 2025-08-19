@@ -5,6 +5,7 @@ import BoUsersTable from '../../components/bo/BoUsersTable';
 import BoPagination from '../../components/bo/BoPagination';
 import BoConfirmationModal from '../../components/bo/BoConfirmationModal';
 import BoAddUserModal from '../../components/bo/BoAddUserModal';
+import BoSearchInput from '../../components/bo/BoSearchInput';
 
 const initialUserData = [
     { id: 301, name: 'Masta Rob', email: 'rob@webapp.studio', role: 'Super Admin', dateJoined: '2023-01-01', status: 'Active' },
@@ -29,6 +30,7 @@ const BoUsers = () => {
 
     const [userData, setUserData] = useState(initialUserData);
     const [searchTerm, setSearchTerm] = useState('');
+    const [searchInput, setSearchInput] = useState('');
     const [selectedRole, setSelectedRole] = useState('all');
     const [currentPage, setCurrentPage] = useState(1);
     const [displayedUsers, setDisplayedUsers] = useState([]);
@@ -123,6 +125,18 @@ const BoUsers = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
+    //For BoSearchInput variables
+    const handleSearchSubmit = () => {
+    setSearchTerm(searchInput);
+    setCurrentPage(1); // Reset to first page when searching
+    };
+
+    const handleClearSearch = () => {
+    setSearchInput('');
+    setSearchTerm('');
+    setCurrentPage(1);
+    };
+
     return (
         <div className="flex min-h-screen bg-bo-bg-light dark:bg-bo-bg-dark transition-colors duration-300">
             {/* Sidebar component with state management props */}
@@ -160,7 +174,16 @@ const BoUsers = () => {
 
                         <div className="bg-bo-surface-light dark:bg-bo-surface-dark rounded-xl shadow-md">
                             <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex flex-col md:flex-row items-center gap-4">
-                                <div className="relative w-full md:w-80">
+                                <BoSearchInput
+                                    value={searchInput}
+                                    onChange={setSearchInput}
+                                    onSearch={handleSearchSubmit}
+                                    onClear={handleClearSearch}
+                                    placeholder="Search by name or email..."
+                                    activeSearchTerm={searchTerm}
+                                    className="w-full md:w-auto"
+                                />
+                                {/*<div className="relative w-full md:w-80">
                                     <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                                     <input
                                         type="text"
@@ -170,7 +193,7 @@ const BoUsers = () => {
                                         value={searchTerm}
                                         onChange={handleSearchChange}
                                     />
-                                </div>
+                                </div>*/}
                                 <select
                                     id="role-filter"
                                     className="w-full md:w-auto py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-bo-bg-light dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary text-gray-900 dark:text-white"
