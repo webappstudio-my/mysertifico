@@ -19,7 +19,7 @@ const BoSearchInput = ({
   return (
     <div className={`flex flex-col gap-3 ${className}`}>
       <div className="flex flex-col sm:flex-row gap-3">
-        <div className="relative min-w-20">
+        <div className="relative min-w-80">
           <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
           <input 
             type="text" 
