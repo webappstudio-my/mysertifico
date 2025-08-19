@@ -85,13 +85,13 @@ const BoSupportHelp = () => {
     const handleSearchSubmit = () => {
     setSearchTerm(searchInput);
     setCurrentPage(1); // Reset to first page when searching
-  };
+    };
 
-  const handleClearSearch = () => {
+    const handleClearSearch = () => {
     setSearchInput('');
     setSearchTerm('');
     setCurrentPage(1);
-  };
+    };
     // Apply filters
     useEffect(() => {
         let filtered = ticketData;
