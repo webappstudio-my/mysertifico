@@ -108,9 +108,9 @@ const BoMyWallPlans = () => {
             id: null,
             country: 'Malaysia',
             name: 'Trial',
-            totalPrice: 0,
-            subscriptionFee: 0,
-            pricePerToken: 0,
+            totalPrice: '',
+            subscriptionFee: '',
+            pricePerToken: '',
             tokenAllocation: 0,
             status: 'Active'
         });
@@ -135,8 +135,9 @@ const BoMyWallPlans = () => {
         const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
+            // if the name is value, then empty, if empty then empty, if not parse value
             [name]: name === 'totalPrice' || name === 'subscriptionFee' || name === 'pricePerToken' 
-                ? parseFloat(value) || 0 
+                ? value === '' ? '' : parseFloat(value) || 0
                 : value
         }));
     };
