@@ -187,14 +187,25 @@ const CreateTemplate = () => {
         }
     };
 
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    };
+
     if (width < 1024) {
         return <MobileRestriction />;
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="min-h-screen bg-bo-bg-light dark:bg-bo-bg-dark transition-colors duration-300">
             <Styles />
-            <BoSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+            <BoSidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
+            {isSidebarOpen && (
+                <div
+                    id="sidebar-overlay"
+                    className="fixed inset-0 bg-black bg-opacity-50 z-40"
+                    onClick={toggleSidebar}
+                ></div>
+            )}
             <div className={`transition-all duration-300 ${isSidebarOpen ? 'lg:ml-64' : ''}`}>
                 <BoNavbar
                     onSidebarToggle={() => setIsSidebarOpen(!isSidebarOpen)}
