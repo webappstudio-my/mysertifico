@@ -26,9 +26,9 @@ const itemsPerPage = 10;
 
 // Role hierarchy for sorting (lower number = higher priority)
 const roleHierarchy = {
-    'Super Admin' : 1,
-    'Admin' : 2,
-    'Manager' : 3,
+    'Super Admin' : 2,
+    'Admin' : 3,
+    'Manager' : 1,
 }
 
 const BoUsers = () => {
@@ -65,19 +65,15 @@ const BoUsers = () => {
             return a.name.localeCompare(b.name);
         });
 
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        setDisplayedUsers(filteredData.slice(startIndex, endIndex));
+        const startIndex = (currentPage - 1) * itemsPerPage; // This line is not part of the original selection
+        const endIndex = startIndex + itemsPerPage; // This line is not part of the original selection
+        setDisplayedUsers(sortedData.slice(startIndex, endIndex)); // This line is not part of the original selection
     }, [userData, searchTerm, selectedRole, currentPage]);
 
     // Reset to first page when filters change
     useEffect(() => {
         setCurrentPage(1);
     }, [searchTerm, selectedRole]);
-
-    const handleSearchChange = (e) => {
-        setSearchTerm(e.target.value);
-    };
 
     const handleRoleChange = (e) => {
         setSelectedRole(e.target.value);
@@ -219,8 +215,8 @@ const BoUsers = () => {
                                     onChange={handleRoleChange}
                                 >
                                     <option value="all">All Roles</option>
-                                    <option value="Super Admin">Super Admin</option>
-                                    <option value="Admin">Admin</option>
+                                    <option value="Super Admin">Admin</option>
+                                    <option value="Admin">Super Admin</option>
                                     <option value="Manager">Manager</option>
                                 </select>
                             </div>

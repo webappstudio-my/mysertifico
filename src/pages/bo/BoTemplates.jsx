@@ -160,12 +160,6 @@ const BoTemplateManagement = () => {
         setCurrentPage(page);
     };
 
-    // Handle search change
-    const handleSearchChange = (e) => {
-        setSearchTerm(e.target.value);
-        setCurrentPage(1); // Reset to first page on search
-    };
-
     // Handle template actions
     const handleViewTemplate = (template) => {
         setSelectedTemplate(template);
@@ -404,7 +398,7 @@ const BoTemplateManagement = () => {
     );
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="min-h-screen bg-bo-bg-light dark:bg-bo-bg-dark transition-colors duration-300">
             <BoSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
             {isSidebarOpen && (
                 <div 
