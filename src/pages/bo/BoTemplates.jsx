@@ -306,10 +306,10 @@ const BoTemplateManagement = () => {
             <div className="relative w-full h-40 bg-gray-200 dark:bg-gray-700 overflow-hidden flex items-center justify-center">
                 <CertificatePreview template={template} scale={0.15} />
                 {/* Usage count badge */}
-                <div className="absolute top-2 right-2 bg-teal-600 text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                {/*<div className="absolute top-2 right-2 bg-teal-600 text-white px-2 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
                     <i className="ri-file-copy-2-line text-xs"></i>
                     <span>{template.usageCount.toLocaleString()}</span>
-                </div>
+                </div>*/}
             </div>
             <div className="p-4 flex-grow">
                 <h4 className="font-semibold text-gray-800 dark:text-white truncate">{template.code}</h4>

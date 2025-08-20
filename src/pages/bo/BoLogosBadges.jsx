@@ -102,24 +102,16 @@ const BoLogosBadges = () => {
     setItemToDelete(null);
   };
 
-  // File handling
+  // File handling - SVG ONLY, NO SIZE LIMIT
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     const newErrors = { ...errors };
     delete newErrors.file;
 
     if (file) {
-      // Validate file type
+      // Validate file type - only SVG allowed
       if (file.type !== 'image/svg+xml') {
         newErrors.file = 'Invalid file type. Only SVG is allowed.';
-        setErrors(newErrors);
-        e.target.value = '';
-        return;
-      }
-      
-      // Validate file size (1MB limit)
-      if (file.size > 1 * 1024 * 1024) {
-        newErrors.file = 'File is too large. Maximum size is 1MB.';
         setErrors(newErrors);
         e.target.value = '';
         return;
@@ -274,14 +266,14 @@ const BoLogosBadges = () => {
                   <i className="ri-search-eye-line text-6xl text-gray-400 mb-4"></i>
                   <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200">No Assets Found</h3>
                   <p className="text-gray-500 dark:text-gray-400 mt-1">Your search did not match any assets. Try another keyword.</p>
-                  {searchTerm && (
+                  {/*{searchTerm && (
                     <button
                       onClick={handleClearSearch}
                       className="mt-4 bg-primary hover:bg-primary-dark text-white font-semibold py-2 px-4 rounded-lg transition-colors"
                     >
                       Clear Search
                     </button>
-                  )}
+                  )}*/}
                 </div>
               </div>
             ) : (
@@ -396,7 +388,7 @@ const BoLogosBadges = () => {
                             />
                           </label>
                         </div>
-                        <p className="text-xs text-gray-500">SVG only, max 1MB</p>
+                        <p className="text-xs text-gray-500">SVG only</p>
                       </div>
                     </div>
                   ) : (
