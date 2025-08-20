@@ -56,10 +56,6 @@ const BoCertificates = () => {
         setCurrentPage(1);
     }, [searchTerm]);
 
-    const handleSearchChange = (e) => {
-        setSearchTerm(e.target.value);
-    };
-
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
