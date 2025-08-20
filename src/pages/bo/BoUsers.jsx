@@ -26,9 +26,9 @@ const itemsPerPage = 10;
 
 // Role hierarchy for sorting (lower number = higher priority)
 const roleHierarchy = {
-    'Super Admin' : 1,
-    'Admin' : 2,
-    'Manager' : 3,
+    'Super Admin' : 2,
+    'Admin' : 3,
+    'Manager' : 1,
 }
 
 const BoUsers = () => {
