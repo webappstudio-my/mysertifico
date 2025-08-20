@@ -4,6 +4,7 @@ import BoSidebar from '../../components/bo/BoSidebar';
 import BoNavbar from '../../components/bo/BoNavbar';
 import BoPagination from '../../components/bo/BoPagination';
 import BoConfirmationModal from '../../components/bo/BoConfirmationModal';
+import BoSearchInput from '../../components/bo/BoSearchInput';
 
 const BoMyWallPlans = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -18,6 +19,7 @@ const BoMyWallPlans = () => {
     
     const [filteredData, setFilteredData] = useState([...planData]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [searchInput, setSearchInput] = useState('');
     const [countryFilter, setCountryFilter] = useState('all');
     const [planFilter, setPlanFilter] = useState('all');
     const [statusFilter, setStatusFilter] = useState('all');
@@ -159,6 +161,18 @@ const BoMyWallPlans = () => {
         
         closeModal();
     };
+    // Search handlers
+    const handleSearchSubmit = () => {
+        setSearchTerm(searchInput);
+        setCurrentPage(1); // Reset to first page when searching
+    };
+
+    const handleClearSearch = () => {
+        setSearchInput('');
+        setSearchTerm('');
+        setCurrentPage(1);
+    };
+
     
     const openDeleteConfirmation = (plan) => {
         setPlanToDelete(plan);
@@ -209,6 +223,16 @@ const BoMyWallPlans = () => {
                         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md">
                             {/* Filters */}
                             <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex flex-col md:flex-row items-center gap-4">
+                                <BoSearchInput
+                                    value={searchInput}
+                                    onChange={setSearchInput}
+                                    onSearch={handleSearchSubmit}
+                                    onClear={handleClearSearch}
+                                    placeholder="Search by plan name..."
+                                    activeSearchTerm={searchTerm}
+                                    className="w-full md:w-auto"
+                                />
+                                {/*
                                 <div className="relative w-full md:w-auto md:flex-grow">
                                     <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                                     <input 
@@ -219,6 +243,7 @@ const BoMyWallPlans = () => {
                                         className="w-full pl-10 pr-4 py-2 text-black dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary"
                                     />
                                 </div>
+                                */}
                                 <select 
                                     value={countryFilter}
                                     onChange={(e) => setCountryFilter(e.target.value)}
@@ -267,7 +292,7 @@ const BoMyWallPlans = () => {
                                                     <th className="px-6 py-3">#</th>
                                                     <th className="px-6 py-3">Country</th>
                                                     <th className="px-6 py-3">Plan Name</th>
-                                                    <th className="px-6 py-3">Total Price (/year)</th>
+                                                    <th className="px-6 py-3">Total Price (per year)</th>
                                                     <th className="px-6 py-3">Subscription Fee</th>
                                                     <th className="px-6 py-3">Token Allocation</th>
                                                     <th className="px-6 py-3">Status</th>

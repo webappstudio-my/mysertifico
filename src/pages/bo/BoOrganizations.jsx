@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import BoSidebar from '../../components/bo/BoSidebar';
 import BoNavbar from '../../components/bo/BoNavbar';
 import BoPagination from '../../components/bo/BoPagination';
+import BoSearchInput from '../../components/bo/BoSearchInput';
 
 const BoOrganizations = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [searchInput, setSearchInput] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
     const [currentPage, setCurrentPage] = useState(1);
     const [isManageModalOpen, setIsManageModalOpen] = useState(false);
@@ -105,6 +107,18 @@ const BoOrganizations = () => {
         closeManageModal();
     };
 
+    //For BoSearchInput variables
+    const handleSearchSubmit = () => {
+    setSearchTerm(searchInput);
+    setCurrentPage(1); // Reset to first page when searching
+  };
+
+  const handleClearSearch = () => {
+    setSearchInput('');
+    setSearchTerm('');
+    setCurrentPage(1);
+  };
+
     return (
         <div className="min-h-screen bg-bo-bg-light dark:bg-bo-bg-dark transition-colors duration-300">
             <BoSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
@@ -139,7 +153,16 @@ const BoOrganizations = () => {
                         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md">
                             {/* Toolbar: Search & Filter */}
                             <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex flex-col md:flex-row items-center gap-4">
-                                <div className="relative w-full md:w-80">
+                                <BoSearchInput
+                                    value={searchInput}
+                                    onChange={setSearchInput}
+                                    onSearch={handleSearchSubmit}
+                                    onClear={handleClearSearch}
+                                    placeholder="Search by organization name..."
+                                    activeSearchTerm={searchTerm}
+                                    className="w-full md:w-auto"
+                                />
+                                {/*<div className="relative w-full md:w-80">
                                     <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                                     <input
                                         type="text"
@@ -148,7 +171,7 @@ const BoOrganizations = () => {
                                         onChange={(e) => setSearchTerm(e.target.value)}
                                         className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-600"
                                     />
-                                </div>
+                                </div>*/}
                                 <select
                                     value={statusFilter}
                                     onChange={(e) => setStatusFilter(e.target.value)}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react'; // <-- FIX IS HERE
 import BoSidebar from '../../components/bo/BoSidebar'; // Assuming you have these components
 import BoNavbar from '../../components/bo/BoNavbar';   // Assuming you have these components
+import BoSearchInput from '../../components/bo/BoSearchInput';
 
 const initialPlanData = [
     { id: 1, countryCode: 'MY', currency: 'RM', planName: 'Standard Plan', price: 50, pricePerToken: 0.15, status: 'Active' },
@@ -20,6 +21,7 @@ const BoMySertificoPlans = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [plans, setPlans] = useState(initialPlanData);
     const [searchTerm, setSearchTerm] = useState('');
+    const [searchInput, setSearchInput] = useState('');
     const [countryFilter, setCountryFilter] = useState('all');
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -88,6 +90,17 @@ const BoMySertificoPlans = () => {
         setIsPlanModalOpen(false);
     };
 
+    const handleSearchSubmit = () => {
+        setSearchTerm(searchInput);
+        setCurrentPage(1);
+    };
+
+    const handleClearSearch = () => {
+        setSearchInput('');
+        setSearchTerm('');
+        setCurrentPage(1);
+    }
+
     // Toggle sidebar for all screen sizes
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -126,7 +139,19 @@ const BoMySertificoPlans = () => {
                         {/* Main Content Card */}
                         <div className="bg-white dark:bg-slate-800 rounded-xl shadow-md">
                             {/* Toolbar: Search & Filter */}
-                            <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex flex-col md:flex-row items-center gap-4">
+                            <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex flex-col md:flex-row flex-wrap items-center gap-4">
+                                {/* BoSearchInput component */}
+                                    <BoSearchInput
+                                        value={searchInput}
+                                        onChange={setSearchInput}
+                                        onSearch={handleSearchSubmit}
+                                        onClear={handleClearSearch}
+                                        placeholder="Search by plan name..."
+                                        activeSearchTerm={searchTerm}
+                                        className="w-full md:w-auto"
+                                    />
+
+                                {/*} Previous search input
                                 <div className="relative w-full md:w-80">
                                     <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                                     <input
@@ -137,6 +162,7 @@ const BoMySertificoPlans = () => {
                                         className="w-full pl-10 pr-4 py-2.5 text-gray-900 dark:text-white border border-gray-400 dark:border-gray-500 rounded-md bg-gray-50 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-600"
                                     />
                                 </div>
+                                */}
                                 <select
                                     value={countryFilter}
                                     onChange={(e) => setCountryFilter(e.target.value)}
