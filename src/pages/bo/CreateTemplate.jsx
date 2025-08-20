@@ -8,8 +8,44 @@ const sampleLogo = '/src/images/logos-badges/sample-logo.svg';
 const sampleSignature = '/src/images/signatures/sample-signature.svg';
 const sampleQrCode = '/src/images/qrcodes/sample-qrcode.svg';
 
+// Custom hook to get window size
+const useWindowSize = () => {
+    const [size, setSize] = useState([window.innerWidth, window.innerHeight]);
+    useEffect(() => {
+        const handleResize = () => {
+            setSize([window.innerWidth, window.innerHeight]);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+    return { width: size[0], height: size[1] };
+};
+
+// Component to show on mobile screens
+const MobileRestriction = () => {
+    const navigate = useNavigate();
+    return (
+        <div className="flex flex-col items-center justify-center h-screen bg-gray-50 dark:bg-gray-900 text-center p-4">
+            <i className="ri-computer-line text-6xl text-teal-500 mb-4"></i>
+            <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">Editor Not Available on Mobile</h1>
+            <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-md">
+                The template editor is designed for a larger screen. Please switch to a desktop or tablet in landscape mode to use this feature.
+            </p>
+            <button
+                onClick={() => navigate('/bo/templates')}
+                className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2.5 px-6 rounded-lg inline-flex items-center gap-2 transition-colors"
+            >
+                <i className="ri-arrow-left-line"></i>
+                <span>Go Back to Templates</span>
+            </button>
+        </div>
+    );
+};
+
+
 const CreateTemplate = () => {
     const navigate = useNavigate();
+    const { width } = useWindowSize();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [currentZoom, setCurrentZoom] = useState(1.0);
     const [selectedElement, setSelectedElement] = useState(null);
@@ -150,6 +186,10 @@ const CreateTemplate = () => {
             setIsInspectorOpen(false);
         }
     };
+
+    if (width < 1024) {
+        return <MobileRestriction />;
+    }
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -303,7 +343,6 @@ const CertificateElement = ({ element, zoom, containerRef, onSelect, onUpdate, i
         };
 
         if (element.alignment !== 'Manual') {
-            const _containerWidth = containerRef.current.clientWidth;
             const alignment = (element.alignment || templateSettings.alignment).toLowerCase();
 
             baseStyles.left = '50%';
@@ -347,18 +386,6 @@ const CertificateElement = ({ element, zoom, containerRef, onSelect, onUpdate, i
     }
 
     return null;
-};
-
-const DraggableGuideline = ({ axis, position, onDragStart }) => {
-    const handleMouseDown = (e) => {
-        e.preventDefault();
-        onDragStart(axis, e.clientX, e.clientY);
-    };
-
-    const style = axis === 'x' ? { left: position } : { top: position };
-    const className = `guideline ${axis === 'x' ? 'vertical' : 'horizontal'}`;
-
-    return <div className={className} style={style} onMouseDown={handleMouseDown} />;
 };
 
 const GuidelineLayer = ({ guidelines, setGuidelines, zoom, containerRef }) => {
