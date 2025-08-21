@@ -30,6 +30,7 @@ import BoMyWallPlans from './pages/bo/BoMyWallPlans';
 import BoSupportHelp from './pages/bo/BoSupportHelp';
 import CreateTemplate from './pages/bo/CreateTemplate';
 import BoMySertificoPlans from './pages/bo/BoMySertificoPlans'; // Adjusted import for BO My Sertifico Plans
+import BoCertificateList from './pages/bo/BoCertificateList';
 
 function App() {
   return (
@@ -70,6 +71,7 @@ function App() {
         <Route path="/bo/admin/support-help" element={<BoSupportHelp />} />
         <Route path="/bo/templates/create-template" element={<CreateTemplate />} />
         <Route path="/bo/admin/mysertifico-plans" element={<BoMySertificoPlans />} />
+        <Route path="/bo/certificate-list" element={<BoCertificateList />} />
       </Routes>
     </Router>
   );
