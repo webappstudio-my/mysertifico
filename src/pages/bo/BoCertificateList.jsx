@@ -172,9 +172,14 @@ const BoCertificateList = () => {
                                                                 </span>
                                                             </td>
                                                             <td className="px-6 py-4 text-right">
-                                                                <a href={`#view-certificate-batch?id=${cert.id}`} className="font-medium text-primary hover:text-primary-dark p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 inline-block">
+                                                                <Link
+                                                                    to="/bo/view-certificate-batch"
+                                                                >
                                                                     <i className="ri-eye-line text-lg"></i>
-                                                                </a>
+                                                                </Link>
+                                                                {/*<a href={`#view-certificate-batch?id=${cert.id}`} className="font-medium text-primary hover:text-primary-dark p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 inline-block">
+                                                                    <i className="ri-eye-line text-lg"></i>
+                                                                </a>*/}
                                                             </td>
                                                         </tr>
                                                     );
