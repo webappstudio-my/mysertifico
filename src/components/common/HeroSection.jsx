@@ -7,7 +7,12 @@ const HeroSection = () => {
     return (
         <section className="bg-gradient-to-br from-primary-dark to-primary text-white pt-32 pb-20">
             <div className="container mx-auto text-center px-6">
-                <h1 className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">MySertifico</h1>
+                {/* Title container with badge */}
+                <div className="relative inline-block mb-4">
+                    <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">MySertifico</h1>
+                    {/* Version Badge */}
+                    <span className="absolute top-0 -right-4 md:top-1 md:-right-12 transform -translate-y-1/2 rotate-12 bg-accent text-white text-xs md:text-base font-bold px-3 py-1 rounded-full shadow-lg">1.0</span>
+                </div>
                 <p className="text-lg md:text-xl text-teal-100 mb-10 max-w-3xl mx-auto">Official digital certificates for schools — simple, secure, and fully trusted.</p>
 
                 {/* The image path has been updated to reflect the public folder structure */}
