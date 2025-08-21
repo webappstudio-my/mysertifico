@@ -35,6 +35,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Landing */}
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/price" element={<Price />} />
@@ -42,10 +43,16 @@ function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/security-policy" element={<SecurityPolicy />} />
+
+        {/* MySertifico */}
         <Route path="/auth/sign-up" element={<SignUp />} />
         <Route path="/auth/sign-in" element={<SignIn />} />
         <Route path="/auth/forgot-password" element={<ForgotPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
+
+        {/* MyWall */}
+
+        {/* Back Office */}
         <Route path="/bo/dashboard" element={<BoDashboard />} />
         <Route path="/bo/admin/staff" element={<BoUsers />} />
         <Route path="/bo/certificates" element={<BoCertificates />} />
