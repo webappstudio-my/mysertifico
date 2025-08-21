@@ -3,7 +3,7 @@ import React from 'react';
 const PricingHeader = ({ onCountryChange }) => (
     <section className="py-16">
         <div className="container mx-auto text-center px-6">
-            <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3">Organisation Pricing Plans</h1>
+            <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3">Organization Pricing Plans</h1>
             <p className="text-lg md:text-xl text-teal-100 max-w-3xl mx-auto">Choose the plan that best fits your institution's needs.<br />Subscription prices may vary by country.</p>
             <div className="mt-8 max-w-xs mx-auto">
                 <label htmlFor="country-select" className="block text-sm font-medium text-teal-200 mb-2">Check the price for your country:</label>
