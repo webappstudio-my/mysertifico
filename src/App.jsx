@@ -1,6 +1,6 @@
 // export default App;
 // src/App.jsx
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/mysertifico/landing/Home';
 import About from './pages/mysertifico/landing/About';
@@ -30,8 +30,25 @@ import BoMyWallPlans from './pages/bo/BoMyWallPlans';
 import BoSupportHelp from './pages/bo/BoSupportHelp';
 import CreateTemplate from './pages/bo/CreateTemplate';
 import BoMySertificoPlans from './pages/bo/BoMySertificoPlans'; // Adjusted import for BO My Sertifico Plans
+import MyProfile from './pages/mysertifico/admin/MyProfile';
+import ChangePassword from './pages/mysertifico/admin/ChangePassword';
 
 function App() {
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+  };
+
   return (
     <Router>
       <Routes>
@@ -48,7 +65,9 @@ function App() {
         <Route path="/auth/sign-up" element={<SignUp />} />
         <Route path="/auth/sign-in" element={<SignIn />} />
         <Route path="/auth/forgot-password" element={<ForgotPassword />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard theme={theme} onThemeToggle={toggleTheme} />} />
+        <Route path="/my-profile" element={<MyProfile theme={theme} onThemeToggle={toggleTheme} />} />
+        <Route path="/change-password" element={<ChangePassword theme={theme} onThemeToggle={toggleTheme} />} />"
 
         {/* MyWall */}
 
