@@ -13,6 +13,19 @@ const BoViewCertificateBatch = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
+    // Mock certificate data - in real app, this would come from API based on ID
+    const certificateInfo = {
+        id: 'cert001',
+        name: 'Sijil Graduasi 2025',
+        creator: 'Fikri Nabil',
+        createdDate: '31-12-2025',
+        status: 'pending',
+        description: 'Certificate for graduation ceremony 2025',
+        template: 'Graduation Template v2',
+        totalRecipients: 127
+    };
+
+
     // Mock recipients data - updated to match the image format
     const recipientsData = [
         { id: 1, name: 'Recipient 1', nationalId: '000101-10-0001' },
@@ -108,7 +121,7 @@ const BoViewCertificateBatch = () => {
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
                             {/* Certificate Preview */}
                             <div className="lg:col-span-2">
-                                <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Certificate Preview</h2>
+                                <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">Certificate Preview</h2>
                                 <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
                                     <div className="p-6 overflow-y-auto max-h-[calc(90vh-70px)]">
                                         <div className="flex items-center justify-center">
@@ -127,49 +140,63 @@ const BoViewCertificateBatch = () => {
 
                             {/* Details & Actions */}
                             <div>
-                                <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Details & Actions</h2>
+                                <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">Details & Actions</h2>
                                 <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
-                                    <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4">Sijil Graduasi 2025</h3>
+                                    <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4">{certificateInfo.name}</h3>
                                     
                                     <div className="space-y-3 mb-6">
                                         <div>
                                             <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Status:</span>
                                             <span className="ml-2 px-2 py-1 text-xs bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 rounded-full">
-                                                Pending
+                                                {certificateInfo.status}
                                             </span>
                                         </div>
                                         <div>
                                             <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Creator:</span>
-                                            <span className="ml-2 text-sm text-gray-800 dark:text-white">Fikri Nabil</span>
+                                            <span className="ml-2 text-sm text-gray-800 dark:text-white">{certificateInfo.creator}</span>
                                         </div>
                                         <div>
                                             <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Created Date:</span>
-                                            <span className="ml-2 text-sm text-gray-800 dark:text-white">31-12-2025</span>
+                                            <span className="ml-2 text-sm text-gray-800 dark:text-white">{certificateInfo.createdDate}</span>
                                         </div>
                                         <div>
                                             <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Recipients:</span>
-                                            <span className="ml-2 text-sm text-gray-800 dark:text-white">127</span>
+                                            <span className="ml-2 text-sm text-gray-800 dark:text-white">{certificateInfo.totalRecipients}</span>
                                         </div>
                                     </div>
+                                    
+                                    {/* Divider Line*/}
+                                    <hr className="border-gray-200 dark:border-gray-600 mb-6" />                          
 
                                     <div className="space-y-3">
-                                        <button className="w-full px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-4 focus:ring-teal-600/50 text-sm font-medium transition-colors">
-                                            Download & only generate for current recipient list
+                                        <button 
+                                            id="download-batch-button" 
+                                            className="w-full flex items-center justify-center px-4 py-2 text-sm bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" 
+                                            disabled={certificateInfo.status !== 'approved' && certificateInfo.status !== 'completed'}
+                                        >
+                                            <span className="btn-text">
+                                            <i className="ri-download-2-line mr-2"></i>Download Batch PDF
+                                            </span>
+                                            <span className="loader hidden"></span>
                                         </button>
-                                        <button className="w-full px-4 py-2 bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 focus:outline-none text-sm font-medium transition-colors">
-                                            Add Recipients
-                                        </button>
+
+                                        {(certificateInfo.status !== 'approved' && certificateInfo.status !== 'completed') && (
+                                            <p className="text-xs text-center text-red-500 mt-2">
+                                            Download is only available for approved or completed certificates.
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Recipient List Section */}
-                        <div className="mb-6">
-                            <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Recipient List</h2>
-                        </div>
+                        
                         
                         <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl shadow-md">
+                            {/* Recipient List Section */}
+                            <div className="mb-6">
+                                <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">Recipient List</h2>
+                            </div>
                             <div className="mb-4">
                                 <BoSearchInput
                                     value={searchInput}
@@ -204,9 +231,19 @@ const BoViewCertificateBatch = () => {
                                                             <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{recipient.name}</td>
                                                             <td className="px-6 py-4">{recipient.nationalId}</td>
                                                             <td className="px-6 py-4 text-right">
-                                                                <a href="#" className="text-teal-600 hover:text-teal-800 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 inline-block">
-                                                                    <i className="ri-download-line text-lg"></i>
-                                                                </a>
+                                                                {(certificateInfo.status === 'approved' || certificateInfo.status === 'completed') ? (
+                                                                    <a href="#" className="text-teal-600 hover:text-teal-800 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 inline-block">
+                                                                        <i className="ri-download-2-line text-lg"></i>
+                                                                    </a>
+                                                                ) : (
+                                                                    <button
+                                                                        disabled
+                                                                        className="text-teal-600 p-2 rounded-md opacity-50 cursor-not-allowed inline-block"
+                                                                    >
+                                                                        <i class="ri-download-2-line text-lg"></i>
+                                                                    </button>
+                                                                )
+                                                                    }
                                                             </td>
                                                         </tr>
                                                     );
