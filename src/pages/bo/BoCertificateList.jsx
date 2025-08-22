@@ -173,7 +173,7 @@ const BoCertificateList = () => {
                                                             </td>
                                                             <td className="px-6 py-4 text-right">
                                                                 <Link
-                                                                    to="/bo/view-certificate-batch"
+                                                                    to="/bo/view-certificate-batch/:id"
                                                                 >
                                                                     <i className="ri-eye-line text-lg"></i>
                                                                 </Link>

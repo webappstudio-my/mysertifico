@@ -73,7 +73,7 @@ function App() {
         <Route path="/bo/templates/create-template" element={<CreateTemplate />} />
         <Route path="/bo/admin/mysertifico-plans" element={<BoMySertificoPlans />} />
         <Route path="/bo/certificate-list" element={<BoCertificateList />} />
-        <Route path="/bo/view-certificate-batch" element={<BoViewCertificateBatch />} />
+        <Route path="/bo/view-certificate-batch/:id" element={<BoViewCertificateBatch />} />
       </Routes>
     </Router>
   );
