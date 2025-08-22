@@ -1,5 +1,5 @@
 // src/pages/mysertifico/DashboardPage.jsx
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../../../components/dashboard/Sidebar';
 import DashboardNavbar from '../../../components/dashboard/DashboardNavbar';
@@ -7,65 +7,30 @@ import StatCard from '../../../components/dashboard/StatCard';
 import RecentActivityItem from '../../../components/dashboard/RecentActivityItem';
 import QuickActionItem from '../../../components/dashboard/QuickActionItem';
 
-const Dashboard = () => {
+const Dashboard = ({ theme, onThemeToggle }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [theme, setTheme] = useState('light'); // 'light' or 'dark'
-
-    // Initialize theme from localStorage or system preference
-    useEffect(() => {
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            setTheme('dark');
-            document.documentElement.classList.add('dark');
-        } else {
-            setTheme('light');
-            document.documentElement.classList.remove('dark');
-        }
-    }, []);
-
-    // Effect to apply theme class to html element
-    useEffect(() => {
-        if (theme === 'dark') {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('color-theme', 'dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('color-theme', 'light');
-        }
-    }, [theme]);
-
-    // Toggle theme
-    const handleThemeToggle = () => {
-        setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
-    };
 
     // Toggle sidebar for all screen sizes
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
-    // No longer need a specific resize handler for closing on LG,
-    // as the sidebar will always be hidden unless `isOpen` is true.
-    // The `main-content` will handle the margin.
-
     return (
-        <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+        <div className={`flex min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300`}>
             <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
-
-            {/* Overlay for mobile sidebar (and now desktop if sidebar is open) */}
             {isSidebarOpen && (
                 <div
                     id="sidebar-overlay"
-                    className="fixed inset-0 bg-black bg-opacity-50 z-40" // Removed lg:hidden
+                    className="fixed inset-0 bg-black bg-opacity-50 z-40"
                     onClick={toggleSidebar}
                 ></div>
             )}
 
             <div
                 id="main-content"
-                className={`flex-grow transition-all duration-300 ease-in-out ${isSidebarOpen ? 'ml-64' : 'ml-0'
-                    }`} // Simplified margin logic
+                className={`flex-grow transition-all duration-300 ease-in-out ${isSidebarOpen ? 'lg:ml-64' : ''}`}
             >
-                <DashboardNavbar onSidebarToggle={toggleSidebar} theme={theme} onThemeToggle={handleThemeToggle} />
+                <DashboardNavbar onSidebarToggle={toggleSidebar} theme={theme} onThemeToggle={onThemeToggle} />
 
                 {/* ===== Page Content Start ===== */}
                 <main className="p-6 sm:p-8">

@@ -100,7 +100,7 @@ const ForgotPassword = () => {
                                 <i className="ri-mail-check-line text-6xl text-green-600"></i>
                             </div>
                             <h2 className="mt-6 font-bold text-2xl text-gray-800">Check Your Email</h2>
-                            <p className="text-gray-500 mt-2">We have sent a password reset link to <strong className="font-semibold">{sentEmailAddress}</strong>. Please follow the instructions in the email to reset your password.</p>
+                            <p className="text-gray-500 mt-2">We have sent a password reset link to <strong className="font-semibold text-gray-800">{sentEmailAddress}</strong>. Please follow the instructions in the email to reset your password.</p>
                         </div>
                     )}
 
