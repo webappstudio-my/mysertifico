@@ -111,7 +111,7 @@ const BoViewCertificateBatch = () => {
                     <div className="max-w-7xl mx-auto">
                         {/* Back to Certificate List */}
                         <div className="mb-4">
-                            <Link to="/bo/certificate-list" className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white">
+                            <Link to="/admin/certificate-list" className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white">
                                 <i className="ri-arrow-left-line mr-1"></i>
                                 Back to Certificate List
                             </Link>

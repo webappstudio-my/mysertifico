@@ -51,6 +51,8 @@ function App() {
         <Route path="/auth/sign-in" element={<SignIn />} />
         <Route path="/auth/forgot-password" element={<ForgotPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/admin/certificate-list" element={<BoCertificateList />} />
+        <Route path="/admin/view-certificate-batch/:id" element={<BoViewCertificateBatch />} />
 
         {/* MyWall */}
 
@@ -72,8 +74,6 @@ function App() {
         <Route path="/bo/admin/support-help" element={<BoSupportHelp />} />
         <Route path="/bo/templates/create-template" element={<CreateTemplate />} />
         <Route path="/bo/admin/mysertifico-plans" element={<BoMySertificoPlans />} />
-        <Route path="/bo/certificate-list" element={<BoCertificateList />} />
-        <Route path="/bo/view-certificate-batch/:id" element={<BoViewCertificateBatch />} />
       </Routes>
     </Router>
   );
