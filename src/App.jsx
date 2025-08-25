@@ -35,6 +35,7 @@ import ChangePassword from './pages/mysertifico/admin/ChangePassword';
 import AdminCertificateList from './pages/mysertifico/admin/AdminCertificateList';
 import AdminViewCertificateBatch from './pages/mysertifico/admin/AdminViewCertificateBatch';
 import AdminAccount from './pages/mysertifico/admin/AdminAccount';
+import AdminAddRecipient from './pages/mysertifico/admin/AdminAddRecipient';
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
@@ -74,6 +75,7 @@ function App() {
         <Route path="/admin/certificate-list" element={<AdminCertificateList />} />
         <Route path="/admin/view-certificate-batch/:id" element={<AdminViewCertificateBatch />} />
         <Route path="/admin/account" element={<AdminAccount />} />
+        <Route path="/admin/add-recipient" element={<AdminAddRecipient />} />
 
         {/* MyWall */}
 
