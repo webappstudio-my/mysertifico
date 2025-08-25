@@ -32,6 +32,7 @@ import CreateTemplate from './pages/bo/CreateTemplate';
 import BoMySertificoPlans from './pages/bo/BoMySertificoPlans'; // Adjusted import for BO My Sertifico Plans
 import MyProfile from './pages/mysertifico/admin/MyProfile';
 import ChangePassword from './pages/mysertifico/admin/ChangePassword';
+import TemplateList from './pages/mysertifico/admin/TemplateList';
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
@@ -68,6 +69,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/my-profile" element={<MyProfile theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/change-password" element={<ChangePassword theme={theme} onThemeToggle={toggleTheme} />} />"
+        <Route path="/template-list" element={<TemplateList theme={theme} onThemeToggle={toggleTheme} />} />"
 
         {/* MyWall */}
 

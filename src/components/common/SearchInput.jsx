@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BoSearchInput = ({ 
+const SearchInput = ({ 
   value, 
   onChange, 
   onSearch, 
@@ -55,4 +55,4 @@ const BoSearchInput = ({
   );
 };
 
-export default BoSearchInput;
+export default SearchInput;
