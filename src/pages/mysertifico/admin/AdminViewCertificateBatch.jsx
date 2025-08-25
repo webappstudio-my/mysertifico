@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
-import BoSidebar from '../../components/bo/BoSidebar';
-import BoNavbar from '../../components/bo/BoNavbar';
-import BoPagination from '../../components/bo/BoPagination';
-import BoSearchInput from '../../components/bo/BoSearchInput';
+import BoSidebar from '../../../components/bo/BoSidebar';
+import BoNavbar from '../../../components/bo/BoNavbar';
+import BoPagination from '../../../components/bo/BoPagination';
+import BoSearchInput from '../../../components/bo/BoSearchInput';
 
-const BoViewCertificateBatch = () => {
+const AdminViewCertificateBatch = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [searchInput, setSearchInput] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
@@ -305,4 +305,4 @@ const BoViewCertificateBatch = () => {
     );
 };
 
-export default BoViewCertificateBatch;
+export default AdminViewCertificateBatch;
