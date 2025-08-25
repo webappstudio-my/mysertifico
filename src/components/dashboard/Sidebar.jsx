@@ -94,7 +94,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                             </button>
                             <ul id="submenu-gallery" className={`${openSubmenus['submenu-gallery'] ? '' : 'hidden'} py-2 space-y-1 pl-8`}>
                                 <li><NavLink to="/template-list" className={getSubmenuLinkClass} onClick={onClose}>Templates</NavLink></li>
-                                <li><NavLink to="/dashboard/logos-badges" className={getSubmenuLinkClass} onClick={onClose}>Logos & Badges</NavLink></li>
+                                <li><NavLink to="/logos-badges" className={getSubmenuLinkClass} onClick={onClose}>Logos & Badges</NavLink></li>
                             </ul>
                         </li>
                         <li>
