@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logos/logo.png'; // Adjust the path as necessary
-import BoConfirmationModal from './BoConfirmationModal'; // Assuming the modal is in the same components folder
+import BoConfirmationModal from '../../components/common/ConfirmationModal'; // Assuming the modal is in the same components folder
 
 // Simple Toast Notification Component
 const Toast = ({ message, show }) => {

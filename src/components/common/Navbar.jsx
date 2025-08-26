@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import BoConfirmationModal from './BoConfirmationModal'; // Assuming the modal is in the same components folder
+import BoConfirmationModal from '../../components/common/ConfirmationModal'; // Assuming the modal is in the same components folder
 
 // Simple Toast Notification Component
 const Toast = ({ message, show }) => {
