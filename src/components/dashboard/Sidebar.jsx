@@ -1,7 +1,7 @@
 // src/components/dashboard/Sidebar.jsx
 import React, { useState } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-import ConfirmationModal from '../dashboard/ConfirmationModal';
+import ConfirmationModal from '../common/ConfirmationModal';
 
 // Simple Toast Notification Component
 const Toast = ({ message, show }) => {

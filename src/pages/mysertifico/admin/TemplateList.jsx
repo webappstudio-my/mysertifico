@@ -16,7 +16,6 @@ const TemplatesList = ({theme, onThemeToggle}) => {
         color: 'all',
     });
     const [searchTerm, setSearchTerm] = useState('');
-    const [searchInput, setSearchInput] = useState('');
     const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
     const [selectedTemplate, setSelectedTemplate] = useState(null);
     const [toastMessage, setToastMessage] = useState('');
@@ -25,13 +24,8 @@ const TemplatesList = ({theme, onThemeToggle}) => {
         setFilters(prev => ({ ...prev, [filterName]: value }));
     };
 
-    const handleSearchSubmit = () => {
-        setSearchTerm(searchInput);
-    };
-
-    const handleClearSearch = () => {
-        setSearchInput('');
-        setSearchTerm('');
+    const handleSearchChange = (newSearchTerm) => {
+        setSearchTerm(newSearchTerm);
     };
 
     const filteredTemplates = useMemo(() => {
@@ -93,10 +87,7 @@ const TemplatesList = ({theme, onThemeToggle}) => {
                         <FilterBar 
                             filters={filters} 
                             onFilterChange={handleFilterChange}
-                            searchInput={searchInput}
-                            setSearchInput={setSearchInput}
-                            handleSearchSubmit={handleSearchSubmit}
-                            handleClearSearch={handleClearSearch}
+                            onSearchChange={handleSearchChange}
                             searchTerm={searchTerm}
                         />
 
@@ -133,7 +124,7 @@ const TemplatesList = ({theme, onThemeToggle}) => {
     );
 };
 
-const FilterBar = ({ filters, onFilterChange, searchInput, setSearchInput, handleSearchSubmit, handleClearSearch, searchTerm }) => {
+const FilterBar = ({ filters, onFilterChange, onSearchChange, searchTerm }) => {
     const uniqueFilters = useMemo(() => {
         const styles = [...new Set(templatesData.map(t => t.style))];
         const orientations = [...new Set(templatesData.map(t => t.orientation))];
@@ -146,12 +137,9 @@ const FilterBar = ({ filters, onFilterChange, searchInput, setSearchInput, handl
         <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md mb-6 flex flex-col lg:flex-row gap-4">
             <div className="relative flex-grow">
                 <SearchInput
-                    value={searchInput}
-                    onChange={setSearchInput}
-                    onSearch={handleSearchSubmit}
-                    onClear={handleClearSearch}
+                    onSearchChange={onSearchChange}
                     placeholder="Search templates by code..."
-                    activeSearchTerm={searchTerm}
+                    initialValue={searchTerm}
                 />
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 lg:flex lg:w-auto gap-4 text-gray-900 dark:text-white">
