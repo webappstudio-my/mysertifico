@@ -256,10 +256,8 @@ const AdminCertificateRecipientBatch = () => {
 
                             <div className="no-print flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0 mb-6">
                                 <SearchInput
-                                    value={searchInput}
-                                    onChange={setSearchInput}
-                                    onSearch={handleSearch}
-                                    onClear={handleClearSearch}
+                                    onSearchChange={setSearchTerm}
+                                    onPageReset={() => setCurrentPage(1)}
                                     placeholder="Search recipient..."
                                     activeSearchTerm={searchTerm}
                                     className="w-full md:w-1/2"
