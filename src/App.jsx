@@ -32,6 +32,8 @@ import CreateTemplate from './pages/bo/CreateTemplate';
 import BoMySertificoPlans from './pages/bo/BoMySertificoPlans'; // Adjusted import for BO My Sertifico Plans
 import MyProfile from './pages/mysertifico/admin/MyProfile';
 import ChangePassword from './pages/mysertifico/admin/ChangePassword';
+import TemplateList from './pages/mysertifico/admin/TemplateList';
+import LogosBadges from './pages/mysertifico/admin/LogosBadges';
 import AdminCertificateList from './pages/mysertifico/admin/AdminCertificateList';
 import AdminViewCertificateBatch from './pages/mysertifico/admin/AdminViewCertificateBatch';
 import AdminAccount from './pages/mysertifico/admin/AdminAccount';
@@ -73,6 +75,8 @@ function App() {
         <Route path="/dashboard" element={<Dashboard theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/my-profile" element={<MyProfile theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/change-password" element={<ChangePassword theme={theme} onThemeToggle={toggleTheme} />} />"
+        <Route path="/template-list" element={<TemplateList theme={theme} onThemeToggle={toggleTheme} />} />"
+        <Route path="/logos-badges" element={<LogosBadges theme={theme} onThemeToggle={toggleTheme} />} />"
         <Route path="/admin/certificate-list" element={<AdminCertificateList />} />
         <Route path="/admin/view-certificate-batch/:id" element={<AdminViewCertificateBatch />} />
         <Route path="/admin/account" element={<AdminAccount />} />

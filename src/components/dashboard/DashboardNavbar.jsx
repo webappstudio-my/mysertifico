@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logos/logo.png'; // Adjust the path as necessary
-import ConfirmationModal from './ConfirmationModal'; // Assuming the modal is in the same components folder
+import ConfirmationModal from '../common/ConfirmationModal'; // Assuming the modal is in the same components folder
 
 // Simple Toast Notification Component
 const Toast = ({ message, show }) => {

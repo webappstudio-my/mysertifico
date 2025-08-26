@@ -1,7 +1,7 @@
 // src/components/dashboard/Sidebar.jsx
 import React, { useState } from 'react';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
-import ConfirmationModal from '../dashboard/ConfirmationModal';
+import ConfirmationModal from '../common/ConfirmationModal';
 
 // Simple Toast Notification Component
 const Toast = ({ message, show }) => {
@@ -93,8 +93,8 @@ const Sidebar = ({ isOpen, onClose }) => {
                                 <i className={`ri-arrow-down-s-line transition-transform duration-200 ${openSubmenus['submenu-gallery'] ? 'rotate-180' : ''}`}></i>
                             </button>
                             <ul id="submenu-gallery" className={`${openSubmenus['submenu-gallery'] ? '' : 'hidden'} py-2 space-y-1 pl-8`}>
-                                <li><NavLink to="/dashboard/templates" className={getSubmenuLinkClass} onClick={onClose}>Templates</NavLink></li>
-                                <li><NavLink to="/dashboard/logos-badges" className={getSubmenuLinkClass} onClick={onClose}>Logos & Badges</NavLink></li>
+                                <li><NavLink to="/template-list" className={getSubmenuLinkClass} onClick={onClose}>Templates</NavLink></li>
+                                <li><NavLink to="/logos-badges" className={getSubmenuLinkClass} onClick={onClose}>Logos & Badges</NavLink></li>
                             </ul>
                         </li>
                         <li>
