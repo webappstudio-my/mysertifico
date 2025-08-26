@@ -127,7 +127,7 @@ const Dashboard = ({ theme, onThemeToggle }) => {
                                         iconClass="ri-user-add-line"
                                         iconColor="text-green-500"
                                         text="Add Recipients"
-                                        link="/dashboard/settings/recipients"
+                                        link="/admin/add-recipient"
                                     />
                                     <QuickActionItem
                                         iconClass="ri-gallery-line"

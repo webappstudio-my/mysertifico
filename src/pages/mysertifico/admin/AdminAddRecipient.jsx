@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
-import BoSidebar from '../../../components/bo/BoSidebar';
-import BoNavbar from '../../../components/bo/BoNavbar';
+import Sidebar from '../../../components/common/Sidebar';
+import Navbar from '../../../components/common/Navbar';
 
 const AdminAddRecipient = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -60,7 +60,7 @@ const AdminAddRecipient = () => {
 
   return (
     <div className="bg-gray-100 dark:bg-gray-900 transition-colors duration-300 min-h-screen">
-      <BoSidebar 
+      <Sidebar 
         isOpen={isSidebarOpen} 
         onClose={() => setIsSidebarOpen(false)} 
       />
@@ -73,7 +73,7 @@ const AdminAddRecipient = () => {
       )}
       
       <div className={`relative min-h-screen transition-all duration-300 ease-in-out ${isSidebarOpen ? 'lg:ml-64' : ''}`}>
-        <BoNavbar 
+        <Navbar 
           onSidebarToggle={handleSidebarToggle}
           headerTitle="MySertifico"
         />
