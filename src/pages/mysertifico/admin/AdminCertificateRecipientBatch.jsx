@@ -1,10 +1,10 @@
 import React, { useState , useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import BoSidebar from '../../../components/common/Sidebar';
-import BoNavbar from '../../../components/common/Navbar';
-import BoPagination from '../../../components/common/Pagination';
-import BoConfirmationModal from '../../../components/common/ConfirmationModal';
-import BoSearchInput from '../../../components/common/SearchInput';
+import Sidebar from '../../../components/common/Sidebar';
+import Navbar from '../../../components/common/Navbar';
+import Pagination from '../../../components/common/Pagination';
+import ConfirmationModal from '../../../components/common/ConfirmationModal';
+import SearchInput from '../../../components/common/SearchInput';
 
 const AdminCertificateRecipientBatch = () => {
     // Layout states
@@ -189,7 +189,7 @@ const AdminCertificateRecipientBatch = () => {
             `}</style>
 
             {/* Sidebar */}
-            <BoSidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
+            <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
             
             {/* Sidebar Overlay */}
             {isSidebarOpen && (
@@ -202,7 +202,7 @@ const AdminCertificateRecipientBatch = () => {
             {/* Main Content */}
             <div className={`relative min-h-screen transition-all duration-300 ease-in-out ${isSidebarOpen ? 'lg:ml-64' : ''}`}>
                 {/* Navbar */}
-                <BoNavbar 
+                <Navbar 
                     onSidebarToggle={toggleSidebar} 
                     headerTitle="MySertifico"
                     theme={theme}
@@ -255,7 +255,7 @@ const AdminCertificateRecipientBatch = () => {
                             </div>
 
                             <div className="no-print flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0 mb-6">
-                                <BoSearchInput
+                                <SearchInput
                                     value={searchInput}
                                     onChange={setSearchInput}
                                     onSearch={handleSearch}
@@ -313,7 +313,7 @@ const AdminCertificateRecipientBatch = () => {
                                             Showing <span className="font-semibold text-gray-900 dark:text-white">{totalItems > 0 ? startIndex + 1 : 0}</span> to <span className="font-semibold text-gray-900 dark:text-white">{Math.min(endIndex, totalItems)}</span> of <span className="font-semibold text-gray-900 dark:text-white">{totalItems}</span> Recipients
                                         </span>*/}
                                     <div className="flex justify-center">
-                                        <BoPagination
+                                        <Pagination
                                             currentPage={currentPage}
                                             totalItems={totalItems}
                                             itemsPerPage={rowsPerPage}
@@ -336,7 +336,7 @@ const AdminCertificateRecipientBatch = () => {
             </div>
 
             {/* Delete Confirmation Modal */}
-            <BoConfirmationModal
+            <ConfirmationModal
                 isOpen={deleteModal.isOpen}
                 onClose={() => setDeleteModal({ isOpen: false, recipient: null })}
                 onConfirm={confirmDelete}

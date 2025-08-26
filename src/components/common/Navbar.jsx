@@ -12,7 +12,7 @@ const Toast = ({ message, show }) => {
     );
 };
 
-const BoNavbar = ({ onSidebarToggle, headerTitle }) => {
+const Navbar = ({ onSidebarToggle, headerTitle }) => {
     const navigate = useNavigate();
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
@@ -154,4 +154,4 @@ const BoNavbar = ({ onSidebarToggle, headerTitle }) => {
     );
 };
 
-export default BoNavbar;
+export default Navbar;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BoPagination = ({ currentPage, totalItems, itemsPerPage, onPageChange }) => {
+const Pagination = ({ currentPage, totalItems, itemsPerPage, onPageChange }) => {
     const pageCount = Math.ceil(totalItems / itemsPerPage);
 
     if (pageCount <= 1) {
@@ -44,4 +44,4 @@ const BoPagination = ({ currentPage, totalItems, itemsPerPage, onPageChange }) =
     );
 };
 
-export default BoPagination;
+export default Pagination;

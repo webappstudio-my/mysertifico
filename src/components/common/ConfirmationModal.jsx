@@ -1,7 +1,7 @@
 // src/components/bo/BoConfirmationModal.jsx
 import React from 'react';
 
-const BoConfirmationModal = ({ isOpen, onClose, title, message, iconClass, confirmButtonText, confirmButtonClass, onConfirm }) => {
+const ConfirmationModal = ({ isOpen, onClose, title, message, iconClass, confirmButtonText, confirmButtonClass, onConfirm }) => {
     if (!isOpen) return null;
     return (
         <div className="fixed inset-0 bg-black/60 z-[130] flex items-center justify-center p-4">
@@ -26,4 +26,4 @@ const BoConfirmationModal = ({ isOpen, onClose, title, message, iconClass, confi
     );
 };
 
-export default BoConfirmationModal;
+export default ConfirmationModal;

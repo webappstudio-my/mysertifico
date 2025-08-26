@@ -13,7 +13,7 @@ const Toast = ({ message, show }) => {
     );
 };
 
-const BoSidebar = ({ isOpen, onClose }) => {
+const Sidebar = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
     const [openSubmenus, setOpenSubmenus] = useState({
         'submenu-admin': true,
@@ -192,4 +192,4 @@ const BoSidebar = ({ isOpen, onClose }) => {
     );
 };
 
-export default BoSidebar;
+export default Sidebar;
