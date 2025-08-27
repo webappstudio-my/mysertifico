@@ -4,15 +4,92 @@ import DashboardNavbar from '../../../components/mysertifico/DashboardNavbar';
 import OrganizationDetailsTab from '../../../components/mysertifico/OrganizationDetailsTab';
 import PositionManagementTab from '../../../components/mysertifico/PositionManagementTab';
 import ClassroomManagementTab from '../../../components/mysertifico/ClassroomManagementTab';
+import Toast from '../../../components/common/Toast';
 
 const OrganizationSettings = ({ theme, onThemeToggle }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [activeTab, setActiveTab] = useState('organization');
+    const [positions, setPositions] = useState([
+        { id: 1, name: 'Principal' },
+        { id: 2, name: 'Senior Assistant' },
+        { id: 3, name: 'Head of Department' },
+        { id: 4, name: 'Teacher' },
+        { id: 5, name: 'Discipline Teacher' },
+        { id: 6, name: 'Counselor' },
+        { id: 7, name: 'Librarian' },
+        { id: 8, name: 'Lab Assistant' },
+        { id: 9, name: 'Sports Teacher' },
+        { id: 10, name: 'Music Teacher' },
+        { id: 11, name: 'Art Teacher' },
+        { id: 12, name: 'Administrative Officer' },
+    ]);
+    const [toast, setToast] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
+    const [positionToEdit, setPositionToEdit] = useState(null);
+    const [positionToDelete, setPositionToDelete] = useState(null);
+
+    const handleOpenAddModal = () => {
+        setPositionToEdit(null);
+        setIsModalOpen(true);
+    };
+
+    const handleOpenEditModal = (position) => {
+        setPositionToEdit(position);
+        setIsModalOpen(true);
+    };
+
+    const handleOpenDeleteConfirm = (position) => {
+        setPositionToDelete(position);
+        setIsDeleteConfirmOpen(true);
+    };
+
+    const handleSavePosition = (newName, position) => {
+        let toastMessage = '';
+        if (position) { // Editing
+            setPositions(positions.map(p => p.id === position.id ? { ...p, name: newName } : p));
+            toastMessage = `Position "${newName}" updated successfully.`;
+        } else { // Adding
+            const newPosition = {
+                id: positions.length > 0 ? Math.max(...positions.map(p => p.id)) + 1 : 1,
+                name: newName,
+            };
+            setPositions([...positions, newPosition]);
+            toastMessage = `Position "${newName}" added successfully.`;
+        }
+        setIsModalOpen(false);
+        setToast({ message: toastMessage, type: 'success' });
+    };
+
+    const handleConfirmDelete = (position) => {
+        const deletedPositionName = position.name;
+        setPositions(positions.filter(p => p.id !== position.id));
+        setIsDeleteConfirmOpen(false);
+        setPositionToDelete(null);
+        setToast({ message: `Position "${deletedPositionName}" has been deleted.`, type: 'success' });
+    };
 
     const renderTabContent = () => {
         switch (activeTab) {
             case 'position':
-                return <PositionManagementTab />;
+                return <PositionManagementTab
+                    positions={positions}
+                    onSave={handleSavePosition}
+                    onDelete={handleConfirmDelete}
+                    toast={toast}
+                    setToast={setToast}
+                    isModalOpen={isModalOpen}
+                    setIsModalOpen={setIsModalOpen}
+                    isDeleteConfirmOpen={isDeleteConfirmOpen}
+                    setIsDeleteConfirmOpen={setIsDeleteConfirmOpen}
+                    positionToEdit={positionToEdit}
+                    setPositionToEdit={setPositionToEdit}
+                    positionToDelete={positionToDelete}
+                    setPositionToDelete={setPositionToDelete}
+                    onOpenAddModal={handleOpenAddModal}
+                    onOpenEditModal={handleOpenEditModal}
+                    onOpenDeleteConfirm={handleOpenDeleteConfirm}
+                />;
             case 'classroom':
                 return <ClassroomManagementTab />;
             case 'organization':
@@ -48,7 +125,7 @@ const OrganizationSettings = ({ theme, onThemeToggle }) => {
 
                         <div className="mb-6 border-b border-gray-200 dark:border-gray-700">
                             <ul className="flex flex-wrap -mb-px text-sm font-medium text-center">
-                                <TabButton id="organisation" activeTab={activeTab} onClick={setActiveTab}>Organization</TabButton>
+                                <TabButton id="organization" activeTab={activeTab} onClick={setActiveTab}>Organization</TabButton>
                                 <TabButton id="position" activeTab={activeTab} onClick={setActiveTab}>Position</TabButton>
                                 <TabButton id="classroom" activeTab={activeTab} onClick={setActiveTab}>Classroom</TabButton>
                             </ul>
@@ -60,6 +137,13 @@ const OrganizationSettings = ({ theme, onThemeToggle }) => {
                     </div>
                 </main>
             </div>
+            {toast && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() => setToast(null)}
+                />
+            )}
         </div>
     );
 };
