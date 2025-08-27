@@ -82,7 +82,7 @@ function App() {
         <Route path="/admin/view-certificate-batch/:id" element={<AdminViewCertificateBatch />} />
         <Route path="/admin/account" element={<AdminAccount />} />
         <Route path="/admin/add-recipient" element={<AdminAddRecipient />} />
-        <Route path="/admin/recipient-list" element={<AdminRecipientList theme={theme} onThemeToggle={toggleTheme} />} />
+        <Route path="/dashboard/settings/recipients" element={<AdminRecipientList theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/admin/certificate-recipient-batch" element={<AdminCertificateRecipientBatch />} />
 
         {/* MyWall */}
