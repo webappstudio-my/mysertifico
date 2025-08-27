@@ -38,7 +38,7 @@ import AdminCertificateList from './pages/mysertifico/admin/AdminCertificateList
 import AdminViewCertificateBatch from './pages/mysertifico/admin/AdminViewCertificateBatch';
 import AdminAccount from './pages/mysertifico/admin/AdminAccount';
 import AdminAddRecipient from './pages/mysertifico/admin/AdminAddRecipient';
-import AdminRecipientManagement from './pages/mysertifico/admin/AdminRecipientManagement';
+import AdminRecipientList from './pages/mysertifico/admin/AdminRecipientList';
 import AdminCertificateRecipientBatch from './pages/mysertifico/admin/AdminCertificateRecipientBatch';
 
 function App() {
@@ -82,7 +82,7 @@ function App() {
         <Route path="/admin/view-certificate-batch/:id" element={<AdminViewCertificateBatch />} />
         <Route path="/admin/account" element={<AdminAccount />} />
         <Route path="/admin/add-recipient" element={<AdminAddRecipient />} />
-        <Route path="/admin/recipient-list" element={<AdminRecipientManagement theme={theme} onThemeToggle={toggleTheme} />} />
+        <Route path="/admin/recipient-list" element={<AdminRecipientList theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/admin/certificate-recipient-batch" element={<AdminCertificateRecipientBatch />} />
 
         {/* MyWall */}
