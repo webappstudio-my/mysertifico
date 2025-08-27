@@ -1,11 +1,11 @@
 // src/pages/mysertifico/DashboardPage.jsx
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Sidebar from '../../../components/dashboard/Sidebar';
-import DashboardNavbar from '../../../components/dashboard/DashboardNavbar';
-import StatCard from '../../../components/dashboard/StatCard';
-import RecentActivityItem from '../../../components/dashboard/RecentActivityItem';
-import QuickActionItem from '../../../components/dashboard/QuickActionItem';
+import Sidebar from '../../../components/mysertifico/Sidebar';
+import DashboardNavbar from '../../../components/mysertifico/DashboardNavbar';
+import StatCard from '../../../components/mysertifico/StatCard';
+import RecentActivityItem from '../../../components/mysertifico/RecentActivityItem';
+import QuickActionItem from '../../../components/mysertifico/QuickActionItem';
 
 const Dashboard = ({ theme, onThemeToggle }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);

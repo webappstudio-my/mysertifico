@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import Sidebar from '../../../components/dashboard/Sidebar';
-import DashboardNavbar from '../../../components/dashboard/DashboardNavbar';
+import Sidebar from '../../../components/mysertifico/Sidebar';
+import DashboardNavbar from '../../../components/mysertifico/DashboardNavbar';
 
 // Mock Data - in a real app, this would come from an API
 const logosData = [

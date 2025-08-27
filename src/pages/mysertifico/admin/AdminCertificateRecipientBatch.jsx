@@ -1,24 +1,24 @@
 import React, { useState , useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Sidebar from '../../../components/common/Sidebar';
-import Navbar from '../../../components/common/Navbar';
+import Sidebar from '../../../components/mysertifico/Sidebar';
+import DashboardNavbar from '../../../components/mysertifico/DashboardNavbar';
 import Pagination from '../../../components/common/Pagination';
 import ConfirmationModal from '../../../components/common/ConfirmationModal';
 import SearchInput from '../../../components/common/SearchInput';
 
-const AdminCertificateRecipientBatch = () => {
+const AdminCertificateRecipientBatch = ({ theme, onThemeToggle }) => {
     // Layout states
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [theme, setTheme] = useState(() => {
-        if (typeof window !== 'undefined') {
-            return localStorage.getItem('theme') || 'light';
-        }
-        return 'light';
-    });
+    // const [theme, setTheme] = useState(() => {
+    //     if (typeof window !== 'undefined') {
+    //         return localStorage.getItem('theme') || 'light';
+    //     }
+    //     return 'light';
+    // });
 
     // Search states as requested
-    const [searchTerm, setSearchTerm] = useState('');
-    const [searchInput, setSearchInput] = useState('');
+    const [searchTerm, setSearchTerm] = useState(''); 
+    // const [searchInput, setSearchInput] = useState('');
     
     // Data and pagination states
     const [allRecipientsInBatch, setAllRecipientsInBatch] = useState([
@@ -67,16 +67,13 @@ const AdminCertificateRecipientBatch = () => {
         }
     }, [theme]);
 
-    const toggleTheme = () => {
-        setTheme(currentTheme => (currentTheme === 'light' ? 'dark' : 'light'));
-    };
-
     // Sidebar management
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
     const closeSidebar = () => {
+        // No need to use searchInput here, it's for the SearchInput component
         setIsSidebarOpen(false);
     };
 
@@ -99,17 +96,6 @@ const AdminCertificateRecipientBatch = () => {
     useEffect(() => {
         setFilteredRecipients([...allRecipientsInBatch]);
     }, [allRecipientsInBatch]);
-
-    // Handle search - only update searchTerm when search button is clicked
-    const handleSearch = () => {
-        setSearchTerm(searchInput);
-    };
-
-    // Handle search clear
-    const handleClearSearch = () => {
-        setSearchInput('');
-        setSearchTerm('');
-    };
 
     // Handle delete recipient
     const handleDeleteRecipient = (recipient) => {
@@ -190,24 +176,18 @@ const AdminCertificateRecipientBatch = () => {
 
             {/* Sidebar */}
             <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
-            
+
             {/* Sidebar Overlay */}
             {isSidebarOpen && (
-                <div 
+                <div
                     className="fixed inset-0 bg-black bg-opacity-50 z-40"
-                    onClick={closeSidebar}
-                />
+                    onClick={closeSidebar}></div>
             )}
 
             {/* Main Content */}
             <div className={`relative min-h-screen transition-all duration-300 ease-in-out ${isSidebarOpen ? 'lg:ml-64' : ''}`}>
                 {/* Navbar */}
-                <Navbar 
-                    onSidebarToggle={toggleSidebar} 
-                    headerTitle="MySertifico"
-                    theme={theme}
-                    onThemeToggle={toggleTheme}
-                />
+                <DashboardNavbar onSidebarToggle={toggleSidebar} theme={theme} onThemeToggle={onThemeToggle} />
 
                 {/* Page Content */}
                 <main className="p-6 sm:p-8">

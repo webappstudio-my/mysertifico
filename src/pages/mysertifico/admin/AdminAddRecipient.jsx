@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
-import Sidebar from '../../../components/dashboard/Sidebar';
-import DashboardNavbar from '../../../components/dashboard/DashboardNavbar';
+import Sidebar from '../../../components/mysertifico/Sidebar';
+import DashboardNavbar from '../../../components/mysertifico/DashboardNavbar';
 
 const AdminAddRecipient = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import DashboardNavbar from '../../../components/dashboard/DashboardNavbar';
-import Sidebar from '../../../components/dashboard/Sidebar';
+import DashboardNavbar from '../../../components/mysertifico/DashboardNavbar';
+import Sidebar from '../../../components/mysertifico/Sidebar';
 import SearchInput from '../../../components/common/SearchInput';
 import Pagination from '../../../components/common/Pagination';
 import ConfirmationModal from '../../../components/common/ConfirmationModal';
