@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import Sidebar from '../../../components/dashboard/Sidebar';
-import DashboardNavbar from '../../../components/dashboard/DashboardNavbar';
+import Sidebar from '../../../components/mysertifico/Sidebar';
+import DashboardNavbar from '../../../components/mysertifico/DashboardNavbar';
 import SearchInput from '../../../components/common/SearchInput';
 
 // Mock data - in a real app, this would likely come from an API

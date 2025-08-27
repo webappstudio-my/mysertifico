@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import Sidebar from '../../../components/dashboard/Sidebar';
-import DashboardNavbar from '../../../components/dashboard/DashboardNavbar';
+import Sidebar from '../../../components/mysertifico/Sidebar';
+import DashboardNavbar from '../../../components/mysertifico/DashboardNavbar';
 
 const ChangePassword = ({ theme, onThemeToggle }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);

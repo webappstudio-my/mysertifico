@@ -34,6 +34,8 @@ import MyProfile from './pages/mysertifico/admin/MyProfile';
 import ChangePassword from './pages/mysertifico/admin/ChangePassword';
 import TemplateList from './pages/mysertifico/admin/TemplateList';
 import LogosBadges from './pages/mysertifico/admin/LogosBadges';
+import OrganizationSettings from './pages/mysertifico/admin/OrganizationSettings';
+
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
@@ -72,6 +74,7 @@ function App() {
         <Route path="/change-password" element={<ChangePassword theme={theme} onThemeToggle={toggleTheme} />} />"
         <Route path="/template-list" element={<TemplateList theme={theme} onThemeToggle={toggleTheme} />} />"
         <Route path="/logos-badges" element={<LogosBadges theme={theme} onThemeToggle={toggleTheme} />} />"
+        <Route path="/settings/organization-settings" element={<OrganizationSettings theme={theme} onThemeToggle={toggleTheme} />} />"
 
         {/* MyWall */}
 
