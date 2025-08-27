@@ -180,7 +180,7 @@ const AdminAddRecipient = () => {
 
                 <div className="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 flex justify-end space-x-3">
                   <Link
-                    to="/admin/settings/recipients"
+                    to="/dashboard/settings/recipients"
                     className="px-6 py-2 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
                   >
                     Cancel

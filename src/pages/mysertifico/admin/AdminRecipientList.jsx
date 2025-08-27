@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import DashboardNavbar from '../../../components/mysertifico/DashboardNavbar';
 import Sidebar from '../../../components/mysertifico/Sidebar';
@@ -16,6 +16,30 @@ const AdminRecipientList = ({ theme, onThemeToggle }) => {
     const [activeMenuRow, setActiveMenuRow] = useState(null);
 
     const itemsPerPage = 10;
+
+    // Close action menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            // Check if click is outside any action menu
+            const actionMenus = document.querySelectorAll('[data-action-menu]');
+            let clickedOutside = true;
+            
+            actionMenus.forEach(menu => {
+                if (menu.contains(event.target)) {
+                    clickedOutside = false;
+                }
+            });
+            
+            if (clickedOutside && activeMenuRow !== null) {
+                setActiveMenuRow(null);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [activeMenuRow]);
 
     const recipients = [
         {
@@ -79,7 +103,7 @@ const AdminRecipientList = ({ theme, onThemeToggle }) => {
 
     const ActionMenu = ({ recipient, isOpen, onToggle }) => {
         return (
-            <div className="relative inline-block">
+            <div className="relative inline-block" data-action-menu>
                 <button 
                     className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300"
                     onClick={() => onToggle(recipient.id)}
