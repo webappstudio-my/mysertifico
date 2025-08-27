@@ -98,7 +98,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                             </ul>
                         </li>
                         <li>
-                            <NavLink to="/dashboard/certificates" className={getNavLinkClass} onClick={onClose}>
+                            <NavLink to="/admin/certificate-list" className={getNavLinkClass} onClick={onClose}>
                                 <i className="ri-award-line mr-3 text-lg"></i>
                                 <span>Certificates</span>
                             </NavLink>
