@@ -162,7 +162,7 @@ const AdminCertificateList = ({ theme, onThemeToggle }) => {
                                                             </td>
                                                             <td className="px-6 py-4 text-right">
                                                                 <Link
-                                                                    to="/admin/view-certificate-batch/:id"
+                                                                    to={`/admin/view-certificate-batch/${cert.id}`}
                                                                 >
                                                                     <i className="ri-eye-line text-lg font-medium text-primary hover:text-primary-dark p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 inline-block"></i>
                                                                 </Link>
@@ -204,9 +204,9 @@ const AdminCertificateList = ({ theme, onThemeToggle }) => {
                                                     </div>
                                                 </div>
                                                 <div className="flex-shrink-0 ml-4">
-                                                    <a href={`#view-certificate-batch?id=${cert.id}`} className="font-medium text-primary hover:text-primary-dark p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 inline-block">
+                                                    <Link to={`/admin/view-certificate-batch/${cert.id}`} className="font-medium text-primary hover:text-primary-dark p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 inline-block">
                                                         <i className="ri-eye-line text-lg"></i>
-                                                    </a>
+                                                    </Link>
                                                 </div>
                                             </div>
                                         );

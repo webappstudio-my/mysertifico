@@ -1,15 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
-import BoSidebar from '../../../components/bo/BoSidebar';
-import BoNavbar from '../../../components/bo/BoNavbar';
-import BoPagination from '../../../components/bo/BoPagination';
-import BoSearchInput from '../../../components/bo/BoSearchInput';
+import Sidebar from '../../../components/mysertifico/Sidebar';
+import DashboardNavbar from '../../../components/mysertifico/DashboardNavbar';
+import Pagination from '../../../components/common/Pagination';
+import SearchInput from '../../../components/common/SearchInput';
 
-const AdminViewCertificateBatch = () => {
+const AdminViewCertificateBatch = ({ theme, onThemeToggle }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [searchInput, setSearchInput] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
-    const [statusFilter, setStatusFilter] = useState('all');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
@@ -61,21 +59,6 @@ const AdminViewCertificateBatch = () => {
     const endIndex = startIndex + itemsPerPage;
     const paginatedItems = filteredData.slice(startIndex, endIndex);
 
-    const handleSearch = () => {
-        setSearchTerm(searchInput);
-        setCurrentPage(1);
-    };
-
-    const handleClear = () => {
-        setSearchInput('');
-        setSearchTerm('');
-        setCurrentPage(1);
-    };
-
-    const handleStatusFilterChange = (e) => {
-        setStatusFilter(e.target.value);
-        setCurrentPage(1);
-    };
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -92,7 +75,7 @@ const AdminViewCertificateBatch = () => {
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
             {/* Sidebar */}
-            <BoSidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
+            <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
 
             {/* Sidebar Overlay */}
             {isSidebarOpen && (
@@ -104,7 +87,7 @@ const AdminViewCertificateBatch = () => {
             {/* Main Content */}
             <div className={`relative min-h-screen transition-all duration-300 ease-in-out ${isSidebarOpen ? 'lg:ml-64' : ''}`}>
                 {/* Navbar */}
-                <BoNavbar onSidebarToggle={toggleSidebar} headerTitle="Certificate Details" />
+                <DashboardNavbar onSidebarToggle={toggleSidebar} theme={theme} onThemeToggle={onThemeToggle} />
                 
                 {/* Page Content */}
                 <main className="p-6 sm:p-8">
@@ -198,11 +181,9 @@ const AdminViewCertificateBatch = () => {
                                 <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-4">Recipient List</h2>
                             </div>
                             <div className="mb-4">
-                                <BoSearchInput
-                                    value={searchInput}
-                                    onChange={setSearchInput}
-                                    onSearch={handleSearch}
-                                    onClear={handleClear}
+                                <SearchInput
+                                    onSearchChange={(value) => { setSearchTerm(value); setCurrentPage(1); }}
+                                    onPageReset={() => setCurrentPage(1)}
                                     placeholder="Search by name or National ID..."
                                     className="w-full md:w-1/2"
                                 />
@@ -289,7 +270,7 @@ const AdminViewCertificateBatch = () => {
                             
                             {filteredData.length > 0 && (
                                 <div className="flex flex-col items-center justify-center p-4">
-                                    <BoPagination
+                                    <Pagination
                                         currentPage={currentPage}
                                         totalItems={filteredData.length}
                                         itemsPerPage={itemsPerPage}
