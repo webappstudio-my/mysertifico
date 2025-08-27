@@ -80,7 +80,7 @@ function App() {
         <Route path="/logos-badges" element={<LogosBadges theme={theme} onThemeToggle={toggleTheme} />} />"
         <Route path="/admin/certificate-list" element={<AdminCertificateList theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/admin/view-certificate-batch/:id" element={<AdminViewCertificateBatch theme={theme} onThemeToggle={toggleTheme} />} />
-        <Route path="/admin/account" element={<AdminAccount theme={theme} onThemeToggle={toggleTheme} />} />
+        <Route path="/dashboard/settings/account" element={<AdminAccount theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/admin/add-recipient" element={<AdminAddRecipient theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/dashboard/settings/recipients" element={<AdminRecipientList theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/admin/certificate-recipient-batch" element={<AdminCertificateRecipientBatch theme={theme} onThemeToggle={toggleTheme} />} />

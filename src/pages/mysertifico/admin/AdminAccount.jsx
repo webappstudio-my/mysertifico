@@ -1,12 +1,12 @@
 import React, { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
-import BoSidebar from '../../../components/bo/BoSidebar';
-import BoNavbar from '../../../components/bo/BoNavbar';
-import BoPagination from '../../../components/bo/BoPagination';
-import BoSearchInput from '../../../components/bo/BoSearchInput';
+import Sidebar from '../../../components/dashboard/Sidebar';
+import DashboardNavbar from '../../../components/dashboard/DashboardNavbar';
+import Pagination from '../../../components/common/Pagination';
+import SearchInput from '../../../components/common/SearchInput';
 
 
-const AdminAccount = () => {
+const AdminAccount = ({ theme, onThemeToggle }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');    
@@ -49,7 +49,7 @@ const AdminAccount = () => {
 
   return (
     <div className="bg-gray-100 dark:bg-gray-900 transition-colors duration-300 min-h-screen">
-      <BoSidebar 
+      <Sidebar 
         isOpen={isSidebarOpen} 
         onClose={() => setIsSidebarOpen(false)} 
       />
@@ -62,9 +62,10 @@ const AdminAccount = () => {
       )}
       
       <div className={`relative min-h-screen transition-all duration-300 ease-in-out ${isSidebarOpen ? 'lg:ml-64' : ''}`}>
-        <BoNavbar 
+        <DashboardNavbar 
           onSidebarToggle={handleSidebarToggle}
-          headerTitle="MySertifico"
+          theme={theme}
+          onThemeToggle={onThemeToggle}
         />
         
         <main className="p-6 sm:p-8">
@@ -209,7 +210,7 @@ const AdminAccount = () => {
               
               {/* Search Input */}
               <div className="mb-6">
-                <BoSearchInput
+                <SearchInput
                   value={searchInput}
                   onChange={setSearchInput}
                   onSearch={handleSearch}
@@ -298,7 +299,7 @@ const AdminAccount = () => {
 
                   {/* Pagination */}
                   <div className="flex items-center justify-end pt-6 mt-6 border-t border-gray-200 dark:border-gray-700">
-                    <BoPagination
+                    <Pagination
                       currentPage={currentPage}
                       totalItems={totalItems}
                       itemsPerPage={itemsPerPage}
