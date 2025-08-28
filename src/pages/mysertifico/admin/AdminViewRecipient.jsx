@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import DashboardNavbar from '../../../components/mysertifico/DashboardNavbar';
 import Sidebar from '../../../components/mysertifico/Sidebar';
 import Pagination from '../../../components/common/Pagination';
-import ConfirmationModal from '../../../components/common/ConfirmationModal';
 
 const Toast = ({ message, show }) => {
     if (!show) return null;
