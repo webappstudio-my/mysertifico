@@ -144,8 +144,8 @@ const PositionManagementTab = ({
                     </button>
                     {activeMenuId === pos.id && (
                         <ActionMenu
-                            onEdit={() => onOpenEditModal(pos)}
-                            onDelete={() => onOpenDeleteConfirm(pos)}
+                            onEdit={() => { onOpenEditModal(pos); setActiveMenuId(null); }}
+                            onDelete={() => { onOpenDeleteConfirm(pos); setActiveMenuId(null); }}
                         />
                     )}
                 </div>
@@ -162,8 +162,8 @@ const PositionManagementTab = ({
                 </button>
                 {activeMenuId === pos.id && (
                     <ActionMenu
-                        onEdit={() => onOpenEditModal(pos)}
-                        onDelete={() => onOpenDeleteConfirm(pos)}
+                        onEdit={() => { onOpenEditModal(pos); setActiveMenuId(null); }}
+                        onDelete={() => { onOpenDeleteConfirm(pos); setActiveMenuId(null); }}
                     />
                 )}
             </div>

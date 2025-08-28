@@ -76,16 +76,12 @@ const OrganizationSettings = ({ theme, onThemeToggle }) => {
                     positions={positions}
                     onSave={handleSavePosition}
                     onDelete={handleConfirmDelete}
-                    toast={toast}
-                    setToast={setToast}
                     isModalOpen={isModalOpen}
                     setIsModalOpen={setIsModalOpen}
                     isDeleteConfirmOpen={isDeleteConfirmOpen}
                     setIsDeleteConfirmOpen={setIsDeleteConfirmOpen}
                     positionToEdit={positionToEdit}
-                    setPositionToEdit={setPositionToEdit}
                     positionToDelete={positionToDelete}
-                    setPositionToDelete={setPositionToDelete}
                     onOpenAddModal={handleOpenAddModal}
                     onOpenEditModal={handleOpenEditModal}
                     onOpenDeleteConfirm={handleOpenDeleteConfirm}
