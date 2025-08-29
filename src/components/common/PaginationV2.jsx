@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-const Pagination = ({ currentPage, totalPages, onPageChange, totalItems, itemsPerPage }) => {
+const PaginationV2 = ({ currentPage, totalPages, onPageChange, totalItems, itemsPerPage }) => {
     if (totalPages <= 1) return null;
 
     const startItem = (currentPage - 1) * itemsPerPage + 1;
@@ -40,4 +40,4 @@ const Pagination = ({ currentPage, totalPages, onPageChange, totalItems, itemsPe
     );
 };
 
-export default Pagination;
+export default PaginationV2;
