@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import Pagination from '../common/Pagination';
+import Pagination from '../common/PaginationV2';
 import ConfirmationModal from '../common/ConfirmationModal'; // Import the ConfirmationModal component
 
 const ITEMS_PER_PAGE = 5;

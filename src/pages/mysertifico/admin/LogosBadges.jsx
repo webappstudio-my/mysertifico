@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import Sidebar from '../../../components/mysertifico/Sidebar';
 import DashboardNavbar from '../../../components/mysertifico/DashboardNavbar';
+import PaginationV2 from '../../../components/common/PaginationV2';
 
 // Mock Data - in a real app, this would come from an API
 const logosData = [
@@ -60,7 +61,7 @@ const LogosBadges = ({ theme, onThemeToggle }) => {
                             ))}
                         </div>
 
-                        <Pagination
+                        <PaginationV2
                             currentPage={currentPage}
                             totalPages={totalPages}
                             onPageChange={setCurrentPage}

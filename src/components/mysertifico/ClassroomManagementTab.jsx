@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Pagination from '../common/Pagination';
+import Pagination from '../common/PaginationV2';
 // You would also import your modal components here
 // import ItemModal from './ItemModal';
 // import ConfirmationModal from './ConfirmationModal';
