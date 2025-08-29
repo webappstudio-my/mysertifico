@@ -85,7 +85,7 @@ function App() {
         <Route path="/admin/add-recipient" element={<AdminAddRecipient theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/dashboard/settings/recipients" element={<AdminRecipientList theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/admin/certificate-recipient-batch" element={<AdminCertificateRecipientBatch theme={theme} onThemeToggle={toggleTheme} />} />
-        <Route path="/admin/user-list" element={<AdminUserList theme={theme} onThemeToggle={toggleTheme} />} />
+        <Route path="/dashboard/settings/users" element={<AdminUserList theme={theme} onThemeToggle={toggleTheme} />} />
 
         {/* MyWall */}
 
