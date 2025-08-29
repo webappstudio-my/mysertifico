@@ -9,6 +9,9 @@ import Toast from '../../../components/common/Toast';
 const OrganizationSettings = ({ theme, onThemeToggle }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [activeTab, setActiveTab] = useState('organization');
+    const [toast, setToast] = useState(null);
+
+    // --- State for Position Management ---
     const [positions, setPositions] = useState([
         { id: 1, name: 'Principal' },
         { id: 2, name: 'Senior Assistant' },
@@ -23,27 +26,39 @@ const OrganizationSettings = ({ theme, onThemeToggle }) => {
         { id: 11, name: 'Art Teacher' },
         { id: 12, name: 'Administrative Officer' },
     ]);
-    const [toast, setToast] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
+    const [isPositionModalOpen, setIsPositionModalOpen] = useState(false);
+    const [isPositionDeleteConfirmOpen, setIsPositionDeleteConfirmOpen] = useState(false);
     const [positionToEdit, setPositionToEdit] = useState(null);
     const [positionToDelete, setPositionToDelete] = useState(null);
 
-    const handleOpenAddModal = () => {
+    // --- State for Classroom Management ---
+    const [classrooms, setClassrooms] = useState([
+        { id: 1, name: '1 Amanah' },
+        { id: 2, name: '2 Bestari' },
+        { id: 3, name: '3 Cerdas' },
+        { id: 4, name: '4 Dedikasi' },
+        { id: 5, name: '5 Elit' },
+        { id: 6, name: '6 Fikrah' },
+    ]);
+    const [isClassroomModalOpen, setIsClassroomModalOpen] = useState(false);
+    const [isClassroomDeleteConfirmOpen, setIsClassroomDeleteConfirmOpen] = useState(false);
+    const [classroomToEdit, setClassroomToEdit] = useState(null);
+    const [classroomToDelete, setClassroomToDelete] = useState(null);
+
+
+    // --- Handlers for Position Management ---
+    const handleOpenAddPositionModal = () => {
         setPositionToEdit(null);
-        setIsModalOpen(true);
+        setIsPositionModalOpen(true);
     };
-
-    const handleOpenEditModal = (position) => {
+    const handleOpenEditPositionModal = (position) => {
         setPositionToEdit(position);
-        setIsModalOpen(true);
+        setIsPositionModalOpen(true);
     };
-
-    const handleOpenDeleteConfirm = (position) => {
+    const handleOpenDeletePositionConfirm = (position) => {
         setPositionToDelete(position);
-        setIsDeleteConfirmOpen(true);
+        setIsPositionDeleteConfirmOpen(true);
     };
-
     const handleSavePosition = (newName, position) => {
         let toastMessage = '';
         if (position) { // Editing
@@ -57,17 +72,54 @@ const OrganizationSettings = ({ theme, onThemeToggle }) => {
             setPositions([...positions, newPosition]);
             toastMessage = `Position "${newName}" added successfully.`;
         }
-        setIsModalOpen(false);
+        setIsPositionModalOpen(false);
         setToast({ message: toastMessage, type: 'success' });
     };
-
-    const handleConfirmDelete = (position) => {
+    const handleConfirmDeletePosition = (position) => {
         const deletedPositionName = position.name;
         setPositions(positions.filter(p => p.id !== position.id));
-        setIsDeleteConfirmOpen(false);
+        setIsPositionDeleteConfirmOpen(false);
         setPositionToDelete(null);
         setToast({ message: `Position "${deletedPositionName}" has been deleted.`, type: 'success' });
     };
+
+    // --- Handlers for Classroom Management ---
+    const handleOpenAddClassroomModal = () => {
+        setClassroomToEdit(null);
+        setIsClassroomModalOpen(true);
+    };
+    const handleOpenEditClassroomModal = (classroom) => {
+        setClassroomToEdit(classroom);
+        setIsClassroomModalOpen(true);
+    };
+    const handleOpenDeleteClassroomConfirm = (classroom) => {
+        setClassroomToDelete(classroom);
+        setIsClassroomDeleteConfirmOpen(true);
+    };
+    const handleSaveClassroom = (newName, classroom) => {
+        let toastMessage = '';
+        if (classroom) { // Editing
+            setClassrooms(classrooms.map(c => c.id === classroom.id ? { ...c, name: newName } : c));
+            toastMessage = `Classroom "${newName}" updated successfully.`;
+        } else { // Adding
+            const newClassroom = {
+                id: classrooms.length > 0 ? Math.max(...classrooms.map(c => c.id)) + 1 : 1,
+                name: newName,
+            };
+            setClassrooms([...classrooms, newClassroom]);
+            toastMessage = `Classroom "${newName}" added successfully.`;
+        }
+        setIsClassroomModalOpen(false);
+        setToast({ message: toastMessage, type: 'success' });
+    };
+    const handleConfirmDeleteClassroom = (classroom) => {
+        const deletedClassroomName = classroom.name;
+        setClassrooms(classrooms.filter(c => c.id !== classroom.id));
+        setIsClassroomDeleteConfirmOpen(false);
+        setClassroomToDelete(null);
+        setToast({ message: `Classroom "${deletedClassroomName}" has been deleted.`, type: 'success' });
+    };
+
 
     const renderTabContent = () => {
         switch (activeTab) {
@@ -75,26 +127,38 @@ const OrganizationSettings = ({ theme, onThemeToggle }) => {
                 return <PositionManagementTab
                     positions={positions}
                     onSave={handleSavePosition}
-                    onDelete={handleConfirmDelete}
-                    isModalOpen={isModalOpen}
-                    setIsModalOpen={setIsModalOpen}
-                    isDeleteConfirmOpen={isDeleteConfirmOpen}
-                    setIsDeleteConfirmOpen={setIsDeleteConfirmOpen}
+                    onDelete={handleConfirmDeletePosition}
+                    isModalOpen={isPositionModalOpen}
+                    setIsModalOpen={setIsPositionModalOpen}
+                    isDeleteConfirmOpen={isPositionDeleteConfirmOpen}
+                    setIsDeleteConfirmOpen={setIsPositionDeleteConfirmOpen}
                     positionToEdit={positionToEdit}
                     positionToDelete={positionToDelete}
-                    onOpenAddModal={handleOpenAddModal}
-                    onOpenEditModal={handleOpenEditModal}
-                    onOpenDeleteConfirm={handleOpenDeleteConfirm}
+                    onOpenAddModal={handleOpenAddPositionModal}
+                    onOpenEditModal={handleOpenEditPositionModal}
+                    onOpenDeleteConfirm={handleOpenDeletePositionConfirm}
                 />;
             case 'classroom':
-                return <ClassroomManagementTab />;
+                return <ClassroomManagementTab
+                    classrooms={classrooms}
+                    onSave={handleSaveClassroom}
+                    onDelete={handleConfirmDeleteClassroom}
+                    isModalOpen={isClassroomModalOpen}
+                    setIsModalOpen={setIsClassroomModalOpen}
+                    isDeleteConfirmOpen={isClassroomDeleteConfirmOpen}
+                    setIsDeleteConfirmOpen={setIsClassroomDeleteConfirmOpen}
+                    itemToEdit={classroomToEdit}
+                    itemToDelete={classroomToDelete}
+                    onOpenAddModal={handleOpenAddClassroomModal}
+                    onOpenEditModal={handleOpenEditClassroomModal}
+                    onOpenDeleteConfirm={handleOpenDeleteClassroomConfirm}
+                />;
             case 'organization':
             default:
                 return <OrganizationDetailsTab />;
         }
     };
 
-    // Toggle sidebar for all screen sizes
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
@@ -123,7 +187,7 @@ const OrganizationSettings = ({ theme, onThemeToggle }) => {
                             <ul className="flex flex-wrap -mb-px text-sm font-medium text-center">
                                 <TabButton id="organization" activeTab={activeTab} onClick={setActiveTab}>Organization</TabButton>
                                 <TabButton id="position" activeTab={activeTab} onClick={setActiveTab}>Position</TabButton>
-                                <TabButton id="classroom" activeTab={activeTab} onClick={setActiveTab}>Classroom</TabButton>
+                                <TabButton id="classroom" activeTab={activeTab} onClick={setActiveTab}>Section</TabButton>
                             </ul>
                         </div>
 

@@ -1,36 +1,34 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import PaginationV2 from '../common/PaginationV2';
-import ConfirmationModal from '../common/ConfirmationModal'; // Import the ConfirmationModal component
+import ConfirmationModal from '../common/ConfirmationModal';
 
 const ITEMS_PER_PAGE = 5;
 
 // --- REUSABLE COMPONENTS (Modal, Action Menu, etc.) ---
 
-// Modal for Adding and Editing positions
-const PositionModal = ({ isOpen, onClose, onSave, positionToEdit }) => {
+const ItemModal = ({ isOpen, onClose, onSave, itemToEdit, itemType }) => {
     const [name, setName] = useState('');
-    const isEditing = !!positionToEdit;
+    const isEditing = !!itemToEdit;
 
     useEffect(() => {
-        // Pre-fill the input if we are editing
         if (isEditing) {
-            setName(positionToEdit.name);
+            setName(itemToEdit.name);
         } else {
-            setName(''); // Clear input for adding
+            setName('');
         }
-    }, [positionToEdit, isEditing]);
+    }, [itemToEdit, isEditing]);
 
     if (!isOpen) return null;
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (name.trim()) {
-            onSave(name.trim(), positionToEdit);
+            onSave(name.trim(), itemToEdit);
         }
     };
 
     const handleClose = () => {
-        setName(''); // Reset name on close
+        setName('');
         onClose();
     };
 
@@ -39,7 +37,7 @@ const PositionModal = ({ isOpen, onClose, onSave, positionToEdit }) => {
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-11/12 md:w-1/3 p-6">
                 <div className="flex justify-between items-center mb-4">
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                        {isEditing ? 'Edit Position' : 'Add New Position'}
+                        {isEditing ? `Edit ${itemType}` : `Add New ${itemType}`}
                     </h3>
                     <button type="button" onClick={handleClose} className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700">
                         <i className="ri-close-line"></i>
@@ -47,7 +45,7 @@ const PositionModal = ({ isOpen, onClose, onSave, positionToEdit }) => {
                 </div>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label htmlFor="item-name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position Name</label>
+                        <label htmlFor="item-name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{`${itemType} Name`}</label>
                         <input
                             type="text"
                             id="item-name"
@@ -59,7 +57,7 @@ const PositionModal = ({ isOpen, onClose, onSave, positionToEdit }) => {
                         />
                     </div>
                     <div className="flex justify-end space-x-3 pt-4">
-                        <button type="button" onClick={handleClose} className="px-4 py-2 bg-gray-200 dark:bg-gray-600 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500">
+                        <button type="button" onClick={handleClose} className="px-4 py-2 text-gray-900 dark:text-white bg-gray-200 dark:bg-gray-600 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500">
                             Cancel
                         </button>
                         <button type="submit" className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark">
@@ -72,7 +70,6 @@ const PositionModal = ({ isOpen, onClose, onSave, positionToEdit }) => {
     );
 };
 
-// Action Menu for each table row
 const ActionMenu = ({ onEdit, onDelete }) => (
     <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 z-50">
         <a href="#" onClick={(e) => { e.preventDefault(); onEdit(); }} className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -84,7 +81,6 @@ const ActionMenu = ({ onEdit, onDelete }) => (
     </div>
 );
 
-
 // --- MAIN COMPONENT ---
 
 const PositionManagementTab = ({
@@ -95,8 +91,8 @@ const PositionManagementTab = ({
     setIsModalOpen,
     isDeleteConfirmOpen,
     setIsDeleteConfirmOpen,
-    positionToEdit,
-    positionToDelete,
+    positionToEdit,      // Renamed to itemToEdit for consistency in modal
+    positionToDelete,    // Renamed to itemToDelete for consistency in modal
     onOpenAddModal,
     onOpenEditModal,
     onOpenDeleteConfirm,
@@ -105,7 +101,6 @@ const PositionManagementTab = ({
     const [activeMenuId, setActiveMenuId] = useState(null);
     const menuRef = useRef(null);
 
-    // Close the action menu if clicked outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -130,8 +125,6 @@ const PositionManagementTab = ({
         const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
         return positions.slice(startIndex, startIndex + ITEMS_PER_PAGE);
     }, [currentPage, positions]);
-
-    // --- Render ---
 
     const renderPositionRow = (pos, index) => (
         <tr key={pos.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
@@ -180,7 +173,6 @@ const PositionManagementTab = ({
                     </button>
                 </div>
 
-                {/* Desktop Table */}
                 <div className="overflow-x-auto hidden md:block">
                     <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-300">
@@ -196,7 +188,6 @@ const PositionManagementTab = ({
                     </table>
                 </div>
 
-                {/* Mobile List */}
                 <div className="space-y-4 md:hidden">
                     {paginatedPositions.map(renderPositionCard)}
                 </div>
@@ -210,12 +201,12 @@ const PositionManagementTab = ({
                 />
             </div>
 
-            {/* Modals rendered here */}
-            <PositionModal
+            <ItemModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 onSave={onSave}
-                positionToEdit={positionToEdit}
+                itemToEdit={positionToEdit}
+                itemType="Position"
             />
             <ConfirmationModal
                 isOpen={isDeleteConfirmOpen}
