@@ -1,9 +1,14 @@
 // src/components/auth/AdminDetailsForm.jsx
-import React, { useState } from 'react';
+import React from 'react';
 import AuthInputField from './AuthInputField';
 
-const AdminDetailsForm = ({ formData, handleChange, handleNextStep, setErrors, errors }) => {
-    const [passwordStrength, setPasswordStrength] = useState(0);
+const AdminDetailsForm = ({
+    formData,
+    handleChange,
+    handleNextStep,
+    setErrors,
+    errors
+}) => {
 
     const validate = () => {
         let newErrors = {};
@@ -27,9 +32,6 @@ const AdminDetailsForm = ({ formData, handleChange, handleNextStep, setErrors, e
         if (!formData.password) {
             newErrors.password = 'Password is required.';
             isValid = false;
-        } else if (formData.password.length < 8) {
-            newErrors.password = 'Password must be at least 8 characters.';
-            isValid = false;
         }
 
         if (formData.password !== formData.confirmPassword) {
@@ -39,19 +41,6 @@ const AdminDetailsForm = ({ formData, handleChange, handleNextStep, setErrors, e
 
         setErrors(newErrors);
         return isValid;
-    };
-
-    const handlePasswordChange = (e) => {
-        const { value } = e.target;
-        handleChange(e); // Pass event up to parent
-
-        // Calculate password strength
-        let strength = 0;
-        if (value.length >= 8) strength += 25;
-        if (value.match(/[a-z]/) && value.match(/[A-Z]/)) strength += 25;
-        if (value.match(/\d/)) strength += 25;
-        if (value.match(/[^a-zA-Z\d]/)) strength += 25;
-        setPasswordStrength(strength);
     };
 
     const handleSubmit = (e) => {
@@ -97,12 +86,12 @@ const AdminDetailsForm = ({ formData, handleChange, handleNextStep, setErrors, e
                 id="password"
                 name="password"
                 value={formData.password}
-                onChange={handlePasswordChange} // Use custom handler for password
+                onChange={handleChange}
                 onBlur={() => validate()}
                 required
                 error={errors.password}
+                // FIXED: Added this prop to enable the strength meter
                 showPasswordStrength={true}
-                passwordStrength={passwordStrength}
             />
             <AuthInputField
                 iconClass="ri-lock-line"

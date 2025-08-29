@@ -1,16 +1,20 @@
 // src/pages/mysertifico/SignInPage.jsx
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SignInForm from '../../../components/auth/SignInForm';
 import logo from '../../../assets/images/logos/logo.png'; // Adjust the path as necessary
 
 const SignIn = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: '',
         password: '',
         rememberMe: false,
     });
     const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [generalError, setGeneralError] = useState('');
+    const [isSuccess, setIsSuccess] = useState(false);
 
     // Dummy registered users for client-side validation (replace with actual backend check)
     const registeredUsers = {
@@ -25,10 +29,17 @@ const SignIn = () => {
             [name]: type === 'checkbox' ? checked : value,
         }));
         setErrors((prev) => ({ ...prev, [name]: '' })); // Clear error on change
+        if (generalError) {
+            setGeneralError('');
+        }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true);
+        setGeneralError('');
+        setIsSuccess(false);
+
         let newErrors = {};
         let isValid = true;
 
@@ -55,13 +66,25 @@ const SignIn = () => {
 
         setErrors(newErrors);
 
-        if (isValid) {
-            // Simulate successful sign-in
-            alert('Sign in successful! Redirecting to dashboard...');
-            // In a real application, you would handle authentication (e.g., Firebase Auth)
-            // and then redirect the user:
-            // navigate('/dashboard');
-        }
+        setTimeout(() => {
+            setLoading(false);
+
+            if (isValid) {
+                if (formData.rememberMe) {
+                    localStorage.setItem('rememberedEmail', formData.email);
+                } else {
+                    localStorage.removeItem('rememberedEmail');
+                }
+                setIsSuccess(true);
+                setTimeout(() => {
+                    navigate('/dashboard');
+                }, 1000);
+            } else {
+                if (newErrors.email || newErrors.password) {
+                    setGeneralError('Please correct the error and try again.');
+                }
+            }
+        }, 1000);
     };
 
     return (
@@ -97,11 +120,28 @@ const SignIn = () => {
                     <h2 className="font-bold text-3xl text-gray-800">Admin Sign In</h2>
                     <p className="text-gray-500 mb-8">Please enter your credentials to access your account.</p>
 
+                    {isSuccess && (
+                        <div className='mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg relative' role='alert'>
+                            <i className='ri-checkbox-circle-line text-green-700 mr-2'></i>
+                            <strong className='font-bold'>Sign in successful!</strong>
+                            <span className='block sm:inline'> Redirecting to dashboard...</span>
+                        </div>
+                    )}
+
+                    {generalError && (
+                        <div className='mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative' role='alert'>
+                            <i className='ri-error-warning-line text-red-700 mr-2'></i>
+                            <strong className='font-bold'>Error!</strong>
+                            <span className='block sm:inline'> {generalError}</span>
+                        </div>
+                    )}
+
                     <SignInForm
                         formData={formData}
                         handleChange={handleChange}
                         handleSubmit={handleSubmit}
                         errors={errors}
+                        loading={loading}
                     />
 
                     <div className="mt-6 text-center">
