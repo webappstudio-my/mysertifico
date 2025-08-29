@@ -113,7 +113,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                                 <i className={`ri-arrow-down-s-line transition-transform duration-200 ${openSubmenus['submenu-settings'] ? 'rotate-180' : ''}`}></i>
                             </button>
                             <ul id="submenu-settings" className={`${openSubmenus['submenu-settings'] ? '' : 'hidden'} py-2 space-y-1 pl-8`}>
-                                <li><NavLink to="/dashboard/settings/organisation" className={getSubmenuLinkClass} onClick={onClose}>Organisation</NavLink></li>
+                                <li><NavLink to="/settings/organization-settings" className={getSubmenuLinkClass} onClick={onClose}>Organization</NavLink></li>
                                 <li><NavLink to="/dashboard/settings/logos" className={getSubmenuLinkClass} onClick={onClose}>Logos</NavLink></li>
                                 <li><NavLink to="/dashboard/settings/users" className={getSubmenuLinkClass} onClick={onClose}>Users</NavLink></li>
                                 <li><NavLink to="/dashboard/settings/templates" className={getSubmenuLinkClass} onClick={onClose}>Templates</NavLink></li>
