@@ -24,8 +24,8 @@ const Pagination = ({ currentPage, totalItems, itemsPerPage, onPageChange }) => 
                     key={page}
                     type="button"
                     className={`min-h-[38px] min-w-[38px] flex justify-center items-center py-2 px-3 text-sm rounded-lg focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none ${currentPage === page
-                            ? 'bg-primary text-white'
-                            : 'text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-white/10'
+                        ? 'bg-primary text-white'
+                        : 'text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-white/10'
                         }`}
                     onClick={() => onPageChange(page)}
                 >

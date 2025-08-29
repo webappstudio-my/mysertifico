@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Pagination from '../common/PaginationV2';
+import PaginationV2 from '../common/PaginationV2';
 // You would also import your modal components here
 // import ItemModal from './ItemModal';
 // import ConfirmationModal from './ConfirmationModal';
@@ -70,7 +70,7 @@ const ClassroomManagementTab = () => {
                     </div>
                 ))}
             </div>
-            <Pagination
+            <PaginationV2
                 currentPage={currentPage}
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
