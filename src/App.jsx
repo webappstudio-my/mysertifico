@@ -41,7 +41,6 @@ import AdminAddRecipient from './pages/mysertifico/admin/AdminAddRecipient';
 import AdminRecipientList from './pages/mysertifico/admin/AdminRecipientList';
 import AdminCertificateRecipientBatch from './pages/mysertifico/admin/AdminCertificateRecipientBatch';
 import OrganizationSettings from './pages/mysertifico/admin/OrganizationSettings';
-
 import AdminImportRecipients from './pages/mysertifico/admin/AdminImportRecipients';
 import AdminViewRecipient from './pages/mysertifico/admin/AdminViewRecipient';
 import AdminUserList from './pages/mysertifico/admin/AdminUserList';
