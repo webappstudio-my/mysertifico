@@ -113,7 +113,7 @@ const AdminRecipientList = ({ theme, onThemeToggle }) => {
                 {isOpen && (
                     <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 z-10">
                         <Link 
-                            to="/admin/view-recipient"
+                            to={`/admin/view-recipient/${recipient.id}`}
                             className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
                             onClick={() => setActiveMenuRow(null)}
                         >

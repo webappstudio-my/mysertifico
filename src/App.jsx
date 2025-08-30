@@ -43,6 +43,7 @@ import AdminCertificateRecipientBatch from './pages/mysertifico/admin/AdminCerti
 import OrganizationSettings from './pages/mysertifico/admin/OrganizationSettings';
 
 import AdminImportRecipients from './pages/mysertifico/admin/AdminImportRecipients';
+import AdminViewRecipient from './pages/mysertifico/admin/AdminViewRecipient';
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
@@ -89,6 +90,7 @@ function App() {
         <Route path="/admin/certificate-recipient-batch" element={<AdminCertificateRecipientBatch theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/settings/organization-settings" element={<OrganizationSettings theme={theme} onThemeToggle={toggleTheme} />} />"
         <Route path="/admin/import-recipients" element={<AdminImportRecipients theme={theme} onThemeToggle={toggleTheme} />} />
+        <Route path="/admin/view-recipient/:id" element={<AdminViewRecipient theme={theme} onThemeToggle={toggleTheme} />} />
 
         {/* MyWall */}
 
