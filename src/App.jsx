@@ -44,6 +44,7 @@ import OrganizationSettings from './pages/mysertifico/admin/OrganizationSettings
 
 import AdminImportRecipients from './pages/mysertifico/admin/AdminImportRecipients';
 import AdminViewRecipient from './pages/mysertifico/admin/AdminViewRecipient';
+import AdminUserList from './pages/mysertifico/admin/AdminUserList';
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
@@ -91,6 +92,7 @@ function App() {
         <Route path="/settings/organization-settings" element={<OrganizationSettings theme={theme} onThemeToggle={toggleTheme} />} />"
         <Route path="/admin/import-recipients" element={<AdminImportRecipients theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/admin/view-recipient/:id" element={<AdminViewRecipient theme={theme} onThemeToggle={toggleTheme} />} />
+        <Route path="/dashboard/settings/users" element={<AdminUserList theme={theme} onThemeToggle={toggleTheme} />} />
 
         {/* MyWall */}
 
