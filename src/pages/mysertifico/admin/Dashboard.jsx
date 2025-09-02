@@ -63,7 +63,7 @@ const Dashboard = ({ theme, onThemeToggle }) => {
                                 iconBgColor="bg-white/10"
                                 iconTextColor="text-teal-100 opacity-80"
                                 footerText="Top-up Tokens"
-                                footerLink="/dashboard/topup-token"
+                                footerLink="/topup-token"
                                 gradient={true}
                             />
                             <StatCard
