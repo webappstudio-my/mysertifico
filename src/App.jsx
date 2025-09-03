@@ -81,21 +81,21 @@ function App() {
         <Route path="/auth/forgot-password" element={<ForgotPassword />} />
         <Route path="/dashboard" element={<Dashboard theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/my-profile" element={<MyProfile theme={theme} onThemeToggle={toggleTheme} />} />
-        <Route path="/change-password" element={<ChangePassword theme={theme} onThemeToggle={toggleTheme} />} />"
-        <Route path="/template-list" element={<TemplateList theme={theme} onThemeToggle={toggleTheme} />} />"
-        <Route path="/logos-badges" element={<LogosBadges theme={theme} onThemeToggle={toggleTheme} />} />"
+        <Route path="/change-password" element={<ChangePassword theme={theme} onThemeToggle={toggleTheme} />} />
+        <Route path="/template-list" element={<TemplateList theme={theme} onThemeToggle={toggleTheme} />} />
+        <Route path="/logos-badges" element={<LogosBadges theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/admin/certificate-list" element={<AdminCertificateList theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/admin/view-certificate-batch/:id" element={<AdminViewCertificateBatch theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/dashboard/settings/account" element={<AdminAccount theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/admin/add-recipient" element={<AdminAddRecipient theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/dashboard/settings/recipients" element={<AdminRecipientList theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/admin/certificate-recipient-batch" element={<AdminCertificateRecipientBatch theme={theme} onThemeToggle={toggleTheme} />} />
-        <Route path="/settings/organization-settings" element={<OrganizationSettings theme={theme} onThemeToggle={toggleTheme} />} />"
+        <Route path="/settings/organization-settings" element={<OrganizationSettings theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/admin/import-recipients" element={<AdminImportRecipients theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/admin/view-recipient/:id" element={<AdminViewRecipient theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/dashboard/settings/users" element={<AdminUserList theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/admin/add-new-user" element={<AddNewUser theme={theme} onThemeToggle={toggleTheme} />} />
-        <Route path="/topup-token" element={<TopUpToken theme={theme} onThemeToggle={toggleTheme} />} />"
+        <Route path="/topup-token" element={<TopUpToken theme={theme} onThemeToggle={toggleTheme} />} />
 
         {/* MyWall */}
 
