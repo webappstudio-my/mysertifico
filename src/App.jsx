@@ -46,6 +46,7 @@ import AdminViewRecipient from './pages/mysertifico/admin/AdminViewRecipient';
 import AdminUserList from './pages/mysertifico/admin/AdminUserList';
 import AddNewUser from './pages/mysertifico/admin/AddNewUser';
 import TopUpToken from './pages/mysertifico/admin/TopUpToken';
+import LogoManagement from './pages/mysertifico/admin/LogoManagement';
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
@@ -96,6 +97,7 @@ function App() {
         <Route path="/dashboard/settings/users" element={<AdminUserList theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/admin/add-new-user" element={<AddNewUser theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/topup-token" element={<TopUpToken theme={theme} onThemeToggle={toggleTheme} />} />
+        <Route path="/settings/logo-management" element={<LogoManagement theme={theme} onThemeToggle={toggleTheme} />} />
 
         {/* MyWall */}
 

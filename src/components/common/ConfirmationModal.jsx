@@ -1,4 +1,3 @@
-// src/components/bo/BoConfirmationModal.jsx
 import React from 'react';
 
 const ConfirmationModal = ({ isOpen, onClose, title, message, iconClass, confirmButtonText, confirmButtonClass, onConfirm }) => {
