@@ -83,8 +83,8 @@ const ActionMenu = ({ onEdit, onDelete }) => (
 
 // --- MAIN COMPONENT ---
 
-const ClassroomManagementTab = ({
-    classrooms,
+const GroupManagementTab = ({
+    groups,
     onSave,
     onDelete,
     isModalOpen,
@@ -113,20 +113,20 @@ const ClassroomManagementTab = ({
         };
     }, []);
 
-    const totalPages = Math.ceil(classrooms.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(groups.length / ITEMS_PER_PAGE);
 
     useEffect(() => {
         if (currentPage > totalPages && totalPages > 0) {
             setCurrentPage(totalPages);
         }
-    }, [classrooms, currentPage, totalPages]);
+    }, [groups, currentPage, totalPages]);
 
-    const paginatedClassrooms = useMemo(() => {
+    const paginatedGroups = useMemo(() => {
         const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-        return classrooms.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-    }, [currentPage, classrooms]);
+        return groups.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+    }, [currentPage, groups]);
 
-    const renderClassroomRow = (cls, index) => (
+    const renderGroupRow = (cls, index) => (
         <tr key={cls.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
             <td className="px-6 py-4">{index + 1 + (currentPage - 1) * ITEMS_PER_PAGE}</td>
             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{cls.name}</th>
@@ -146,7 +146,7 @@ const ClassroomManagementTab = ({
         </tr>
     );
 
-    const renderClassroomCard = (cls) => (
+    const renderGroupCard = (cls) => (
         <div key={cls.id} className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg flex justify-between items-center">
             <span className="font-medium text-gray-900 dark:text-white">{cls.name}</span>
             <div className="relative" ref={activeMenuId === cls.id ? menuRef : null}>
@@ -167,9 +167,9 @@ const ClassroomManagementTab = ({
         <>
             <div className="p-4 rounded-lg bg-white dark:bg-gray-800">
                 <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Section Management</h3>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Group Management</h3>
                     <button onClick={onOpenAddModal} className="px-4 py-2 text-sm bg-primary text-white rounded-lg hover:bg-primary-dark flex items-center">
-                        <i className="ri-add-line mr-2"></i>Add Section
+                        <i className="ri-add-line mr-2"></i>Add Group
                     </button>
                 </div>
 
@@ -178,25 +178,25 @@ const ClassroomManagementTab = ({
                         <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-300">
                             <tr>
                                 <th scope="col" className="px-6 py-3">#</th>
-                                <th scope="col" className="px-6 py-3">Section Name</th>
+                                <th scope="col" className="px-6 py-3">Group Name</th>
                                 <th scope="col" className="px-6 py-3 text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {paginatedClassrooms.map(renderClassroomRow)}
+                            {paginatedGroups.map(renderGroupRow)}
                         </tbody>
                     </table>
                 </div>
 
                 <div className="space-y-4 md:hidden">
-                    {paginatedClassrooms.map(renderClassroomCard)}
+                    {paginatedGroups.map(renderGroupCard)}
                 </div>
 
                 <PaginationV2
                     currentPage={currentPage}
                     totalPages={totalPages}
                     onPageChange={setCurrentPage}
-                    totalItems={classrooms.length}
+                    totalItems={groups.length}
                     itemsPerPage={ITEMS_PER_PAGE}
                 />
             </div>
@@ -206,7 +206,7 @@ const ClassroomManagementTab = ({
                 onClose={() => setIsModalOpen(false)}
                 onSave={onSave}
                 itemToEdit={itemToEdit}
-                itemType="Classroom"
+                itemType="Group"
             />
             <ConfirmationModal
                 isOpen={isDeleteConfirmOpen}
@@ -222,4 +222,4 @@ const ClassroomManagementTab = ({
     );
 };
 
-export default ClassroomManagementTab;
+export default GroupManagementTab;

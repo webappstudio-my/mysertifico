@@ -3,7 +3,7 @@ import Sidebar from '../../../components/mysertifico/Sidebar';
 import DashboardNavbar from '../../../components/mysertifico/DashboardNavbar';
 import OrganizationDetailsTab from '../../../components/mysertifico/OrganizationDetailsTab';
 import PositionManagementTab from '../../../components/mysertifico/PositionManagementTab';
-import ClassroomManagementTab from '../../../components/mysertifico/ClassroomManagementTab';
+import GroupManagementTab from '../../../components/mysertifico/GroupManagementTab';
 import Toast from '../../../components/common/Toast';
 
 const OrganizationSettings = ({ theme, onThemeToggle }) => {
@@ -31,8 +31,8 @@ const OrganizationSettings = ({ theme, onThemeToggle }) => {
     const [positionToEdit, setPositionToEdit] = useState(null);
     const [positionToDelete, setPositionToDelete] = useState(null);
 
-    // --- State for Classroom Management ---
-    const [classrooms, setClassrooms] = useState([
+    // --- State for Group Management ---
+    const [groups, setGroups] = useState([
         { id: 1, name: '1 Amanah' },
         { id: 2, name: '2 Bestari' },
         { id: 3, name: '3 Cerdas' },
@@ -40,10 +40,10 @@ const OrganizationSettings = ({ theme, onThemeToggle }) => {
         { id: 5, name: '5 Elit' },
         { id: 6, name: '6 Fikrah' },
     ]);
-    const [isClassroomModalOpen, setIsClassroomModalOpen] = useState(false);
-    const [isClassroomDeleteConfirmOpen, setIsClassroomDeleteConfirmOpen] = useState(false);
-    const [classroomToEdit, setClassroomToEdit] = useState(null);
-    const [classroomToDelete, setClassroomToDelete] = useState(null);
+    const [isGroupModalOpen, setIsGroupModalOpen] = useState(false);
+    const [isGroupDeleteConfirmOpen, setIsGroupDeleteConfirmOpen] = useState(false);
+    const [groupToEdit, setGroupToEdit] = useState(null);
+    const [groupToDelete, setGroupToDelete] = useState(null);
 
 
     // --- Handlers for Position Management ---
@@ -83,41 +83,41 @@ const OrganizationSettings = ({ theme, onThemeToggle }) => {
         setToast({ message: `Position "${deletedPositionName}" has been deleted.`, type: 'success' });
     };
 
-    // --- Handlers for Classroom Management ---
-    const handleOpenAddClassroomModal = () => {
-        setClassroomToEdit(null);
-        setIsClassroomModalOpen(true);
+    // --- Handlers for Group Management ---
+    const handleOpenAddGroupModal = () => {
+        setGroupToEdit(null);
+        setIsGroupModalOpen(true);
     };
-    const handleOpenEditClassroomModal = (classroom) => {
-        setClassroomToEdit(classroom);
-        setIsClassroomModalOpen(true);
+    const handleOpenEditGroupModal = (group) => {
+        setGroupToEdit(group);
+        setIsGroupModalOpen(true);
     };
-    const handleOpenDeleteClassroomConfirm = (classroom) => {
-        setClassroomToDelete(classroom);
-        setIsClassroomDeleteConfirmOpen(true);
+    const handleOpenDeleteGroupConfirm = (group) => {
+        setGroupToDelete(group);
+        setIsGroupDeleteConfirmOpen(true);
     };
-    const handleSaveClassroom = (newName, classroom) => {
+    const handleSaveGroup = (newName, group) => {
         let toastMessage = '';
-        if (classroom) { // Editing
-            setClassrooms(classrooms.map(c => c.id === classroom.id ? { ...c, name: newName } : c));
-            toastMessage = `Classroom "${newName}" updated successfully.`;
+        if (group) { // Editing
+            setGroups(groups.map(c => c.id === group.id ? { ...c, name: newName } : c));
+            toastMessage = `Group "${newName}" updated successfully.`;
         } else { // Adding
-            const newClassroom = {
-                id: classrooms.length > 0 ? Math.max(...classrooms.map(c => c.id)) + 1 : 1,
+            const newGroup = {
+                id: groups.length > 0 ? Math.max(...groups.map(c => c.id)) + 1 : 1,
                 name: newName,
             };
-            setClassrooms([...classrooms, newClassroom]);
-            toastMessage = `Classroom "${newName}" added successfully.`;
+            setGroups([...groups, newGroup]);
+            toastMessage = `Group "${newName}" added successfully.`;
         }
-        setIsClassroomModalOpen(false);
+        setIsGroupModalOpen(false);
         setToast({ message: toastMessage, type: 'success' });
     };
-    const handleConfirmDeleteClassroom = (classroom) => {
-        const deletedClassroomName = classroom.name;
-        setClassrooms(classrooms.filter(c => c.id !== classroom.id));
-        setIsClassroomDeleteConfirmOpen(false);
-        setClassroomToDelete(null);
-        setToast({ message: `Classroom "${deletedClassroomName}" has been deleted.`, type: 'success' });
+    const handleConfirmDeleteGroup = (group) => {
+        const deletedGroupName = group.name;
+        setGroups(groups.filter(c => c.id !== group.id));
+        setIsGroupDeleteConfirmOpen(false);
+        setGroupToDelete(null);
+        setToast({ message: `Group "${deletedGroupName}" has been deleted.`, type: 'success' });
     };
 
 
@@ -138,20 +138,20 @@ const OrganizationSettings = ({ theme, onThemeToggle }) => {
                     onOpenEditModal={handleOpenEditPositionModal}
                     onOpenDeleteConfirm={handleOpenDeletePositionConfirm}
                 />;
-            case 'classroom':
-                return <ClassroomManagementTab
-                    classrooms={classrooms}
-                    onSave={handleSaveClassroom}
-                    onDelete={handleConfirmDeleteClassroom}
-                    isModalOpen={isClassroomModalOpen}
-                    setIsModalOpen={setIsClassroomModalOpen}
-                    isDeleteConfirmOpen={isClassroomDeleteConfirmOpen}
-                    setIsDeleteConfirmOpen={setIsClassroomDeleteConfirmOpen}
-                    itemToEdit={classroomToEdit}
-                    itemToDelete={classroomToDelete}
-                    onOpenAddModal={handleOpenAddClassroomModal}
-                    onOpenEditModal={handleOpenEditClassroomModal}
-                    onOpenDeleteConfirm={handleOpenDeleteClassroomConfirm}
+            case 'group':
+                return <GroupManagementTab
+                    groups={groups}
+                    onSave={handleSaveGroup}
+                    onDelete={handleConfirmDeleteGroup}
+                    isModalOpen={isGroupModalOpen}
+                    setIsModalOpen={setIsGroupModalOpen}
+                    isDeleteConfirmOpen={isGroupDeleteConfirmOpen}
+                    setIsDeleteConfirmOpen={setIsGroupDeleteConfirmOpen}
+                    itemToEdit={groupToEdit}
+                    itemToDelete={groupToDelete}
+                    onOpenAddModal={handleOpenAddGroupModal}
+                    onOpenEditModal={handleOpenEditGroupModal}
+                    onOpenDeleteConfirm={handleOpenDeleteGroupConfirm}
                 />;
             case 'organization':
             default:
@@ -187,7 +187,7 @@ const OrganizationSettings = ({ theme, onThemeToggle }) => {
                             <ul className="flex flex-wrap -mb-px text-sm font-medium text-center">
                                 <TabButton id="organization" activeTab={activeTab} onClick={setActiveTab}>Organization</TabButton>
                                 <TabButton id="position" activeTab={activeTab} onClick={setActiveTab}>Position</TabButton>
-                                <TabButton id="classroom" activeTab={activeTab} onClick={setActiveTab}>Section</TabButton>
+                                <TabButton id="group" activeTab={activeTab} onClick={setActiveTab}>Group</TabButton>
                             </ul>
                         </div>
 
