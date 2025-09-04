@@ -1,5 +1,6 @@
 // src/pages/bo/BoSupportHelp.jsx
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import BoSidebar from '../../components/bo/BoSidebar';
 import BoNavbar from '../../components/bo/BoNavbar';
 import BoPagination from '../../components/bo/BoPagination';
@@ -7,55 +8,11 @@ import BoSearchInput from '../../components/bo/BoSearchInput';
 
 const BoSupportHelp = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [ticketData, setTicketData] = useState([
-        { 
-            id: 1, 
-            subject: 'Problem with QR Code', 
-            name: 'Ahmad bin Ali', 
-            email: 'ahmad.ali@example.com', 
-            date: '2025-08-01', 
-            status: 'New', 
-            message: 'The QR code on my certificate is not scannable. Please help.' 
-        },
-        { 
-            id: 2, 
-            name: 'Siti Nurhaliza', 
-            email: 'siti.nurhaliza@example.com', 
-            subject: 'Payment Issue', 
-            date: '2025-07-28', 
-            status: 'In Progress', 
-            message: 'I have made the payment but my token balance is not updated.' 
-        },
-        { 
-            id: 3, 
-            name: 'John Doe', 
-            email: 'john.doe@example.com', 
-            subject: 'Unable to login', 
-            date: '2025-07-25', 
-            status: 'Resolved', 
-            message: 'I forgot my password and the reset link is not working.' 
-        },
-        { 
-            id: 4, 
-            name: 'Lee Wei', 
-            email: 'lee.wei@example.com', 
-            subject: 'Feature Request', 
-            date: '2025-07-22', 
-            status: 'Resolved', 
-            message: 'Can you add a feature to bulk upload student names from a CSV file?' 
-        },
-        { 
-            id: 5, 
-            name: 'Muthu Samy', 
-            email: 'muthu.samy@example.com', 
-            subject: 'Template Customization', 
-            date: '2025-07-20', 
-            status: 'New', 
-            message: 'How can I change the font color on the template?' 
-        },
-    ]);
+    const [ticketData, setTicketData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
     
-    const [filteredData, setFilteredData] = useState([...ticketData]);
+    const [filteredData, setFilteredData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [searchInput, setSearchInput] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
@@ -70,6 +27,7 @@ const BoSupportHelp = () => {
     const [replyMessage, setReplyMessage] = useState('');
     const [markStatus, setMarkStatus] = useState('In Progress');
     const [replyError, setReplyError] = useState(false);
+    const [replyLoading, setReplyLoading] = useState(false);
     
     // Toast state
     const [showToast, setShowToast] = useState(false);
@@ -77,21 +35,104 @@ const BoSupportHelp = () => {
     
     const statusStyles = {
         'New': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+        'Unread': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
         'In Progress': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
         'Resolved': 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
     };
 
+    // Helper function to format status from backend to frontend
+    const formatStatus = (backendStatus) => {
+        const statusMap = {
+            'new': 'New',
+            'unread': 'Unread', 
+            'in progress': 'In Progress',
+            'resolved': 'Resolved'
+        };
+        return statusMap[backendStatus?.toLowerCase()] || 'New';
+    };
+
+    // Helper function to format backend status for API calls
+    const formatBackendStatus = (frontendStatus) => {
+        const statusMap = {
+            'New': 'new',
+            'Unread': 'unread',
+            'In Progress': 'in progress',
+            'Resolved': 'resolved'
+        };
+        return statusMap[frontendStatus] || 'unread';
+    };
+
+    // Helper function to format date
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-GB'); // DD/MM/YYYY format
+    };
+
+    // Transform backend data to frontend format
+    const transformTicketData = (backendData) => {
+        return backendData.map(ticket => ({
+            id: ticket.id,
+            subject: ticket.subject || 'No Subject',
+            name: ticket.fullname,
+            email: ticket.email,
+            date: formatDate(ticket.createdAt),
+            status: formatStatus(ticket.status),
+            message: ticket.message,
+            createdAt: ticket.createdAt,
+            updatedAt: ticket.updatedAt
+        }));
+    };
+
+    // Fetch tickets from API
+    const fetchTickets = async () => {
+        try {
+            setLoading(true);
+            setError('');
+            
+            const response = await axios.get('http://localhost:3000/api/contact-us', {
+                timeout: 10000
+            });
+
+            if (response.data && response.data.data) {
+                const transformedData = transformTicketData(response.data.data);
+                setTicketData(transformedData);
+                setFilteredData(transformedData);
+            } else {
+                setTicketData([]);
+                setFilteredData([]);
+            }
+        } catch (error) {
+            console.error('Error fetching tickets:', error);
+            setError('Failed to load support tickets. Please try again.');
+            
+            // Show user-friendly error
+            if (error.response) {
+                setError(`Server error: ${error.response.data?.message || error.response.status}`);
+            } else if (error.request) {
+                setError('Unable to connect to server. Please check your connection.');
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Load tickets on component mount
+    useEffect(() => {
+        fetchTickets();
+    }, []);
+
     //For BoSearchInput variables
     const handleSearchSubmit = () => {
-    setSearchTerm(searchInput);
-    setCurrentPage(1); // Reset to first page when searching
+        setSearchTerm(searchInput);
+        setCurrentPage(1); // Reset to first page when searching
     };
 
     const handleClearSearch = () => {
-    setSearchInput('');
-    setSearchTerm('');
-    setCurrentPage(1);
+        setSearchInput('');
+        setSearchTerm('');
+        setCurrentPage(1);
     };
+
     // Apply filters
     useEffect(() => {
         let filtered = ticketData;
@@ -99,7 +140,8 @@ const BoSupportHelp = () => {
         if (searchTerm) {
             filtered = filtered.filter(ticket => 
                 ticket.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                ticket.email.toLowerCase().includes(searchTerm.toLowerCase())
+                ticket.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                ticket.name.toLowerCase().includes(searchTerm.toLowerCase())
             );
         }
         
@@ -133,6 +175,7 @@ const BoSupportHelp = () => {
         setSelectedTicket(null);
         setReplyMessage('');
         setReplyError(false);
+        setReplyLoading(false);
     };
     
     const showToastNotification = (message) => {
@@ -143,7 +186,7 @@ const BoSupportHelp = () => {
         }, 4000);
     };
     
-    const handleSubmitReply = (e) => {
+    const handleSubmitReply = async (e) => {
         e.preventDefault();
         
         if (!replyMessage.trim()) {
@@ -151,8 +194,24 @@ const BoSupportHelp = () => {
             return;
         }
         
-        // Update ticket status
-        if (selectedTicket) {
+        setReplyLoading(true);
+        
+        try {
+            // In a real implementation, you would send the reply to your backend
+            // For now, we'll just update the status locally
+            
+            // If you have a reply endpoint, uncomment and use this:
+            /*
+            const replyData = {
+                ticketId: selectedTicket.id,
+                replyMessage: replyMessage.trim(),
+                status: formatBackendStatus(markStatus)
+            };
+            
+            await axios.post('http://localhost:3000/api/contact-us/reply', replyData);
+            */
+            
+            // Update local state (remove this if you implement the API call above)
             setTicketData(prev => prev.map(ticket => 
                 ticket.id === selectedTicket.id 
                     ? { ...ticket, status: markStatus }
@@ -161,7 +220,7 @@ const BoSupportHelp = () => {
             
             // Create success message
             const now = new Date();
-            const repliedBy = "Masta Rob"; // This would be dynamic in a real app
+            const repliedBy = "Admin"; // This would be dynamic in a real app
             const formattedDate = now.toLocaleDateString('en-GB', { 
                 day: '2-digit', 
                 month: 'long', 
@@ -175,9 +234,21 @@ const BoSupportHelp = () => {
             
             const successMsg = `Reply sent successfully!\nBy: ${repliedBy} on ${formattedDate} at ${formattedTime}`;
             showToastNotification(successMsg);
+            
+            closeModal();
+        } catch (error) {
+            console.error('Error sending reply:', error);
+            setReplyError(true);
+            showToastNotification('Failed to send reply. Please try again.');
+        } finally {
+            setReplyLoading(false);
         }
-        
-        closeModal();
+    };
+
+    // Refresh tickets handler
+    const handleRefresh = () => {
+        fetchTickets();
+        showToastNotification('Tickets refreshed successfully!');
     };
     
     return (
@@ -206,8 +277,38 @@ const BoSupportHelp = () => {
                                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                                     Respond to user inquiries and complaints from the Contact Us page.
                                 </p>
+                                {!loading && (
+                                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+                                        Total tickets: {ticketData.length} | Showing: {filteredData.length}
+                                    </p>
+                                )}
                             </div>
+                            
+                            <button 
+                                onClick={handleRefresh}
+                                disabled={loading}
+                                className="flex items-center gap-2 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            >
+                                <i className={`ri-refresh-line ${loading ? 'animate-spin' : ''}`}></i>
+                                Refresh
+                            </button>
                         </div>
+                        
+                        {/* Error Message */}
+                        {error && (
+                            <div className="mb-6 p-4 bg-red-100 border border-red-200 text-red-700 dark:bg-red-900/30 dark:border-red-800 dark:text-red-300 rounded-lg">
+                                <div className="flex items-center gap-2">
+                                    <i className="ri-error-warning-line"></i>
+                                    <span>{error}</span>
+                                    <button 
+                                        onClick={fetchTickets}
+                                        className="ml-auto text-sm underline hover:no-underline"
+                                    >
+                                        Try Again
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                         
                         {/* Main Content Card */}
                         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md">
@@ -218,44 +319,49 @@ const BoSupportHelp = () => {
                                     onChange={setSearchInput}
                                     onSearch={handleSearchSubmit}
                                     onClear={handleClearSearch}
-                                    placeholder="Search by subject or email..."
+                                    placeholder="Search by subject, email or name..."
                                     activeSearchTerm={searchTerm}
                                     className="w-full md:w-auto"
                                 />
                                 
-                                {/*
-                                <div className="relative w-full md:w-80">
-                                    <i className="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                                    <input 
-                                        type="text" 
-                                        placeholder="Search by subject or email..." 
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-600"
-                                    />
-                                </div>
-                                */}
                                 <select 
                                     value={statusFilter}
                                     onChange={(e) => setStatusFilter(e.target.value)}
                                     className="w-full md:w-auto py-2 px-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-teal-600"
                                 >
                                     <option value="all">All Status</option>
+                                    <option value="Unread">Unread</option>
                                     <option value="New">New</option>
                                     <option value="In Progress">In Progress</option>
                                     <option value="Resolved">Resolved</option>
                                 </select>
                             </div>
                             
-                            {/* Tickets Table */}
-                            {currentItems.length === 0 ? (
+                            {/* Loading State */}
+                            {loading ? (
+                                <div className="text-center py-16">
+                                    <div className="animate-spin w-8 h-8 border-4 border-teal-600 border-t-transparent rounded-full mx-auto mb-4"></div>
+                                    <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                                        Loading Tickets...
+                                    </h3>
+                                    <p className="text-gray-500 dark:text-gray-400 mt-1">
+                                        Please wait while we fetch the latest support tickets.
+                                    </p>
+                                </div>
+                            ) : currentItems.length === 0 ? (
                                 <div className="text-center py-16">
                                     <i className="ri-search-eye-line text-6xl text-gray-400 mb-4"></i>
                                     <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200">
-                                        No Tickets Found
+                                        {filteredData.length === 0 && ticketData.length === 0 
+                                            ? 'No Support Tickets Yet'
+                                            : 'No Tickets Found'
+                                        }
                                     </h3>
                                     <p className="text-gray-500 dark:text-gray-400 mt-1">
-                                        Your search or filter did not match any tickets.
+                                        {filteredData.length === 0 && ticketData.length === 0
+                                            ? 'When users submit contact forms, they will appear here.'
+                                            : 'Your search or filter did not match any tickets.'
+                                        }
                                     </p>
                                 </div>
                             ) : (
@@ -377,11 +483,12 @@ const BoSupportHelp = () => {
                                             setReplyMessage(e.target.value);
                                             setReplyError(false);
                                         }}
+                                        disabled={replyLoading}
                                         className={`w-full py-2 px-4 border ${
                                             replyError 
                                                 ? 'border-red-500 dark:border-red-500' 
                                                 : 'border-gray-300 dark:border-gray-600'
-                                        } rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-teal-600`}
+                                        } rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-teal-600 disabled:opacity-50`}
                                     />
                                     {replyError && (
                                         <small className="text-red-500 mt-1 block">
@@ -400,7 +507,8 @@ const BoSupportHelp = () => {
                                         id="mark-status"
                                         value={markStatus}
                                         onChange={(e) => setMarkStatus(e.target.value)}
-                                        className="py-2 px-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-teal-600"
+                                        disabled={replyLoading}
+                                        className="py-2 px-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-teal-600 disabled:opacity-50"
                                     >
                                         <option value="In Progress">In Progress</option>
                                         <option value="Resolved">Resolved</option>
@@ -410,15 +518,24 @@ const BoSupportHelp = () => {
                                     <button 
                                         type="button" 
                                         onClick={closeModal}
-                                        className="bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
+                                        disabled={replyLoading}
+                                        className="bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-200 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors disabled:opacity-50"
                                     >
                                         Cancel
                                     </button>
                                     <button 
-                                        type="submit" 
-                                        className="bg-teal-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-teal-700 transition-colors"
+                                        type="submit"
+                                        disabled={replyLoading}
+                                        className="bg-teal-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-teal-700 transition-colors disabled:opacity-50 flex items-center gap-2"
                                     >
-                                        Send Reply
+                                        {replyLoading ? (
+                                            <>
+                                                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                                Sending...
+                                            </>
+                                        ) : (
+                                            'Send Reply'
+                                        )}
                                     </button>
                                 </div>
                             </div>
