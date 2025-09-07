@@ -180,7 +180,7 @@ const TemplateCard = ({ template, onPreview, onSelect }) => (
                 </button>
                 <button onClick={() => onSelect(template)} className="opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-75 bg-primary text-white font-semibold py-2 px-4 rounded-lg inline-flex items-center gap-2">
                     <i className="ri-check-line"></i>
-                    <span>Select</span>
+                    <span>Add</span>
                 </button>
             </div>
         </div>
