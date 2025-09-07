@@ -133,13 +133,13 @@ const Dashboard = ({ theme, onThemeToggle }) => {
                                         iconClass="ri-gallery-line"
                                         iconColor="text-yellow-500"
                                         text="View Templates"
-                                        link="/dashboard/templates"
+                                        link="/template-list"
                                     />
                                     <QuickActionItem
                                         iconClass="ri-image-line"
                                         iconColor="text-purple-500"
                                         text="View Logos & Badges"
-                                        link="/dashboard/logos-badges"
+                                        link="/logos-badges"
                                     />
                                 </div>
                             </div>
