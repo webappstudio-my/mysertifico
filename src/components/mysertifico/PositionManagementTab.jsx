@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import PaginationV2 from '../common/PaginationV2';
 import ConfirmationModal from '../common/ConfirmationModal';
 
