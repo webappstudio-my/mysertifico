@@ -1,15 +1,18 @@
 import { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for toast notifications
-
 import Sidebar from '../../../components/mysertifico/Sidebar';
 import DashboardNavbar from '../../../components/mysertifico/DashboardNavbar';
+import Toast from '../../../components/common/Toast';
 
 const MyProfile = ({ theme, onThemeToggle }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [fullName, setFullName] = useState('Fikri Nabil');
     const [profileImage, setProfileImage] = useState('https://i.pravatar.cc/150?u=admin');
     const [newProfileImageFile, setNewProfileImageFile] = useState(null);
+    const [toast, setToast] = useState({ message: '', type: '', show: false });
+
+    const showToast = (message, type) => {
+        setToast({ message, type, show: true });
+    };
 
     const handleProfileImageChange = (event) => {
         const file = event.target.files[0];
@@ -18,13 +21,13 @@ const MyProfile = ({ theme, onThemeToggle }) => {
             const maxSize = 2 * 1024 * 1024; // 2MB
 
             if (!allowedTypes.includes(file.type)) {
-                toast.error('Invalid file type. Please select a JPG or PNG image.');
+                showToast('Invalid file type. Please select a JPG or PNG image.', 'error');
                 event.target.value = '';
                 return;
             }
 
             if (file.size > maxSize) {
-                toast.error('File size exceeds 2MB. Please select a smaller image.');
+                showToast('File size exceeds 2MB. Please select a smaller image.', 'error');
                 event.target.value = '';
                 return;
             }
@@ -41,7 +44,7 @@ const MyProfile = ({ theme, onThemeToggle }) => {
     const handleSavePicture = () => {
         // In a real application, you would upload the file to the server here.
         // Assuming the upload is successful:
-        toast.success('Profile picture updated successfully!');
+        showToast('Profile picture updated successfully!', 'success');
         // Update the navbar image if BoNavbar supports passing props for the image
         setNewProfileImageFile(null);
     };
@@ -51,14 +54,14 @@ const MyProfile = ({ theme, onThemeToggle }) => {
         const newName = fullName.trim();
 
         if (!newName) {
-            toast.error('Full name cannot be empty.');
+            showToast('Full name cannot be empty.', 'error');
             return;
         }
 
         // Simulate API call to save profile details
         console.log('Saving profile details...');
         setTimeout(() => {
-            toast.success('Profile details saved successfully!');
+            showToast('Profile details saved successfully!', 'success');
             // You might need to update the navbar user name via context or props
         }, 1500);
     };
@@ -85,6 +88,7 @@ const MyProfile = ({ theme, onThemeToggle }) => {
             >
                 <DashboardNavbar onSidebarToggle={toggleSidebar} fullName={fullName} profileImage={profileImage} theme={theme} onThemeToggle={onThemeToggle} />
                 <main className="p-6 sm:p-8">
+                    {toast.show && <Toast message={toast.message} type={toast.type} onClose={() => setToast({ ...toast, show: false })} />}
                     <div className="max-w-4xl mx-auto">
                         <div className="mb-6">
                             <h1 className="text-2xl font-bold text-gray-800 dark:text-white">My Profile</h1>
@@ -143,7 +147,6 @@ const MyProfile = ({ theme, onThemeToggle }) => {
                         </div>
                     </div>
                 </main>
-                <ToastContainer toastClassName="bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700" position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
             </div>
         </div>
     );
