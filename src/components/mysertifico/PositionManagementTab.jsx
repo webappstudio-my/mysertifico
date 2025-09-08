@@ -70,16 +70,33 @@ const ItemModal = ({ isOpen, onClose, onSave, itemToEdit, itemType }) => {
     );
 };
 
-const ActionMenu = ({ onEdit, onDelete }) => (
-    <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 z-50">
-        <a href="#" onClick={(e) => { e.preventDefault(); onEdit(); }} className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
-            <i className="ri-pencil-line mr-3"></i>Edit
-        </a>
-        <a href="#" onClick={(e) => { e.preventDefault(); onDelete(); }} className="flex items-center w-full px-4 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-gray-700">
-            <i className="ri-delete-bin-line mr-3"></i>Delete
-        </a>
-    </div>
-);
+// Action Menu for each table row
+const ActionMenu = ({ onEdit, onDelete, position, onClose }) => {
+    if (!position) return null;
+
+    return (
+        <div 
+            className="absolute w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 z-50 border border-gray-200 dark:border-gray-600"
+            style={{ top: position.y, left: position.x }}
+        >
+            <button
+                onClick={() => { onEdit(); onClose(); }}
+                className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            >
+                <i className="ri-pencil-line mr-3 text-gray-600 dark:text-gray-400"></i>
+                Edit
+            </button>
+            <button
+                onClick={() => { onDelete(); onClose(); }}
+                className="flex items-center w-full px-4 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            >
+                <i className="ri-delete-bin-line mr-3"></i>
+                Delete
+            </button>
+        </div>
+    );
+};
+
 
 // --- MAIN COMPONENT ---
 
@@ -99,19 +116,16 @@ const PositionManagementTab = ({
 }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [activeMenuId, setActiveMenuId] = useState(null);
-    const menuRef = useRef(null);
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (menuRef.current && !menuRef.current.contains(event.target)) {
+        const handleClickOutside = (e) => {
+            if (activeMenuId && !e.target.closest('.action-menu-container')) {
                 setActiveMenuId(null);
             }
         };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, [activeMenuId]);
 
     const totalPages = Math.ceil(positions.length / ITEMS_PER_PAGE);
 
@@ -126,21 +140,35 @@ const PositionManagementTab = ({
         return positions.slice(startIndex, startIndex + ITEMS_PER_PAGE);
     }, [currentPage, positions]);
 
+    // Handle action menu
+    const handleActionMenu = (e, position) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const rect = e.currentTarget.getBoundingClientRect();
+        setActiveMenuId({
+            position: {
+                x: rect.left - 170 + window.scrollX, // Adjust x to align menu
+                y: rect.bottom + window.scrollY + 5
+            },
+            item: position
+        });
+    };
+
+    // --- Render ---
+
     const renderPositionRow = (pos, index) => (
         <tr key={pos.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
             <td className="px-6 py-4">{index + 1 + (currentPage - 1) * ITEMS_PER_PAGE}</td>
             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{pos.name}</th>
             <td className="px-6 py-4 text-center">
-                <div className="relative inline-block" ref={activeMenuId === pos.id ? menuRef : null}>
-                    <button onClick={() => setActiveMenuId(activeMenuId === pos.id ? null : pos.id)} className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700">
-                        <i className="ri-more-2-fill"></i>
+                <div className="relative inline-block action-menu-container">
+                    <button 
+                        onClick={(e) => handleActionMenu(e, pos)}
+                        className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+                        title="More actions"
+                    >
+                        <i className="ri-more-2-fill text-lg"></i>
                     </button>
-                    {activeMenuId === pos.id && (
-                        <ActionMenu
-                            onEdit={() => { onOpenEditModal(pos); setActiveMenuId(null); }}
-                            onDelete={() => { onOpenDeleteConfirm(pos); setActiveMenuId(null); }}
-                        />
-                    )}
                 </div>
             </td>
         </tr>
@@ -149,16 +177,14 @@ const PositionManagementTab = ({
     const renderPositionCard = (pos) => (
         <div key={pos.id} className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg flex justify-between items-center">
             <span className="font-medium text-gray-900 dark:text-white">{pos.name}</span>
-            <div className="relative" ref={activeMenuId === pos.id ? menuRef : null}>
-                <button onClick={() => setActiveMenuId(activeMenuId === pos.id ? null : pos.id)} className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">
-                    <i className="ri-more-2-fill"></i>
+            <div className="relative action-menu-container">
+                <button 
+                    onClick={(e) => handleActionMenu(e, pos)}
+                    className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 focus:outline-none text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+                    title="More actions"
+                >
+                    <i className="ri-more-2-fill text-lg"></i>
                 </button>
-                {activeMenuId === pos.id && (
-                    <ActionMenu
-                        onEdit={() => { onOpenEditModal(pos); setActiveMenuId(null); }}
-                        onDelete={() => { onOpenDeleteConfirm(pos); setActiveMenuId(null); }}
-                    />
-                )}
             </div>
         </div>
     );
@@ -213,11 +239,23 @@ const PositionManagementTab = ({
                 onClose={() => setIsDeleteConfirmOpen(false)}
                 onConfirm={() => onDelete(positionToDelete)}
                 title="Confirm Deletion"
-                message={`Are you sure you want to delete "${positionToDelete?.name}"?`}
-                iconClass="ri-error-warning-line text-red-500"
+                message={positionToDelete ? `Are you sure you want to delete "${positionToDelete.name}"?` : ''}
+                iconClass="ri-error-warning-line text-4xl text-red-600 dark:text-red-400"
                 confirmButtonText="Yes, Delete"
-                confirmButtonClass="bg-danger text-white hover:bg-danger-hover"
+                confirmButtonClass="text-white bg-red-600 hover:bg-red-700"
             />
+
+            {/* Action Menu */}
+            {activeMenuId && (
+                <div className="action-menu-dropdown">
+                    <ActionMenu
+                        position={activeMenuId.position}
+                        onEdit={() => onOpenEditModal(activeMenuId.item)}
+                        onDelete={() => onOpenDeleteConfirm(activeMenuId.item)}
+                        onClose={() => setActiveMenuId(null)}
+                    />
+                </div>
+            )}
         </>
     );
 };
