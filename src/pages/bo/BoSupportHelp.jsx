@@ -52,7 +52,8 @@ const BoSupportHelp = () => {
     };
 
     // Helper function to format backend status for API calls
-    const formatBackendStatus = (frontendStatus) => {
+    {/*
+        const formatBackendStatus = (frontendStatus) => {
         const statusMap = {
             'New': 'new',
             'Unread': 'unread',
@@ -61,6 +62,7 @@ const BoSupportHelp = () => {
         };
         return statusMap[frontendStatus] || 'unread';
     };
+    */}
 
     // Helper function to format date
     const formatDate = (dateString) => {
@@ -117,9 +119,11 @@ const BoSupportHelp = () => {
     };
 
     // Load tickets on component mount
-    useEffect(() => {
+    {/*
+        useEffect(() => {
         fetchTickets();
     }, []);
+    */}
 
     //For BoSearchInput variables
     const handleSearchSubmit = () => {
