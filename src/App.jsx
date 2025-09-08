@@ -50,6 +50,7 @@ import LogoManagement from './pages/mysertifico/admin/LogoManagement';
 import SelectedTemplateList from './pages/mysertifico/admin/SelectedTemplateList';
 import EditUser from './pages/mysertifico/admin/EditUser';
 import ImportUsers from './pages/mysertifico/admin/ImportUsers';
+import MyWallHome from './pages/mywall/landing/MyWallHome';
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
@@ -70,7 +71,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Landing */}
+        {/* MySertifico Landing */}
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/price" element={<Price />} />
@@ -104,6 +105,9 @@ function App() {
         <Route path="/dashboard/settings/templates" element={<SelectedTemplateList theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/dashboard/settings/edit-user/:id" element={<EditUser theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/dashboard/settings/import-users" element={<ImportUsers theme={theme} onThemeToggle={toggleTheme} />} />
+
+        {/* MyWall Landing */}
+        <Route path='/mywall/home' element={<MyWallHome />} />'
 
         {/* MyWall */}
 
