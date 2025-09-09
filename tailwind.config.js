@@ -18,7 +18,7 @@ export default { // Ensure 'export default' for Vite
         'primary-dark': '#0f766e', // Teal-700
         'primary-light': '#14b8a6', // Teal-500
         'primary-50': '#f0fdfa',
-        'accent': '#f59e0b', // Amber-500
+        'accent': '#F97316', // Orange-500 like in html examples
 
         // Back Office Colors
         'bo-bg-light': '#f8fafc',
