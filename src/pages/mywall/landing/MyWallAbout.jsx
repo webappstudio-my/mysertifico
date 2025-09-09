@@ -71,7 +71,7 @@ const MyWallAbout = () => {
                     <div className="container mx-auto px-6 text-center">
                         <h2 className="text-3xl font-bold text-white mb-4">Ready to Build Your Digital Legacy?</h2>
                         <p className="text-primary-mywall-200 mb-8 max-w-2xl mx-auto">Join thousands of students and professionals who are taking control of their achievements.</p>
-                        <Link to="/mywall/auth/sign-up" className="bg-accent text-white font-semibold py-3 px-8 rounded-lg transform hover:scale-105 transition-transform hover:bg-accent-hover">
+                        <Link to="/mywall/auth/sign-up" className="bg-accent-mywall hover:bg-accent-mywall-hover text-white font-semibold py-3 px-8 rounded-lg transform hover:scale-105 transition-transform hover:bg-accent-hover">
                             Create Your MyWall for Free
                         </Link>
                     </div>
