@@ -52,6 +52,10 @@ import EditUser from './pages/mysertifico/admin/EditUser';
 import ViewUser from './pages/mysertifico/admin/ViewUser';
 import ImportUsers from './pages/mysertifico/admin/ImportUsers';
 import MyWallHome from './pages/mywall/landing/MyWallHome';
+import MWPrivacyPolicy from './pages/mywall/landing/MWPrivacyPolicy';
+import MWSecurityPolicy from './pages/mywall/landing/MWSecurityPolicy';
+import MWTermsOfService from './pages/mywall/landing/MWTermsOfService';
+
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
@@ -110,6 +114,10 @@ function App() {
 
         {/* MyWall Landing */}
         <Route path='/mywall/home' element={<MyWallHome />} />'
+        <Route path="/mywall/privacy-policy" element={<MWPrivacyPolicy />} />
+        <Route path="/mywall/security-policy" element={<MWSecurityPolicy />} />
+        <Route path="/mywall/terms-of-service" element={<MWTermsOfService />} />
+"
 
         {/* MyWall */}
 
