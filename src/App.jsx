@@ -54,6 +54,7 @@ import ImportUsers from './pages/mysertifico/admin/ImportUsers';
 import MyWallHome from './pages/mywall/landing/MyWallHome';
 import MyWallAbout from './pages/mywall/landing/MyWallAbout';
 import MyWallPrice from './pages/mywall/landing/MyWallPrice';
+import MyWallContactUs from './pages/mywall/landing/MyWallContactUs';
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
@@ -114,6 +115,7 @@ function App() {
         <Route path='/mywall/home' element={<MyWallHome />} />'
         <Route path='/mywall/about' element={<MyWallAbout />} />
         <Route path='/mywall/pricing' element={<MyWallPrice />} />
+        <Route path='/mywall/contact-us' element={<MyWallContactUs />} />
 
         {/* MyWall */}
 
