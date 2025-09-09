@@ -52,6 +52,7 @@ import EditUser from './pages/mysertifico/admin/EditUser';
 import ViewUser from './pages/mysertifico/admin/ViewUser';
 import ImportUsers from './pages/mysertifico/admin/ImportUsers';
 import MyWallHome from './pages/mywall/landing/MyWallHome';
+import MyWallAbout from './pages/mywall/landing/MyWallAbout';
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
@@ -110,6 +111,7 @@ function App() {
 
         {/* MyWall Landing */}
         <Route path='/mywall/home' element={<MyWallHome />} />'
+        <Route path='/mywall/about' element={<MyWallAbout />} />
 
         {/* MyWall */}
 

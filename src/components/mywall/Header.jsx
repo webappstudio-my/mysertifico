@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import logo from '../../assets/images/logos/logo.png';
 
 const Header = () => {
@@ -17,10 +17,10 @@ const Header = () => {
 
                     {/* Desktop Menu */}
                     <div className="hidden md:flex space-x-8 items-center">
-                        <Link to="/mywall/home" className="text-primary font-semibold">Home</Link>
-                        <Link to="/mywall/about" className="hover:text-primary font-medium">About</Link>
-                        <Link to="/mywall/pricing" className="hover:text-primary font-medium">Pricing</Link>
-                        <Link to="/mywall/contact-us" className="hover:text-primary font-medium">Contact Us</Link>
+                        <NavLink to="/mywall/home" className={({ isActive }) => isActive ? "text-primary font-semibold" : "hover:text-primary font-medium"}>Home</NavLink>
+                        <NavLink to="/mywall/about" className={({ isActive }) => isActive ? "text-primary font-semibold" : "hover:text-primary font-medium"}>About</NavLink>
+                        <NavLink to="/mywall/pricing" className={({ isActive }) => isActive ? "text-primary font-semibold" : "hover:text-primary font-medium"}>Pricing</NavLink>
+                        <NavLink to="/mywall/contact-us" className={({ isActive }) => isActive ? "text-primary font-semibold" : "hover:text-primary font-medium"}>Contact Us</NavLink>
                     </div>
 
                     {/* Login Buttons for Desktop */}
