@@ -36,6 +36,7 @@ const MyWallSignUp = ({ theme, onThemeToggle}) => {
      "Venezuela", "Yemen", "Zambia", "Zimbabwe"]
 
     const [registrationSuccess, setRegistrationSuccess] = useState(false);
+    const [passwordError, setPasswordError] = useState('');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -43,6 +44,11 @@ const MyWallSignUp = ({ theme, onThemeToggle}) => {
             ...prev,
             [name]: value,
         }));
+
+        // Clear password error when user types in either password field
+        if (name === 'password' || name === 'confirmPassword') {
+            setPasswordError('');
+        }
     };
 
     /* when integration with backend is ready
@@ -68,6 +74,15 @@ const MyWallSignUp = ({ theme, onThemeToggle}) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Check if passwords match
+        if (formData.password !== formData.confirmPassword) {
+            setPasswordError('Passwords do not match');
+            return;
+        }
+
+        // Clear any existing errors
+        setPasswordError('');
 
         // Simulate API call
         console.log('MyWall registration submitted.');
@@ -124,22 +139,21 @@ const MyWallSignUp = ({ theme, onThemeToggle}) => {
                         {!registrationSuccess && (
                             <form onSubmit={handleSubmit} className="space-y-5">
                                 <div>
-                                    <label htmlFor="full_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Full Name</label>
+                                    <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name</label>
                                     <AuthInputField
                                         iconClass="ri-user-line"
                                         type="text"
-                                        id="full_name"
+                                        id="fullName"
                                         name="fullName"
                                         value={formData.fullName}
                                         onChange={handleChange}
                                         required
-                                        placeholder="Full Name"
-                                        label="Full Name"
+                                        placeholder=""
                                     />
                                 </div>
                                 
                                 <div>
-                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
                                     <AuthInputField
                                         iconClass="ri-mail-line"
                                         type="email"
@@ -148,13 +162,12 @@ const MyWallSignUp = ({ theme, onThemeToggle}) => {
                                         value={formData.email}
                                         onChange={handleChange}
                                         required
-                                        placeholder="Email"
-                                        label="Email"
+                                        placeholder=""
                                     />
                                 </div>
                                 
                                 <div>
-                                    <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                                    <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
                                     <AuthInputField
                                         iconClass="ri-lock-line"
                                         type="password"
@@ -163,21 +176,35 @@ const MyWallSignUp = ({ theme, onThemeToggle}) => {
                                         value={formData.password}
                                         onChange={handleChange}
                                         required
-                                        placeholder="Password"
-                                        label="Password"
+                                        placeholder=""
                                         showPasswordStrength={true}
+                                    />
+                                </div>
+
+                                <div>
+                                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Confirm Password</label>
+                                    <AuthInputField
+                                        iconClass="ri-lock-line"
+                                        type="password"
+                                        id="confirmPassword"
+                                        name="confirmPassword"
+                                        value={formData.confirmPassword}
+                                        onChange={handleChange}
+                                        required
+                                        placeholder=""
+                                        error={passwordError}
                                     />
                                 </div>
                                 
                                 <div>
-                                    <label htmlFor="country" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Country</label>
+                                    <label htmlFor="country" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Country</label>
                                     <select 
                                         id="country" 
                                         name="country" 
                                         value={formData.country}
                                         onChange={handleChange}
                                         required 
-                                        className="mt-1 w-full p-3 border rounded-lg text-black focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                        className="block w-full px-4 py-3 border rounded-lg shadow-sm focus:outline-none text-black focus:ring-primary focus:border-primary sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white border-gray-300"
                                     >
                                         <option value="">-- Select your country --</option>
                                         {countries.map((country, index) => 
@@ -191,14 +218,14 @@ const MyWallSignUp = ({ theme, onThemeToggle}) => {
                                 </div>
                                 
                                 <div>
-                                    <label htmlFor="user_type" className="block text-sm font-medium text-gray-700 dark:text-gray-300">I am a</label>
+                                    <label htmlFor="user_type" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">I am a</label>
                                     <select 
                                         id="user_type" 
                                         name="userType" 
                                         value={formData.userType}
                                         onChange={handleChange}
                                         required 
-                                        className="mt-1 w-full p-3 border rounded-lg text-black focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                        className="block w-full px-4 py-3 border rounded-lg shadow-sm focus:outline-none text-black focus:ring-primary focus:border-primary sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white border-gray-300"
                                     >
                                         <option value="student">Student</option>
                                         <option value="parent">Parent / Guardian</option>
@@ -206,7 +233,7 @@ const MyWallSignUp = ({ theme, onThemeToggle}) => {
                                 </div>
 
                                 <div className="text-xs text-gray-500 dark:text-gray-400">
-                                    By clicking "Create Account", you agree to our <a href="#" className="text-primary hover:underline">Terms of Service</a> and <a href="#" className="text-primary hover:underline">Privacy Policy</a>.
+                                    By clicking "Create Account", you agree to our <Link to="/mywall/terms-of-service" className="text-primary-mywall hover:underline">Terms of Service</Link> and <Link to="/mywall/privacy-policy" className="text-primary-mywall hover:underline">Privacy Policy</Link>.
                                 </div>
                                 
                                 <button 
@@ -219,7 +246,7 @@ const MyWallSignUp = ({ theme, onThemeToggle}) => {
                         )}
 
                         <div className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
-                            Already have a MyWall account? <a href="#" className="font-semibold text-primary hover:underline">Sign In here</a>.
+                            Already have a MyWall account? <Link to="/mywall/sign-in" className="font-semibold text-primary-mywall hover:underline">Sign In here</Link>.
                         </div>
                     </div>
                 </div>
