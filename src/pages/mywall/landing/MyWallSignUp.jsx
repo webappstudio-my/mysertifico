@@ -51,7 +51,7 @@ const MyWallSignUp = ({ theme, onThemeToggle}) => {
         }
     };
 
-    /* when integration with backend is ready
+    /* when integration with backend is ready, need to add [error,setError] or something like that
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e) => {
