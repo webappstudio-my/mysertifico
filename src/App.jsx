@@ -59,6 +59,7 @@ import MWTermsOfService from './pages/mywall/landing/MWTermsOfService';
 import MyWallAbout from './pages/mywall/landing/MyWallAbout';
 import MyWallPrice from './pages/mywall/landing/MyWallPrice';
 import MyWallContactUs from './pages/mywall/landing/MyWallContactUs';
+import MyWallSignUp from './pages/mywall/landing/MyWallSignUp';
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
@@ -124,6 +125,7 @@ function App() {
         <Route path='/mywall/about' element={<MyWallAbout />} />
         <Route path='/mywall/pricing' element={<MyWallPrice />} />
         <Route path='/mywall/contact-us' element={<MyWallContactUs />} />
+        <Route path='/mywall/sign-up' element={<MyWallSignUp theme={theme} onThemeToggle={toggleTheme} />} />
 
         {/* MyWall */}
 

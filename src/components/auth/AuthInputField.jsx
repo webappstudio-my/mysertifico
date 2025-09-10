@@ -90,13 +90,13 @@ const AuthInputField = ({ iconClass, label, type, id, name, value, onChange, req
                     onBlur={handleBlur}
                     required={required}
                     placeholder={placeholder || label}
-                    className={`pl-10 block w-full px-4 py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm ${error ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'}`}
+                    className={`pl-10 block w-full px-4 py-3 border rounded-lg shadow-sm focus:outline-none text-black focus:ring-primary focus:border-primary sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white ${error ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300'}`}
                     {...props}
                 />
                 {type === 'password' && (
                     <button
                         type="button"
-                        className="password-toggle absolute inset-y-0 right-0 px-3 flex items-center text-gray-500"
+                        className="password-toggle absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 dark:text-gray-400"
                         onClick={() => setShowPassword(!showPassword)}
                     >
                         <i className={showPassword ? 'ri-eye-line' : 'ri-eye-off-line'}></i>
