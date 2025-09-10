@@ -117,6 +117,13 @@ function App() {
 
         {/* MyWall Landing */}
         <Route path='/mywall/home' element={<MyWallHome />} />'
+        <Route path="/mywall/privacy-policy" element={<MWPrivacyPolicy />} />
+        <Route path="/mywall/security-policy" element={<MWSecurityPolicy />} />
+        <Route path="/mywall/terms-of-service" element={<MWTermsOfService />} />
+"
+        <Route path='/mywall/about' element={<MyWallAbout />} />
+        <Route path='/mywall/pricing' element={<MyWallPrice />} />
+        <Route path='/mywall/contact-us' element={<MyWallContactUs />} />
 
         {/* MyWall */}
 
