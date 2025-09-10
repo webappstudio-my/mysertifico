@@ -103,7 +103,7 @@ const AuthInputField = ({ iconClass, label, type, id, name, value, onChange, req
                     </button>
                 )}
             </div>
-            {showPasswordStrength && type === 'password' && passwordTouched && (
+            {showPasswordStrength && type === 'password' && passwordTouched && value && value.length > 0 && (
                 <div className="mt-2">
                     {/* Password Strength Bar */}
                     <div className='flex justify-between items-center mb-1'>
