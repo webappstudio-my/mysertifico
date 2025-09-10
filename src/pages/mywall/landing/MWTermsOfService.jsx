@@ -6,7 +6,7 @@ import PageHeader from '../../../components/common/PageHeader';
 
 const MWTermsOfService = () => {
     return (
-        <div className="bg-gradient-to-br from-primary-dark to-primary text-white min-h-screen flex flex-col">
+        <div className="bg-gradient-to-br from-primary-mywall-900 to-primary-mywall text-white min-h-screen flex flex-col">
             <Header />
             <main className="flex-grow pt-24"> {/* pt-24 to offset fixed header */}
                 <PageHeader
