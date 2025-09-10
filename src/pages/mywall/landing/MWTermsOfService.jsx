@@ -14,73 +14,46 @@ const MWTermsOfService = () => {
                     description="Please read these terms carefully before using our service."
                 />
                 {/* Date line from original HTML */}
-                <p className="text-sm text-teal-200 mt-2 text-center container mx-auto px-6">Last Updated: 9 September 2025</p>
+                <p className="text-sm text-teal-200 mt-2 text-center container mx-auto px-6">Last Updated: 10 September 2025</p>
 
                 {/* Terms of Service Content Section */}
                 <section className="pb-20 pt-8">
                     <div className="container mx-auto px-6">
                         <div className="max-w-4xl mx-auto bg-white/10 backdrop-blur-sm p-8 rounded-2xl shadow-lg prose prose-invert prose-p:text-teal-200 prose-headings:text-white prose-h2:border-b prose-h2:border-white/20 prose-h2:pb-2 prose-a:text-accent hover:prose-a:text-yellow-300">
-                            <h2><strong>Introduction</strong></h2>
-                            <p className="mb-4">Welcome to MyWall. These Terms of Service ("Terms") govern your use of the MyWall platform and services provided by Webapp Studio Sdn. Bhd. ("we", "us", or "our"). By accessing or using our platform, you agree to be bound by these Terms.</p>
+                            <h2><i className="ri-file-text-line mr-2"></i>1. Agreement to Terms</h2>
+                            <p className="mb-4">By using the MyWall application and its services ("Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, do not use the Service. We may modify the Terms at any time, and such modification shall be effective immediately upon posting of the modified Terms.</p>
 
-                            <h2><strong>Account Registration</strong></h2>
-                            <p className="mb-4">
-                                To use certain features of MyWall, you may be required to register for an account. You agree to:
-                            </p>
+                            <h2><i className="ri-account-circle-line mr-2"></i>2. User Accounts</h2>
+                            <p className="mb-4">When you create an account with us, you must provide us with information that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of your account on our Service. You are responsible for safeguarding the password that you use to access the Service and for any activities or actions under your password.</p>
+
+                            <h2><i className="ri-wallet-3-line mr-2"></i>3. Subscriptions</h2>
+                            <p className="mb-4">Some parts of the Service are billed on a subscription basis ("Subscription(s)"). You will be billed in advance on a recurring and periodic basis ("Billing Cycle"). Billing cycles are set on an annual basis. At the end of each Billing Cycle, your Subscription will automatically renew under the exact same conditions unless you cancel it or Webapp Studio Sdn. Bhd. cancels it. All fees are non-refundable except as required by law.</p>
+
+                            <h2><i className="ri-quill-pen-line mr-2"></i>4. User Content</h2>
+                            <p className="mb-4">Our Service allows you to post, link, store, share and otherwise make available certain information, text, graphics, videos, or other material ("Content"). You are responsible for the Content that you post to the Service, including its legality, reliability, and appropriateness. You retain any and all of your rights to any Content you submit, post or display on or through the Service and you are responsible for protecting those rights.</p>
+
+                            <h2><i className="ri-spam-2-line mr-2"></i>5. Prohibited Activities</h2>
+                            <p className="mb-4">You agree not to use the Service for any purpose that is illegal or prohibited by these Terms. You may not use the Service in any manner that could damage, disable, overburden, or impair any MyWall server, or the network(s) connected to any MyWall server, or interfere with any other party's use and enjoyment of any Services.</p>
                             <ul className="mb-4">
-                                <li className="mb-4">Provide accurate, current, and complete information during the registration process.</li>
-                                <li className="mb-4">Maintain and promptly update your account information to keep it accurate, current, and complete.</li>
-                                <li className="mb-4">Maintain the security of your password and accept all risks of unauthorized access to your account.</li>
-                                <li className="mb-4">Promptly notify us if you discover or otherwise suspect any security breaches related to MyWall.</li>
+                                <li className="mb-4">Engaging in any automated use of the system, such as using scripts to send comments or messages, or using any data mining, robots, or similar data gathering and extraction tools.</li>
+                                <li className="mb-4">Interfering with, disrupting, or creating an undue burden on the Site or the networks or services connected to the Site.</li>
+                                <li className="mb-4">Attempting to impersonate another user or person.</li>
+                                <li className="mb-4">Using any information obtained from the Site in order to harass, abuse, or harm another person.</li>
                             </ul>
 
-                            <h2><strong>Use of Services</strong></h2>
-                            <p className="mb-4">
-                                MyWall provides a platform for issuing, managing, and verifying digital certificates. You agree to use our services only for lawful purposes and in accordance with these Terms. You shall not:
-                            </p>
-                            <ul className="mb-4">
-                                <li className="mb-4">Use the platform for any illegal or unauthorized purpose.</li>
-                                <li className="mb-4">Impersonate any person or entity, or falsely state or otherwise misrepresent your affiliation with a person or entity.</li>
-                                <li className="mb-4">Interfere with or disrupt the integrity or performance of the platform or data contained therein.</li>
-                                <li className="mb-4">Attempt to gain unauthorized access to the platform or its related systems or networks.</li>
-                            </ul>
+                            <h2><i className="ri-copyright-line mr-2"></i>6. Intellectual Property</h2>
+                            <p className="mb-4">The Service and its original content (excluding Content provided by users), features and functionality are and will remain the exclusive property of Webapp Studio Sdn. Bhd. and its licensors. The Service is protected by copyright, trademark, and other laws of both Malaysia and foreign countries.</p>
 
-                            <h2><strong>Intellectual Property Rights</strong></h2>
-                            <p className="mb-4">
-                                All content, trademarks, service marks, trade names, logos, and intellectual property displayed on MyWall are owned by Webapp Studio Sdn. Bhd. or its licensors. You may not use, reproduce, distribute, or create derivative works from any content without our express written permission.
-                            </p>
+                            <h2><i className="ri-close-circle-line mr-2"></i>7. Termination</h2>
+                            <p className="mb-4">We may terminate or suspend your account immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms. Upon termination, your right to use the Service will immediately cease.</p>
 
-                            <h2><strong>Payments and Subscriptions</strong></h2>
-                            <p className="mb-4">
-                                If you subscribe to a paid plan, you agree to pay all applicable fees and taxes. All payments are processed through secure third-party payment gateways. We reserve the right to change our pricing plans upon reasonable notice.
-                            </p>
+                            <h2><i className="ri-scales-3-line mr-2"></i>8. Governing Law</h2>
+                            <p className="mb-4">These Terms shall be governed and construed in accordance with the laws of Malaysia, without regard to its conflict of law provisions.</p>
 
-                            <h2><strong>Termination</strong></h2>
-                            <p className="mb-4">
-                                We may terminate or suspend your account and access to MyWall immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms. Upon termination, your right to use the service will immediately cease.
-                            </p>
+                            <h2><i className="ri-error-warning-line mr-2"></i>9. Limitation of Liability</h2>
+                            <p className="mb-4">In no event shall Webapp Studio Sdn. Bhd., nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the Service.</p>
 
-                            <h2><strong>Disclaimer of Warranties</strong></h2>
-                            <p className="mb-4">
-                                MyWall is provided on an "as is" and "as available" basis, without any warranties of any kind, either express or implied, including but not limited to implied warranties of merchantability, fitness for a particular purpose, or non-infringement.
-                            </p>
-
-                            <h2><strong>Limitation of Liability</strong></h2>
-                            <p className="mb-4">
-                                In no event shall Webapp Studio Sdn. Bhd., nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from (i) your access to or use of or inability to access or use the Service; (ii) any conduct or content of any third party on the Service; (iii) any content obtained from the Service; and (iv) unauthorized access, use or alteration of your transmissions or content, whether based on warranty, contract, tort (including negligence) or any other legal theory, whether or not we have been informed of the possibility of such damage, and even if a remedy set forth herein is found to have failed of its essential purpose.
-                            </p>
-
-                            <h2><strong>Governing Law</strong></h2>
-                            <p className="mb-4">
-                                These Terms shall be governed and construed in accordance with the laws of Malaysia, without regard to its conflict of law provisions.
-                            </p>
-
-                            <h2><strong>Changes to Terms</strong></h2>
-                            <p className="mb-4">
-                                We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will try to provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.
-                            </p>
-
-                            <h2><strong>Contact Us</strong></h2>
+                            <h2><i className="ri-customer-service-2-line mr-2"></i>Contact Us</h2>
                             <p className="mb-4">If you have any questions about these Terms, please contact us at:</p>
                             <p className="mb-4">
                                 Webapp Studio Sdn Bhd<br />

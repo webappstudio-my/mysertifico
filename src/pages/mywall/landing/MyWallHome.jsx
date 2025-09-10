@@ -9,6 +9,7 @@ const MyWallHome = () => {
         <div className="bg-gray-50 text-gray-800 overflow-x-hidden">
             <Header />
             <main>
+                {/* Hero Section */}
                 <section className="bg-gradient-to-br from-primary-dark to-primary text-white pt-32 pb-20">
                     <div className="container mx-auto text-center px-6">
                         {/* Title container with badge */}
