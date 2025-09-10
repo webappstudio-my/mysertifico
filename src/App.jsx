@@ -52,6 +52,9 @@ import EditUser from './pages/mysertifico/admin/EditUser';
 import ViewUser from './pages/mysertifico/admin/ViewUser';
 import ImportUsers from './pages/mysertifico/admin/ImportUsers';
 import MyWallHome from './pages/mywall/landing/MyWallHome';
+import MyWallAbout from './pages/mywall/landing/MyWallAbout';
+import MyWallPrice from './pages/mywall/landing/MyWallPrice';
+import MyWallContactUs from './pages/mywall/landing/MyWallContactUs';
 import MWPrivacyPolicy from './pages/mywall/landing/MWPrivacyPolicy';
 import MWSecurityPolicy from './pages/mywall/landing/MWSecurityPolicy';
 import MWTermsOfService from './pages/mywall/landing/MWTermsOfService';
@@ -114,6 +117,9 @@ function App() {
 
         {/* MyWall Landing */}
         <Route path='/mywall/home' element={<MyWallHome />} />'
+        <Route path='/mywall/about' element={<MyWallAbout />} />
+        <Route path='/mywall/pricing' element={<MyWallPrice />} />
+        <Route path='/mywall/contact-us' element={<MyWallContactUs />} />
         <Route path="/mywall/privacy-policy" element={<MWPrivacyPolicy />} />
         <Route path="/mywall/security-policy" element={<MWSecurityPolicy />} />
         <Route path="/mywall/terms-of-service" element={<MWTermsOfService />} />
