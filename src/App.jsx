@@ -128,11 +128,12 @@ function App() {
         <Route path="/mywall/privacy-policy" element={<MWPrivacyPolicy />} />
         <Route path="/mywall/security-policy" element={<MWSecurityPolicy />} />
         <Route path="/mywall/terms-of-service" element={<MWTermsOfService />} />
+        
+
+        {/* MyWall auth */}
+        <Route path="/mywall/auth/forgot-password" element={<MWForgotPassword />} />"
         <Route path='/mywall/auth/sign-up' element={<MyWallSignUp />} />
         <Route path='/mywall/auth/sign-in' element={<MyWallSignIn />} />
-
-        {/* MyWall */}
-        <Route path="/mywall/auth/forgot-password" element={<MWForgotPassword />} />"
 
         {/* Back Office */}
         <Route path="/bo/dashboard" element={<BoDashboard />} />
