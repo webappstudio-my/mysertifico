@@ -104,6 +104,12 @@ const Sidebar = ({ isOpen, onClose }) => {
                             </NavLink>
                         </li>
                         <li>
+                            <NavLink to="/admin/find-certificate" className={getNavLinkClass} onClick={onClose}>
+                                <i className="ri-user-search-line mr-3 text-lg"></i>
+                                <span>Find Certificate</span>
+                            </NavLink>
+                        </li>
+                        <li>
                             <button
                                 type="button"
                                 className="w-full flex items-center justify-between py-2.5 px-4 rounded-lg text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"

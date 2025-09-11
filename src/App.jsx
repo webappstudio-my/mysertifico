@@ -48,6 +48,7 @@ import AddNewUser from './pages/mysertifico/admin/AddNewUser';
 import TopUpToken from './pages/mysertifico/admin/TopUpToken';
 import LogoManagement from './pages/mysertifico/admin/LogoManagement';
 import SelectedTemplateList from './pages/mysertifico/admin/SelectedTemplateList';
+import AdminFindCertificate from './pages/mysertifico/admin/FindCertificate';
 import EditUser from './pages/mysertifico/admin/EditUser';
 import ViewUser from './pages/mysertifico/admin/ViewUser';
 import ImportUsers from './pages/mysertifico/admin/ImportUsers';
@@ -99,6 +100,7 @@ function App() {
         <Route path="/logos-badges" element={<LogosBadges theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/admin/certificate-list" element={<AdminCertificateList theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/admin/view-certificate-batch/:id" element={<AdminViewCertificateBatch theme={theme} onThemeToggle={toggleTheme} />} />
+         <Route path="/admin/find-certificate" element={<AdminFindCertificate theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/dashboard/settings/account" element={<AdminAccount theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/admin/add-recipient" element={<AdminAddRecipient theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/dashboard/settings/recipients" element={<AdminRecipientList theme={theme} onThemeToggle={toggleTheme} />} />
