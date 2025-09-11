@@ -60,6 +60,7 @@ import MWPrivacyPolicy from './pages/mywall/landing/MWPrivacyPolicy';
 import MWSecurityPolicy from './pages/mywall/landing/MWSecurityPolicy';
 import MWTermsOfService from './pages/mywall/landing/MWTermsOfService';
 import MyWallSignUp from './pages/mywall/landing/MyWallSignUp';
+import MWForgotPassword from './pages/mywall/auth/MWForgotPassword';
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
@@ -128,6 +129,7 @@ function App() {
         <Route path='/mywall/auth/sign-up' element={<MyWallSignUp theme={theme} onThemeToggle={toggleTheme} />} />
 
         {/* MyWall */}
+        <Route path="/mywall/auth/forgot-password" element={<MWForgotPassword />} />"
 
         {/* Back Office */}
         <Route path="/bo/dashboard" element={<BoDashboard />} />
