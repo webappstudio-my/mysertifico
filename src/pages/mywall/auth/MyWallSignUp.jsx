@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import AuthInputField from '../../../components/auth/AuthInputField';
 
 // darkmode theme in App.jsx
-const MyWallSignUp = ({ theme, onThemeToggle}) => {
+const MyWallSignUp = () => {
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
@@ -95,15 +95,18 @@ const MyWallSignUp = ({ theme, onThemeToggle}) => {
 
             <div className="flex items-center justify-center min-h-screen p-4">
                 <div className="relative flex flex-col m-6 space-y-8 bg-white dark:bg-gray-800 shadow-2xl rounded-2xl md:flex-row md:space-y-0">
-                    {/* Left Box */}
+                    {/* Left Side */}
                     <div className="relative w-full md:w-1/2">
                         <img 
-                                src="https://placehold.co/800x1200/134E4A/ffffff?text=MyWall"
-                                alt="A student smiling and holding books"
-                                className="w-full h-full hidden md:block rounded-l-2xl object-cover"
+                            src="/src/assets/images/frontend/welcome4.png"
+                            alt="A student smiling and holding books"
+                            className="w-full h-full hidden md:block rounded-l-2xl object-cover"
+                            onError={(e) => {
+                                e.target.src = 'https://placehold.co/800x1200/134E4A/ffffff?text=MyWall';
+                            }}
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-primary-900 to-transparent opacity-90 md:rounded-l-2xl">
-                        </div>
+                        {/* Gradient overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-primary-mywall-900 to-transparent opacity-90 md:rounded-l-2xl"></div>
                         <div className="absolute bottom-10 left-10 text-white">
                             <h2 className="text-4xl font-bold font-poppins">MyWall</h2>
                             <p className="text-lg text-primary-200">Your Personal Wall of Achievements</p>
@@ -112,7 +115,7 @@ const MyWallSignUp = ({ theme, onThemeToggle}) => {
 
                     {/* Right Side */}
                     <div className="w-full md:w-1/2 p-8 md:p-12 rounded-r-2xl md:rounded-l-none rounded-2xl">
-                        {/* Theme Toggle */}
+                        {/* Theme Toggle 
                         <div className="absolute top-6 right-6">
                             <button 
                                 onClick={onThemeToggle}
@@ -121,7 +124,7 @@ const MyWallSignUp = ({ theme, onThemeToggle}) => {
                                 <i className={`ri-moon-line ${theme === 'dark' ? 'hidden' : 'block'}`}></i>
                                 <i className={`ri-sun-line ${theme === 'dark' ? 'block' : 'hidden'}`}></i>
                             </button>
-                        </div>
+                        </div> */}
 
                         <h2 className="font-bold text-3xl text-gray-800 dark:text-white">Create Your MyWall</h2>
                         <p className="text-sm font-normal text-gray-600 dark:text-gray-400 mb-4">Your lifelong digital wall for all your certificates.</p>
@@ -246,7 +249,7 @@ const MyWallSignUp = ({ theme, onThemeToggle}) => {
                         )}
 
                         <div className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
-                            Already have a MyWall account? <Link to="/mywall/sign-in" className="font-semibold text-primary-mywall hover:underline">Sign In here</Link>.
+                            Already have a MyWall account? <Link to="/mywall/auth/sign-in" className="font-semibold text-primary-mywall hover:underline">Sign In here</Link>.
                         </div>
                     </div>
                 </div>

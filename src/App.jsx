@@ -61,6 +61,8 @@ import MWSecurityPolicy from './pages/mywall/landing/MWSecurityPolicy';
 import MWTermsOfService from './pages/mywall/landing/MWTermsOfService';
 import MyWallSignUp from './pages/mywall/auth/MyWallSignUp';
 import MWForgotPassword from './pages/mywall/auth/MWForgotPassword';
+import MyWallSignIn from './pages/mywall/auth/MyWallSignIn';
+
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
@@ -127,6 +129,7 @@ function App() {
         <Route path="/mywall/security-policy" element={<MWSecurityPolicy />} />
         <Route path="/mywall/terms-of-service" element={<MWTermsOfService />} />
         <Route path='/mywall/auth/sign-up' element={<MyWallSignUp theme={theme} onThemeToggle={toggleTheme} />} />
+        <Route path='/mywall/auth/sign-in' element={<MyWallSignIn />} />
 
         {/* MyWall */}
         <Route path="/mywall/auth/forgot-password" element={<MWForgotPassword />} />"
