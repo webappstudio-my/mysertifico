@@ -2,7 +2,7 @@ import React, { useState, useMemo, useRef, useEffect } from "react";
 import Sidebar from "../../../components/mysertifico/Sidebar";
 import DashboardNavbar from "../../../components/mysertifico/DashboardNavbar";
 import { elementsByTemplate, recipientDatabase } from "../../../data/sampleTemplateData";
-import jsPDF from "jspdf";
+import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 
 /* ---------------- Preview stage ---------------- */
