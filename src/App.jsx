@@ -59,7 +59,7 @@ import MyWallContactUs from './pages/mywall/landing/MyWallContactUs';
 import MWPrivacyPolicy from './pages/mywall/landing/MWPrivacyPolicy';
 import MWSecurityPolicy from './pages/mywall/landing/MWSecurityPolicy';
 import MWTermsOfService from './pages/mywall/landing/MWTermsOfService';
-import MyWallSignUp from './pages/mywall/landing/MyWallSignUp';
+import MyWallSignUp from './pages/mywall/auth/MyWallSignUp';
 import MWForgotPassword from './pages/mywall/auth/MWForgotPassword';
 
 function App() {
