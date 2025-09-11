@@ -10,7 +10,7 @@ const MyWallHome = () => {
             <Header />
             <main>
                 {/* Hero Section */}
-                <section className="bg-gradient-to-br from-primary-dark to-primary text-white pt-32 pb-20">
+                <section className="bg-gradient-to-br from-primary-mywall-900 to-primary-mywall text-white pt-32 pb-20">
                     <div className="container mx-auto text-center px-6">
                         {/* Title container with badge */}
                         <div className="relative inline-block mb-4">
