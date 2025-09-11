@@ -33,10 +33,10 @@ const MWForgotPassword = () => {
                         className="w-full h-full hidden md:block rounded-l-2xl object-cover"
                     />
                     {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary-900 to-transparent opacity-90 md:rounded-l-2xl"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary-mywall-900 to-transparent opacity-90 md:rounded-l-2xl"></div>
                     <div className="absolute bottom-10 left-10 text-white">
                         <h2 className="text-4xl font-bold font-poppins">MyWall</h2>
-                        <p className="text-lg text-primary-200">Your Personal Wall of Achievements</p>
+                        <p className="text-lg text-primary-mywall-200">Your Personal Wall of Achievements</p>
                     </div>
                 </div>
 
