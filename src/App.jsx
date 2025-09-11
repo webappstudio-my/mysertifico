@@ -128,7 +128,7 @@ function App() {
         <Route path="/mywall/privacy-policy" element={<MWPrivacyPolicy />} />
         <Route path="/mywall/security-policy" element={<MWSecurityPolicy />} />
         <Route path="/mywall/terms-of-service" element={<MWTermsOfService />} />
-        <Route path='/mywall/auth/sign-up' element={<MyWallSignUp theme={theme} onThemeToggle={toggleTheme} />} />
+        <Route path='/mywall/auth/sign-up' element={<MyWallSignUp />} />
         <Route path='/mywall/auth/sign-in' element={<MyWallSignIn />} />
 
         {/* MyWall */}
