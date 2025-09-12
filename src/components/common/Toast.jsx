@@ -23,7 +23,7 @@ const Toast = ({ message, type, onClose }) => {
 
     const iconClasses = {
         success: 'ri-check-line',
-        error: 'ri-alarm-warning-fill',
+        error: 'ri-close-fill',
     };
 
     return (

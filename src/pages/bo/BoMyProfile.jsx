@@ -6,8 +6,6 @@ import Toast from '../../components/common/Toast';
 const BoMyProfile = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [fullName, setFullName] = useState('Fikri Nabil');
-    const [profileImage, setProfileImage] = useState('https://i.pravatar.cc/150?u=admin');
-    const [newProfileImageFile, setNewProfileImageFile] = useState(null);
     const [toast, setToast] = useState({ message: '', type: '', show: false });
 
     const showToast = (message, type) => {
@@ -18,41 +16,6 @@ const BoMyProfile = () => {
     useEffect(() => {
         // You could perform initial data fetching here if needed
     }, []);
-
-    const handleProfileImageChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const allowedTypes = ['image/jpeg', 'image/png'];
-            const maxSize = 2 * 1024 * 1024; // 2MB
-
-            if (!allowedTypes.includes(file.type)) {
-                showToast('Invalid file type. Please select a JPG or PNG image.', 'error');
-                event.target.value = '';
-                return;
-            }
-
-            if (file.size > maxSize) {
-                showToast('File size exceeds 2MB. Please select a smaller image.', 'error');
-                event.target.value = '';
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                setProfileImage(e.target.result);
-                setNewProfileImageFile(file);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
-    const handleSavePicture = () => {
-        // In a real application, you would upload the file to the server here.
-        // Assuming the upload is successful:
-        showToast('Profile picture updated successfully!', 'success');
-        // Update the navbar image if BoNavbar supports passing props for the image
-        setNewProfileImageFile(null);
-    };
 
     const handleProfileFormSubmit = (e) => {
         e.preventDefault();
@@ -87,7 +50,7 @@ const BoMyProfile = () => {
                 ></div>
             )}
             <div id="main-content" className={`flex-grow transition-all duration-300 ease-in-out ${isSidebarOpen ? 'lg:ml-64' : 'lg:ml-0'}`}>
-                <BoNavbar onSidebarToggle={() => setIsSidebarOpen(!isSidebarOpen)} fullName={fullName} profileImage={profileImage} headerTitle="My Profile" />
+                <BoNavbar onSidebarToggle={() => setIsSidebarOpen(!isSidebarOpen)} fullName={fullName} headerTitle="My Profile" />
                 <main className="p-6 sm:p-8">
                     {toast.show && <Toast message={toast.message} type={toast.type} onClose={() => setToast({ ...toast, show: false })} />}
                     <div className="max-w-4xl mx-auto">
@@ -95,27 +58,8 @@ const BoMyProfile = () => {
                             <h1 className="text-2xl font-bold text-gray-800 dark:text-white">My Profile</h1>
                             <p className="text-gray-500 dark:text-gray-400 mt-1">Update your profile information.</p>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            {/* Left Column: Profile Picture */}
-                            <div className="md:col-span-1">
-                                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 text-center">
-                                    <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Profile Picture</h3>
-                                    <div className="relative w-32 h-32 mx-auto">
-                                        <img id="profile-image-preview" src={profileImage} alt="Profile Picture" className="w-32 h-32 rounded-full object-cover shadow-lg" onError={e => e.target.src = 'https://placehold.co/40x40/0d9488/ffffff?text=A'} />
-                                        <label htmlFor="profile-image-upload" className="absolute bottom-0 right-0 bg-primary text-white rounded-full p-2 cursor-pointer hover:bg-primary-dark transition-colors">
-                                            <i className="ri-camera-line"></i>
-                                            <input type="file" id="profile-image-upload" className="hidden" accept="image/jpeg, image/png" onChange={handleProfileImageChange} />
-                                        </label>
-                                    </div>
-                                    {newProfileImageFile && (
-                                        <button onClick={handleSavePicture} className="mt-4 w-full bg-primary text-white font-semibold py-2 px-4 rounded-lg hover:bg-primary-dark transition-colors">Save Picture</button>
-                                    )}
-                                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">JPG or PNG. Max size of 2MB.</p>
-                                </div>
-                            </div>
-
-                            {/* Right Column: Profile Details */}
-                            <div className="md:col-span-2">
+                        <div className="flex justify-center">
+                            <div className="w-full md:w-2/3">
                                 <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md">
                                     <div className="p-6 border-b border-gray-200 dark:border-gray-700">
                                         <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Account Details</h3>

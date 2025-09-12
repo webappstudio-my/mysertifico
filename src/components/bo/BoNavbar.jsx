@@ -112,7 +112,7 @@ const BoNavbar = ({ onSidebarToggle, headerTitle }) => {
                                 onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
                                 ref={profileMenuButtonRef}
                             >
-                                <img className="h-9 w-9 rounded-full object-cover" src="https://i.pravatar.cc/150?u=admin" alt="Admin" onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/40x40/0d9488/ffffff?text=A'; }} />
+                                
                                 <div className="hidden md:block text-left">
                                     <div className="text-sm font-semibold text-gray-800 dark:text-white">Fikri Nabil</div>
                                     <div className="text-xs text-gray-500 dark:text-gray-400">Super Admin</div>
