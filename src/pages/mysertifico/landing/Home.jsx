@@ -19,7 +19,7 @@ const Home = () => {
                             {/* Version Badge */}
                             <span className="absolute top-0 -right-4 md:top-1 md:-right-12 transform -translate-y-1/2 rotate-12 bg-accent text-white text-xs md:text-base font-bold px-3 py-1 rounded-full shadow-lg">1.0</span>
                         </div>
-                        <p className="text-lg md:text-xl text-teal-100 mb-10 max-w-3xl mx-auto">Official digital certificates for schools — simple, secure, and fully trusted.</p>
+                        <p className="text-lg md:text-xl text-teal-100 mb-10 max-w-3xl mx-auto">Official digital certificates for everyone — simple, secure, and fully trusted.</p>
 
                         {/* The image path has been updated to reflect the public folder structure */}
                         <img
