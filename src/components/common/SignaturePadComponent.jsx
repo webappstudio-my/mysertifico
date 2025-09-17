@@ -84,6 +84,7 @@ const SignaturePadComponent = ({ role, onSignatureSave }) => {
         };
     }, [role]);
 
+
     useEffect(() => {
         if (signaturePadRef.current) {
             signaturePadRef.current.penColor = penColor;
@@ -165,7 +166,7 @@ const SignaturePadComponent = ({ role, onSignatureSave }) => {
             <div
                 ref={containerRef}
                 className="relative w-full max-w-xl mx-auto h-[250px] border-2 border-dashed border-gray-300 dark:border-gray-500 rounded-lg bg-gray-50 dark:bg-gray-700"
-                style={{ minWidth: '280px' }}
+                style={{ minWidth: 'min(280px, 100vw - 2rem)' }}
             >
                 <canvas
                     ref={canvasRef}
@@ -195,7 +196,7 @@ const SignaturePadComponent = ({ role, onSignatureSave }) => {
                     </button>
                     <button
                         onClick={saveSignature}
-                        className="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+                        className="bg-primary text-white font-semibold py-2 px-6 rounded-lg hover:bg-primary-dark transition-colors"
                     >
                         Save Signature
                     </button>
