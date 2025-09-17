@@ -65,7 +65,7 @@ const MyProfile = ({ theme, onThemeToggle }) => {
                 className={`flex-grow transition-all duration-300 ease-in-out ${isSidebarOpen ? 'lg:ml-64' : ''}`}
             >
                 <DashboardNavbar onSidebarToggle={toggleSidebar} fullName={fullName} theme={theme} onThemeToggle={onThemeToggle} />
-                <main className="p-6 sm:p-8">
+                <main className="p-4 sm:p-6 lg:p-8">
                     {toast.show && <Toast message={toast.message} type={toast.type} onClose={() => setToast({ ...toast, show: false })} />}
                     <div className="max-w-4xl mx-auto">
                         <div className="mb-6">
@@ -114,9 +114,6 @@ const MyProfile = ({ theme, onThemeToggle }) => {
 
                             {/* Digital Signature Section */}
                             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md">
-                                <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-                                    <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Your Signature</h3>
-                                </div>
                                 <div className="p-6">
                                     <SignaturePadComponent
                                         role={userRole}

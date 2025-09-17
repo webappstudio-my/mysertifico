@@ -24,11 +24,19 @@ const SignaturePadComponent = ({ role, onSignatureSave }) => {
         const container = containerRef.current;
         if (!canvas || !container) return;
 
-        const ratio = Math.max(window.devicePixelRatio || 1, 1);
-        canvas.width = container.offsetWidth * ratio;
-        canvas.height = container.offsetHeight * ratio;
-        canvas.getContext("2d").scale(ratio, ratio);
+        // Get container dimensions
+        const containerWidth = container.offsetWidth;
+        const containerHeight = container.offsetHeight;
 
+        // Set canvas internal dimensions
+        canvas.width = containerWidth;
+        canvas.height = containerHeight;
+
+        // Ensure canvas display size matches internal size
+        canvas.style.width = containerWidth + 'px';
+        canvas.style.height = containerHeight + 'px';
+
+        // Re-initialize signature pad if it exists
         if (signaturePadRef.current) {
             const data = signaturePadRef.current.toData();
             signaturePadRef.current.clear();
@@ -43,19 +51,24 @@ const SignaturePadComponent = ({ role, onSignatureSave }) => {
         const selectedRole = role;
         if (selectedRole === 'Signatory') {
             if (!signaturePadRef.current) {
-                signaturePadRef.current = new SignaturePad(canvas, {
-                    penColor: penColor,
-                    minWidth: parseFloat(penThickness),
-                    maxWidth: parseFloat(penThickness),
-                });
-                resizeCanvas();
-                window.addEventListener("resize", resizeCanvas);
+                // Delay initialization to ensure proper canvas sizing
+                setTimeout(() => {
+                    resizeCanvas();
+                    signaturePadRef.current = new SignaturePad(canvas, {
+                        penColor: penColor,
+                        minWidth: parseFloat(penThickness),
+                        maxWidth: parseFloat(penThickness),
+                    });
+                    window.addEventListener("resize", resizeCanvas);
+                }, 100);
             } else {
                 signaturePadRef.current.penColor = penColor;
                 signaturePadRef.current.minWidth = parseFloat(penThickness);
                 signaturePadRef.current.maxWidth = parseFloat(penThickness);
             }
-            signaturePadRef.current.on();
+            if (signaturePadRef.current) {
+                signaturePadRef.current.on();
+            }
         } else {
             if (signaturePadRef.current) {
                 signaturePadRef.current.off();
@@ -110,44 +123,53 @@ const SignaturePadComponent = ({ role, onSignatureSave }) => {
 
     return (
         <div className="w-full">
-            {/* Signature Toolbar */}
-            {isSignatoryRole && (
-                <div className="mb-4 flex items-center justify-end gap-4">
-                    <div className="flex items-center gap-2">
-                        <input
-                            id="pen-color"
-                            type="color"
-                            value={penColor}
-                            onChange={(e) => setPenColor(e.target.value)}
-                            className="w-6 h-6 rounded border border-gray-300 dark:border-gray-600"
-                        />
+            {/* Header with Toolbar */}
+            <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Your Signature</h3>
+                {isSignatoryRole && (
+                    <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2">
+                            <i className="ri-palette-line text-gray-600 dark:text-gray-400"></i>
+                            <input
+                                id="pen-color"
+                                type="color"
+                                value={penColor}
+                                onChange={(e) => setPenColor(e.target.value)}
+                                className="w-8 h-8 p-1 rounded-md cursor-pointer bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600"
+                            />
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <i className="ri-pencil-ruler-2-line text-gray-600 dark:text-gray-400"></i>
+                            <input
+                                id="pen-thickness"
+                                type="range"
+                                min="1"
+                                max="10"
+                                step="0.1"
+                                value={penThickness}
+                                onChange={(e) => setPenThickness(parseFloat(e.target.value))}
+                                className="w-24 cursor-pointer"
+                            />
+                            <span className="text-sm text-gray-600 dark:text-gray-400 min-w-[2rem]">
+                                {penThickness.toFixed(1)}
+                            </span>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <input
-                            id="pen-thickness"
-                            type="range"
-                            min="1"
-                            max="10"
-                            step="0.1"
-                            value={penThickness}
-                            onChange={(e) => setPenThickness(parseFloat(e.target.value))}
-                            className="w-24"
-                        />
-                        <span className="text-sm text-gray-600 dark:text-gray-400 min-w-[2rem]">
-                            {penThickness.toFixed(1)}
-                        </span>
-                    </div>
-                </div>
-            )}
+                )}
+            </div>
+
+            {/* Line Separator */}
+            <hr className="border-gray-200 dark:border-gray-700 mb-6 -mx-6" />
 
             {/* Signature Pad Container */}
             <div
                 ref={containerRef}
-                className="relative w-full h-[250px] border-2 border-dashed border-gray-300 dark:border-gray-500 rounded-lg bg-gray-50 dark:bg-gray7900"
+                className="relative w-full max-w-xl mx-auto h-[250px] border-2 border-dashed border-gray-300 dark:border-gray-500 rounded-lg bg-gray-50 dark:bg-gray-700"
+                style={{ minWidth: '280px' }}
             >
                 <canvas
                     ref={canvasRef}
-                    className="w-full h-full rounded-lg"
+                    className="w-full h-full rounded-lg cursor-crosshair"
                     style={{ touchAction: 'none' }}
                 />
 
@@ -164,10 +186,10 @@ const SignaturePadComponent = ({ role, onSignatureSave }) => {
 
             {/* Signature Controls */}
             {isSignatoryRole && (
-                <div className="flex justify-end gap-3 mt-4">
+                <div className="w-full max-w-xl mx-auto flex justify-end gap-3 mt-4">
                     <button
                         onClick={clearSignature}
-                        className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+                        className="text-sm text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-accent transition-colors"
                     >
                         Clear
                     </button>
@@ -182,13 +204,15 @@ const SignaturePadComponent = ({ role, onSignatureSave }) => {
 
             {/* Signature Preview */}
             {savedSignaturePreview && (
-                <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                <div className="w-full max-w-xl mx-auto mt-4">
                     <h3 className="text-sm mb-2 font-medium text-gray-900 dark:text-gray-100">Saved Signature:</h3>
-                    <img
-                        src={savedSignaturePreview}
-                        alt="Signature Preview"
-                        className="max-w-full h-auto border border-gray-300 dark:border-gray-600 rounded"
-                    />
+                    <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                        <img
+                            src={savedSignaturePreview}
+                            alt="Signature Preview"
+                            className="max-w-full h-auto border border-gray-300 dark:border-gray-600 rounded"
+                        />
+                    </div>
                 </div>
             )}
 
