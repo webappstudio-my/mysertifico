@@ -151,7 +151,7 @@ const SignaturePadComponent = ({ role, onSignatureSave }) => {
                                 onChange={(e) => setPenThickness(parseFloat(e.target.value))}
                                 className="w-24 cursor-pointer"
                             />
-                            <span className="text-sm text-gray-600 dark:text-gray-400 min-w-[2rem]">
+                            <span className="text-sm text-gray-600 dark:text-gray-400">
                                 {penThickness.toFixed(1)}
                             </span>
                         </div>
@@ -165,8 +165,7 @@ const SignaturePadComponent = ({ role, onSignatureSave }) => {
             {/* Signature Pad Container */}
             <div
                 ref={containerRef}
-                className="relative w-full max-w-xl mx-auto h-[250px] border-2 border-dashed border-gray-300 dark:border-gray-500 rounded-lg bg-gray-50 dark:bg-gray-700"
-                style={{ minWidth: 'min(280px, 100vw - 2rem)' }}
+                className="relative w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto h-[250px] border-2 border-dashed border-gray-300 dark:border-gray-500 rounded-lg bg-gray-50 dark:bg-gray-700"
             >
                 <canvas
                     ref={canvasRef}
@@ -187,7 +186,7 @@ const SignaturePadComponent = ({ role, onSignatureSave }) => {
 
             {/* Signature Controls */}
             {isSignatoryRole && (
-                <div className="w-full max-w-xl mx-auto flex justify-end gap-3 mt-4">
+                <div className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto flex justify-end gap-3 mt-4">
                     <button
                         onClick={clearSignature}
                         className="text-sm text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-accent transition-colors"
@@ -205,7 +204,7 @@ const SignaturePadComponent = ({ role, onSignatureSave }) => {
 
             {/* Signature Preview */}
             {savedSignaturePreview && (
-                <div className="w-full max-w-xl mx-auto mt-4">
+                <div className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto mt-4">
                     <h3 className="text-sm mb-2 font-medium text-gray-900 dark:text-gray-100">Saved Signature:</h3>
                     <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
                         <img
