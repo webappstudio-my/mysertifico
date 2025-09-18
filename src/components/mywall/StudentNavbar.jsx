@@ -6,7 +6,7 @@ const StudentNavbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef(null);
 
-    // Close the menu if a click occurs outside of it
+    // Close menu on outside click
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -19,10 +19,26 @@ const StudentNavbar = () => {
         };
     }, []);
 
+    useEffect(() => {
+        const handleEscapeKey = (event) => {
+            if (event.key === 'Escape' && isMenuOpen) {
+                setIsMenuOpen(false);
+            }
+        };
+        document.addEventListener('keydown', handleEscapeKey);
+        return () => {
+            document.removeEventListener('keydown', handleEscapeKey);
+        }, [isMenuOpen]});
+
     const getNavLinkClass = ({ isActive }) =>
         isActive
             ? 'flex items-center px-4 py-2 text-sm text-primary font-bold bg-primary-50'
             : 'flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary';
+
+    const handleLogout = () => {
+        console.log('Logging out...');
+        setIsMenuOpen(false);
+    };
 
     return (
         <header className="bg-white shadow-md text-gray-800 fixed w-full top-0 z-50">
@@ -48,7 +64,8 @@ const StudentNavbar = () => {
                                 <NavLink to="/mywall/parent-myaccount" className={getNavLinkClass}><i className="ri-settings-3-line mr-3"></i>MyAccount</NavLink>
                                 <NavLink to="/mywall/parent-resume" className={getNavLinkClass}><i className="ri-article-line mr-3"></i>MyResume</NavLink>
                                 <div className="border-t my-1 border-gray-200"></div>
-                                <a href="#" className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary"><i className="ri-logout-box-r-line mr-3"></i>Logout</a>
+                                <button onClick={handleLogout} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary">
+                                <i className="ri-logout-box-r-line mr-3"></i>Logout</button>
                             </div>
                         )}
                     </div>
