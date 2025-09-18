@@ -58,14 +58,14 @@ const StudentNavbar = () => {
                         </button>
                         {!isMenuOpen ? null : (
                             <div id="profile-menu" className="absolute top-full right-0 mt-2 w-56 bg-white rounded-md shadow-lg py-1 z-50">
-                                <NavLink to="/mywall/parent-wall" className={getNavLinkClass}><i className="ri-layout-grid-fill mr-3"></i>MyWall</NavLink>
-                                <NavLink to="/mywall/parent-myprofile" className={getNavLinkClass}><i className="ri-user-line mr-3"></i>MyProfile</NavLink>
-                                <NavLink to="/mywall/parent-myfamily" className={getNavLinkClass}><i className="ri-group-line mr-3"></i>MyFamily</NavLink>
-                                <NavLink to="/mywall/parent-myaccount" className={getNavLinkClass}><i className="ri-settings-3-line mr-3"></i>MyAccount</NavLink>
-                                <NavLink to="/mywall/parent-resume" className={getNavLinkClass}><i className="ri-article-line mr-3"></i>MyResume</NavLink>
+                                <NavLink to="/mywall/student-wall" className={getNavLinkClass}><i className="ri-layout-grid-fill mr-3"></i>MyWall</NavLink>
+                                <NavLink to="/mywall/student-myprofile" className={getNavLinkClass}><i className="ri-user-line mr-3"></i>MyProfile</NavLink>
+                                <NavLink to="/mywall/student-myaccount" className={getNavLinkClass}><i className="ri-settings-3-line mr-3"></i>MyAccount</NavLink>
+                                <NavLink to="/mywall/student-resume" className={getNavLinkClass}><i className="ri-article-line mr-3"></i>MyResume</NavLink>
                                 <div className="border-t my-1 border-gray-200"></div>
                                 <button onClick={handleLogout} className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary">
-                                <i className="ri-logout-box-r-line mr-3"></i>Logout</button>
+                                <i className="ri-logout-box-r-line mr-3"></i>Logout
+                                </button>
                             </div>
                         )}
                     </div>
