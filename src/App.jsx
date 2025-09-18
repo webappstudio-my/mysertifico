@@ -62,6 +62,8 @@ import MWTermsOfService from './pages/mywall/landing/MWTermsOfService';
 import MyWallSignUp from './pages/mywall/auth/MyWallSignUp';
 import MWForgotPassword from './pages/mywall/auth/MWForgotPassword';
 import MyWallSignIn from './pages/mywall/auth/MyWallSignIn';
+import MyFamilyPage from './pages/mywall/parent/MyFamilyPage';
+import ParentEditProfile from './pages/mywall/parent/ParentEditProfile';
 
 
 function App() {
@@ -130,10 +132,12 @@ function App() {
         <Route path="/mywall/terms-of-service" element={<MWTermsOfService />} />
         
 
-        {/* MyWall auth */}
-        <Route path="/mywall/auth/forgot-password" element={<MWForgotPassword />} />"
+        {/* MyWall */}
+        <Route path="/mywall/auth/forgot-password" element={<MWForgotPassword />} />
         <Route path='/mywall/auth/sign-up' element={<MyWallSignUp />} />
         <Route path='/mywall/auth/sign-in' element={<MyWallSignIn />} />
+        <Route path='/mywall/parent-myfamily' element={<MyFamilyPage />} />
+        <Route path='/mywall/parent-edit-profile' element={<ParentEditProfile />} />'
 
         {/* Back Office */}
         <Route path="/bo/dashboard" element={<BoDashboard />} />
