@@ -64,6 +64,7 @@ import MWForgotPassword from './pages/mywall/auth/MWForgotPassword';
 import MyWallSignIn from './pages/mywall/auth/MyWallSignIn';
 import MyFamilyPage from './pages/mywall/parent/MyFamilyPage';
 import ParentEditProfile from './pages/mywall/parent/ParentEditProfile';
+import StudentEditProfile from './pages/mywall/student/StudentEditProfile';
 
 
 function App() {
@@ -123,21 +124,21 @@ function App() {
         <Route path="/dashboard/settings/import-users" element={<ImportUsers theme={theme} onThemeToggle={toggleTheme} />} />
 
         {/* MyWall Landing */}
-        <Route path='/mywall/home' element={<MyWallHome />} />'
+        <Route path='/mywall/home' element={<MyWallHome />} />
         <Route path='/mywall/about' element={<MyWallAbout />} />
         <Route path='/mywall/pricing' element={<MyWallPrice />} />
         <Route path='/mywall/contact-us' element={<MyWallContactUs />} />
         <Route path="/mywall/privacy-policy" element={<MWPrivacyPolicy />} />
         <Route path="/mywall/security-policy" element={<MWSecurityPolicy />} />
         <Route path="/mywall/terms-of-service" element={<MWTermsOfService />} />
-        
 
         {/* MyWall */}
         <Route path="/mywall/auth/forgot-password" element={<MWForgotPassword />} />
         <Route path='/mywall/auth/sign-up' element={<MyWallSignUp />} />
         <Route path='/mywall/auth/sign-in' element={<MyWallSignIn />} />
         <Route path='/mywall/parent-myfamily' element={<MyFamilyPage />} />
-        <Route path='/mywall/parent-edit-profile' element={<ParentEditProfile />} />'
+        <Route path='/mywall/parent-edit-profile' element={<ParentEditProfile />} />
+        <Route path='/mywall/student-edit-profile' element={<StudentEditProfile />} />
 
         {/* Back Office */}
         <Route path="/bo/dashboard" element={<BoDashboard />} />
