@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Navbar from '../../../components/mywall/Navbar';
+import MyWallNavbar from '../../../components/mywall/MyWallNavbar';
 import FamilyCard from '../../../components/mywall/FamilyCard';
 import MemberModal from '../../../components/mywall/MemberModal';
 import DeleteModal from '../../../components/mywall/DeleteModal';
@@ -73,7 +73,7 @@ const MyFamilyPage = () => {
 
     return (
         <div className="bg-gradient-to-br from-primary-mywall-900 to-primary-mywall text-white flex flex-col min-h-screen">
-            <Navbar />
+            <MyWallNavbar />
 
             <main className="pt-24 pb-12 flex-grow">
                 <section className="py-16">

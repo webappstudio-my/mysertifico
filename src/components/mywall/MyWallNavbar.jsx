@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import logo from '../../assets/images/logos/logo.png';
 
-const Navbar = () => {
+const MyWallNavbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef(null);
 
@@ -52,4 +52,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default MyWallNavbar;
