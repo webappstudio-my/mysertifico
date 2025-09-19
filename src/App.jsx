@@ -139,7 +139,7 @@ function App() {
         <Route path='/mywall/auth/sign-in' element={<MyWallSignIn />} />
         <Route path='/mywall/parent-myfamily' element={<MyFamilyPage />} />
         <Route path='/mywall/parent-edit-profile' element={<ParentEditProfile />} />
-<Route path='/mywall/parent-myprofile' element={<ParentMyProfile />} />
+        <Route path='/mywall/parent-myprofile' element={<ParentMyProfile />} />
         <Route path='/mywall/student-edit-profile' element={<StudentEditProfile />} />
 
         {/* Back Office */}
