@@ -9,7 +9,7 @@ const ActionBar = ({ onDownloadPdf }) => {
             </a>
             <button
                 onClick={onDownloadPdf}
-                className="bg-accent hover:bg-accent-hover text-white font-semibold py-2 px-6 rounded-full transition-colors flex items-center gap-2"
+                className="bg-invoice-accent hover:bg-invoice-accent-hover text-white font-semibold py-2 px-6 rounded-full transition-colors flex items-center gap-2"
             >
                 <i className="ri-download-2-line"></i>
                 <span>Download PDF</span>

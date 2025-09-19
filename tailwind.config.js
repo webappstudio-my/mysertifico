@@ -14,6 +14,7 @@ export default { // Ensure 'export default' for Vite
         poppins: ['Poppins', 'sans-serif'],
       },
       colors: {
+        // MySertifico Colors Palette
         'primary': '#0d9488', // Teal-600
         'primary-dark': '#0f766e', // Teal-700
         'primary-light': '#14b8a6', // Teal-500
@@ -47,6 +48,16 @@ export default { // Ensure 'export default' for Vite
             'hover': '#EA580C',  // Oren Hangat untuk hover (Orange-600)
         },
         'dark-bg': '#134E4A',       // Aqua Sangat Gelap untuk footer (Teal-900)
+
+        // Invoice Colors Palette
+        'invoice': {
+          'primary': '#0f766e', // Teal-700
+          'dark': '#1f2937',    // Gray-800
+          'medium': '#4b5563',  // Gray-600
+          'light': '#f3f4f6',   // Gray-100
+          'accent': '#F97316',
+          'accent-hover': '#EA580C',
+        }
       }
     },
   },
