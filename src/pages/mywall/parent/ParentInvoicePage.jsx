@@ -45,17 +45,15 @@ const ParentInvoicePage = () => {
     const handleDownloadPdf = () => {
         const element = invoiceRef.current;
         if (element && window.html2pdf) {
-            // Add a small delay to ensure all content is rendered
-            setTimeout(() => {
-                const opt = {
-                    margin: 0,
-                    filename: `Invoice-${invoiceData.id}.pdf`,
-                    image: { type: 'jpeg', quality: 1.0 },
-                    html2canvas: { scale: 4, useCORS: true, logging: false },
-                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-                };
-                window.html2pdf().set(opt).from(element).save();
-            }, 500); // 500ms delay
+            window.scrollTo(0, 0);
+            const opt = {
+                margin: 0,
+                filename: `Invoice-${invoiceData.id}.pdf`,
+                image: { type: 'jpeg', quality: 1.0 },
+                html2canvas: { scale: 4, useCORS: true, logging: false, scrollY: 0 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            window.html2pdf().set(opt).from(element).save();
         } else {
             console.error("PDF generation library (html2pdf) not found or element not ready.");
         }
