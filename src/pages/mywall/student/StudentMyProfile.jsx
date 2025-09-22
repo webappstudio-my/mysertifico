@@ -5,15 +5,19 @@ import Toast from '../../../components/mywall/Toast';
 
 const StudentMyProfile = () => {
     const [toast, setToast] = useState({ show: false, message: '', isError: false });
-    const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
-    const [currentPassword, setCurrentPassword] = useState('password123');
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmNewPassword, setConfirmNewPassword] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     // State variables for password visibility
-    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
-    const [showNewPassword, setShowNewPassword] = useState(false);
-    const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
+    const [passwordVisibility, setPasswordVisibility] = useState({
+        current: false,
+        new: false,
+        confirm: false
+    });
+    const [passwordData, setPasswordData] = useState({
+        current: 'password123',
+        new: '',
+        confirm: ''
+    });
     const [profileImage, setProfileImage] = useState('../../src/images/users/nabil.png');
 
     const fileInputRef = useRef(null);
@@ -23,14 +27,19 @@ const StudentMyProfile = () => {
         setTimeout(() => setToast({ show: false, message: '', isError: false }), 3000);
     };
 
-    const openChangePasswordModal = () => {
-        setShowChangePasswordModal(true);
-        document.body.style.overflow = 'hidden';
+    const togglePasswordVisibility = (field) => {
+        setPasswordVisibility(prev => ({
+            ...prev,
+            [field]: !prev[field]
+        }));
     };
 
-    const closeChangePasswordModal = () => {
-        setShowChangePasswordModal(false);
-        document.body.style.overflow = '';
+    const handlePasswordInputChange = (e) => {
+        const { name, value } = e.target;
+        setPasswordData(prev => ({
+            ...prev,
+            [name]: value
+        }));
     };
 
 
@@ -38,23 +47,25 @@ const StudentMyProfile = () => {
         e.preventDefault();
 
         // Check current password
-        if (currentPassword.trim() !== 'password123') {
+        if (passwordData.current.trim() !== 'password123') {
             showToast("Current password is incorrect.", true);
             return;
         }
 
         // Check if new passwords match
-        if (newPassword !== confirmNewPassword) {
+        if (passwordData.new !== passwordData.confirm) {
             showToast("New passwords do not match.", true);
             return;
         }
 
         // Success
         showToast('Password updated successfully!');
-        setCurrentPassword('password123');
-        setNewPassword('');
-        setConfirmNewPassword('');
-        closeChangePasswordModal();
+        setPasswordData({
+            current: 'password123',
+            new: '',
+            confirm: ''
+        });
+        setIsModalOpen(false);
     };
 
     const handleProfilePictureClick = () => {
@@ -76,31 +87,15 @@ const StudentMyProfile = () => {
     useEffect(() => {
         const handleEscape = (e) => {
             if (e.key === 'Escape') {
-                closeChangePasswordModal();
+                setIsModalOpen(false);
             }
         };
 
-        if (showChangePasswordModal) {
+        if (isModalOpen) {
             document.addEventListener('keydown', handleEscape);
             return () => document.removeEventListener('keydown', handleEscape);
         }
-    }, [showChangePasswordModal]);
-
-    const Modal = ({ isOpen, onClose, children }) => {
-        if (!isOpen) return null;
-
-        return (
-            <div className="fixed inset-0 z-[60] flex items-center justify-center p-4" onClick={onClose}>
-                <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
-                <div
-                    className="relative bg-white/10 border border-primary-mywall-500/50 rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col"
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    {children}
-                </div>
-            </div>
-        );
-    };
+    }, [isModalOpen]);
 
     return (
         <div className="bg-gradient-to-br from-primary-mywall-900 to-primary-mywall text-white flex flex-col min-h-screen">
@@ -250,7 +245,7 @@ const StudentMyProfile = () => {
                                     <span>Download As Resume</span>
                                 </NavLink>
                                 <button
-                                    onClick={openChangePasswordModal}
+                                    onClick={() => setIsModalOpen(true)}
                                     className="w-full sm:w-auto text-primary-mywall-200 font-semibold hover:text-white transition-colors py-3 px-6"
                                 >
                                     Change Password
@@ -262,102 +257,76 @@ const StudentMyProfile = () => {
             </main>
 
             {/* Change Password Modal */}
-            <Modal isOpen={showChangePasswordModal} onClose={closeChangePasswordModal}>
-                <form onSubmit={handlePasswordSubmit}>
-                    <div className="flex justify-between items-center p-4 border-b border-primary-mywall-800/50">
-                        <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                            <i className="ri-lock-password-line"></i> Change Password
-                        </h3>
-                        <button
-                            type="button"
-                            onClick={closeChangePasswordModal}
-                            className="text-primary-mywall-200 hover:text-white text-2xl"
-                        >
-                            <i className="ri-close-line"></i>
-                        </button>
+            {isModalOpen && (
+                <div className="modal fixed inset-0 z-[60] flex items-center justify-center p-4">
+                    <div
+                        className="modal-backdrop absolute inset-0 bg-black/70 backdrop-blur-sm"
+                        onClick={() => setIsModalOpen(false)}
+                    ></div>
+                    <div className="modal-panel relative bg-white/10 border border-primary-mywall-500/50 rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col">
+                        <form onSubmit={handlePasswordSubmit}>
+                            <div className="flex justify-between items-center p-4 border-b border-primary-mywall-800/50">
+                                <h3 className="text-lg font-bold text-white flex items-center gap-2"><i className="ri-lock-password-line"></i> Change Password</h3>
+                                <button type="button" onClick={() => setIsModalOpen(false)} className="modal-close-button text-primary-mywall-200 hover:text-white text-2xl"><i className="ri-close-line"></i></button>
+                            </div>
+                            <div className="p-6 flex-grow overflow-auto space-y-4">
+                                {/* Current Password */}
+                                <div className="relative">
+                                    <label htmlFor="current-password" className="block text-sm font-medium text-primary-mywall-200 mb-1">Current Password</label>
+                                    <input
+                                        type={passwordVisibility.current ? 'text' : 'password'}
+                                        id="current-password"
+                                        name="current"
+                                        value={passwordData.current}
+                                        onChange={handlePasswordInputChange}
+                                        required
+                                        className="w-full pl-4 pr-10 py-2 bg-white/20 text-white placeholder:text-primary-mywall-200 rounded-lg border-2 border-transparent focus:border-primary-mywall-300 focus:bg-white/30 focus:outline-none transition-all"
+                                    />
+                                    <button type="button" onClick={() => togglePasswordVisibility('current')} className="password-toggle absolute inset-y-0 right-0 top-7 pr-3 flex items-center text-primary-mywall-200 hover:text-white">
+                                        <i className={passwordVisibility.current ? 'ri-eye-off-line text-xl' : 'ri-eye-line text-xl'}></i>
+                                    </button>
+                                </div>
+                                {/* New Password */}
+                                <div className="relative">
+                                    <label htmlFor="new-password" className="block text-sm font-medium text-primary-mywall-200 mb-1">New Password</label>
+                                    <input
+                                        type={passwordVisibility.new ? 'text' : 'password'}
+                                        id="new-password"
+                                        name="new"
+                                        value={passwordData.new}
+                                        onChange={handlePasswordInputChange}
+                                        required
+                                        className="w-full pl-4 pr-10 py-2 bg-white/20 text-white placeholder:text-primary-mywall-200 rounded-lg border-2 border-transparent focus:border-primary-mywall-300 focus:bg-white/30 focus:outline-none transition-all"
+                                    />
+                                    <button type="button" onClick={() => togglePasswordVisibility('new')} className="password-toggle absolute inset-y-0 right-0 top-7 pr-3 flex items-center text-primary-mywall-200 hover:text-white">
+                                        <i className={passwordVisibility.new ? 'ri-eye-off-line text-xl' : 'ri-eye-line text-xl'}></i>
+                                    </button>
+                                </div>
+                                {/* Confirm New Password */}
+                                <div className="relative">
+                                    <label htmlFor="confirm-password" className="block text-sm font-medium text-primary-mywall-200 mb-1">Confirm New Password</label>
+                                    <input
+                                        type={passwordVisibility.confirm ? 'text' : 'password'}
+                                        id="confirm-password"
+                                        name="confirm"
+                                        value={passwordData.confirm}
+                                        onChange={handlePasswordInputChange}
+                                        required
+                                        className="w-full pl-4 pr-10 py-2 bg-white/20 text-white placeholder:text-primary-mywall-200 rounded-lg border-2 border-transparent focus:border-primary-mywall-300 focus:bg-white/30 focus:outline-none transition-all"
+                                    />
+                                    <button type="button" onClick={() => togglePasswordVisibility('confirm')} className="password-toggle absolute inset-y-0 right-0 top-7 pr-3 flex items-center text-primary-mywall-200 hover:text-white">
+                                        <i className={passwordVisibility.confirm ? 'ri-eye-off-line text-xl' : 'ri-eye-line text-xl'}></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="p-4 flex justify-end items-center gap-4 border-t border-primary-mywall-800/50">
+                                <button type="button" onClick={() => setIsModalOpen(false)} className="modal-close-button px-6 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition-colors">Cancel</button>
+                                <button type="submit" className="px-6 py-2 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover transition-colors">Update Password</button>
+                            </div>
+                        </form>
                     </div>
-                    <div className="p-6 flex-grow overflow-auto space-y-4">
-                        <div className="relative">
-                            <label htmlFor="currentPassword" className="block text-sm font-medium text-primary-mywall-200 mb-1">
-                                Current Password
-                            </label>
-                            <input
-                                type={showCurrentPassword ? 'text' : 'password'}
-                                id="currentPassword"
-                                name="currentPassword"
-                                value={currentPassword}
-                                onChange={(e) => setCurrentPassword(e.target.value)}
-                                required
-                                className="w-full pl-4 pr-10 py-2 bg-white/20 text-white placeholder-primary-mywall-200 rounded-lg border-2 border-transparent focus:border-primary-mywall-300 focus:bg-white/30 focus:outline-none transition-all"
-                            />
-                            <button
-                                type="button"
-                                onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                                className="absolute inset-y-0 right-0 top-7 pr-3 flex items-center text-primary-mywall-200 hover:text-white"
-                            >
-                                <i className={showCurrentPassword ? 'ri-eye-off-line text-xl' : 'ri-eye-line text-xl'}></i>
-                            </button>
-                        </div>
-                        <div className="relative">
-                            <label htmlFor="newPassword" className="block text-sm font-medium text-primary-mywall-200 mb-1">
-                                New Password
-                            </label>
-                            <input
-                                type={showNewPassword ? 'text' : 'password'}
-                                id="newPassword"
-                                name="newPassword"
-                                value={newPassword}
-                                onChange={(e) => setNewPassword(e.target.value)}
-                                required
-                                className="w-full pl-4 pr-10 py-2 bg-white/20 text-white placeholder-primary-mywall-200 rounded-lg border-2 border-transparent focus:border-primary-mywall-300 focus:bg-white/30 focus:outline-none transition-all"
-                            />
-                            <button
-                                type="button"
-                                onClick={() => setShowNewPassword(!showNewPassword)}
-                                className="absolute inset-y-0 right-0 top-7 pr-3 flex items-center text-primary-mywall-200 hover:text-white"
-                            >
-                                <i className={showNewPassword ? 'ri-eye-off-line text-xl' : 'ri-eye-line text-xl'}></i>
-                            </button>
-                        </div>
-                        <div className="relative">
-                            <label htmlFor="confirmNewPassword" className="block text-sm font-medium text-primary-mywall-200 mb-1">
-                                Confirm New Password
-                            </label>
-                            <input
-                                type={showConfirmNewPassword ? 'text' : 'password'}
-                                id="confirmNewPassword"
-                                name="confirmNewPassword"
-                                value={confirmNewPassword}
-                                onChange={(e) => setConfirmNewPassword(e.target.value)}
-                                required
-                                className="w-full pl-4 pr-10 py-2 bg-white/20 text-white placeholder-primary-mywall-200 rounded-lg border-2 border-transparent focus:border-primary-mywall-300 focus:bg-white/30 focus:outline-none transition-all"
-                            />
-                            <button
-                                type="button"
-                                onClick={() => setShowConfirmNewPassword(!showConfirmNewPassword)}
-                                className="absolute inset-y-0 right-0 top-7 pr-3 flex items-center text-primary-mywall-200 hover:text-white"
-                            >
-                                <i className={showConfirmNewPassword ? 'ri-eye-off-line text-xl' : 'ri-eye-line text-xl'}></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div className="p-4 flex justify-end items-center gap-4 border-t border-primary-mywall-800/50">
-                        <button
-                            type="button"
-                            onClick={closeChangePasswordModal}
-                            className="px-6 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition-colors"
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            type="submit"
-                            className="px-6 py-2 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover transition-colors"
-                        >
-                            Update Password
-                        </button>
-                    </div>
-                </form>
-            </Modal>
+                </div>
+            )}
 
             <Toast
                 message={toast.message}
