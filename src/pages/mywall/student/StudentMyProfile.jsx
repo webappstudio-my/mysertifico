@@ -7,6 +7,21 @@ const StudentMyProfile = () => {
     const [toast, setToast] = useState({ show: false, message: '', isError: false });
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    // User data
+    const [userData] = useState(() => {
+        const fullName = 'Taufik Nabil bin Yusoff';
+        const nameParts = fullName.trim().split(' ');
+        const firstName = nameParts[0] || '';
+        const lastName = nameParts[1] || '';
+
+        return {
+            firstName,
+            lastName,
+            fullName,
+            nationalId: '950101-03-1234'
+        };
+    });
+
     // State variables for password visibility
     const [passwordVisibility, setPasswordVisibility] = useState({
         current: false,
@@ -18,9 +33,16 @@ const StudentMyProfile = () => {
         new: '',
         confirm: ''
     });
-    const [profileImage, setProfileImage] = useState('../../src/images/users/nabil.png');
+    const [profileImage, setProfileImage] = useState(null);
 
     const fileInputRef = useRef(null);
+
+    // Generate initials from first and last name
+    const getInitials = (firstName, lastName) => {
+        const firstInitial = firstName?.charAt(0)?.toUpperCase() || '';
+        const lastInitial = lastName?.charAt(0)?.toUpperCase() || '';
+        return `${firstInitial}${lastInitial}`;
+    };
 
     const showToast = (message, isError = false) => {
         setToast({ show: true, message, isError });
@@ -109,15 +131,23 @@ const StudentMyProfile = () => {
                             {/* Profile Header */}
                             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 pb-6 mb-6 border-b border-primary-mywall-800/50">
                                 <div className="relative flex-shrink-0">
-                                    <img
-                                        src={profileImage}
-                                        onError={(e) => {
-                                            e.target.onerror = null;
-                                            e.target.src = 'https://placehold.co/128x128/134E4A/FFFFFF?text=A';
-                                        }}
-                                        alt="User Avatar"
-                                        className="w-28 h-28 rounded-full border-4 border-primary-mywall-400 shadow-md"
-                                    />
+                                    {profileImage ? (
+                                        <img
+                                            src={profileImage}
+                                            onError={(e) => {
+                                                e.target.onerror = null;
+                                                setProfileImage(null);
+                                            }}
+                                            alt="User Avatar"
+                                            className="w-28 h-28 rounded-full border-4 border-primary-mywall-400 shadow-md object-cover"
+                                        />
+                                    ) : (
+                                        <div className="w-28 h-28 rounded-full border-4 border-primary-mywall-400 shadow-md bg-primary-mywall-600 flex items-center justify-center">
+                                            <span className="text-3xl font-bold text-white">
+                                                {getInitials(userData.firstName, userData.lastName)}
+                                            </span>
+                                        </div>
+                                    )}
                                     <input
                                         type="file"
                                         ref={fileInputRef}
@@ -134,9 +164,9 @@ const StudentMyProfile = () => {
                                     </button>
                                 </div>
                                 <div className="flex-grow text-center sm:text-left">
-                                    <h1 className="text-3xl font-bold font-poppins text-white">Taufik Nabil bin Yusoff</h1>
+                                    <h1 className="text-3xl font-bold font-poppins text-white">{userData.fullName}</h1>
                                     <p className="text-lg text-primary-mywall-200 mt-1">
-                                        <span className="font-semibold text-primary-mywall-300">National ID:</span> 950101-03-1234
+                                        <span className="font-semibold text-primary-mywall-300">National ID:</span> {userData.nationalId}
                                     </p>
                                 </div>
                                 <div className="flex-shrink-0 mt-4 sm:mt-0">
