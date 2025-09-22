@@ -66,6 +66,7 @@ import MyFamilyPage from './pages/mywall/parent/MyFamilyPage';
 import ParentEditProfile from './pages/mywall/parent/ParentEditProfile';
 import ParentMyProfile from './pages/mywall/parent/ParentMyProfile';
 import ParentInvoicePage from './pages/mywall/parent/ParentInvoicePage';
+import ParentMyAccount from './pages/mywall/parent/ParentMyAccount';
 import StudentEditProfile from './pages/mywall/student/StudentEditProfile';
 
 
@@ -142,6 +143,7 @@ function App() {
         <Route path='/mywall/parent-edit-profile' element={<ParentEditProfile />} />
         <Route path='/mywall/parent-myprofile' element={<ParentMyProfile />} />
         <Route path='/mywall/parent-invoice' element={<ParentInvoicePage />} />
+        <Route path='/mywall/parent-myaccount' element={<ParentMyAccount />} />
         <Route path='/mywall/student-edit-profile' element={<StudentEditProfile />} />
 
         {/* Back Office */}
