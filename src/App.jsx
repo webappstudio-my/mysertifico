@@ -66,6 +66,8 @@ import MyFamilyPage from './pages/mywall/parent/MyFamilyPage';
 import ParentEditProfile from './pages/mywall/parent/ParentEditProfile';
 import StudentEditProfile from './pages/mywall/student/StudentEditProfile';
 import StudentMyAccount from './pages/mywall/student/StudentMyAccount';
+import StudentMyProfile from './pages/mywall/student/StudentMyProfile';
+
 
 
 
@@ -142,7 +144,7 @@ function App() {
         <Route path='/mywall/parent-edit-profile' element={<ParentEditProfile />} />
         <Route path='/mywall/student-edit-profile' element={<StudentEditProfile />} />
         <Route path='/mywall/student-myaccount' element={<StudentMyAccount />} />
-
+        <Route path='/mywall/student-myprofile' element={<StudentMyProfile />} />
 
         {/* Back Office */}
         <Route path="/bo/dashboard" element={<BoDashboard />} />
