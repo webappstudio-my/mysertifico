@@ -197,8 +197,8 @@ const StudentMyAccount = () => {
     };
 
     const handleCancelSubscription = () => {
-        showToast('Subscription cancelled successfully. This is a demo.');
         closeModal('cancel');
+        showToast('Subscription cancelled successfully. This is a demo.');
     };
 
     const getCurrentPlan = () => plans.find(p => p.id === currentPlanId);
