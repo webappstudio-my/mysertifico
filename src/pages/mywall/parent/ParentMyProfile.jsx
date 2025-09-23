@@ -9,7 +9,7 @@ const ParentMyProfile = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // State for the toast notification
-    const [toast, setToast] = useState({ message: '', type: 'success', isVisible: false });
+    const [toast, setToast] = useState({ message: '', type: 'success', show: false });
 
     // State to manage the avatar image source
     const [avatarSrc, setAvatarSrc] = useState(defaultAvatar);
@@ -39,10 +39,7 @@ const ParentMyProfile = () => {
      * @param {string} type - 'success' or 'error'.
      */
     const showToast = (message, type = 'success') => {
-        setToast({ message, type, isVisible: true });
-        setTimeout(() => {
-            setToast({ message: '', type: 'success', isVisible: false });
-        }, 3000);
+        setToast({ message, type, show: true });
     };
 
     /**
@@ -62,7 +59,7 @@ const ParentMyProfile = () => {
             const reader = new FileReader();
             reader.onload = (e) => {
                 setAvatarSrc(e.target.result);
-                showToast('Profile picture updated!');
+                showToast('Profile picture updated!', 'success');
             };
             reader.readAsDataURL(file);
         }
@@ -107,7 +104,7 @@ const ParentMyProfile = () => {
             return;
         }
 
-        showToast('Password updated successfully!');
+        showToast('Password updated successfully!', 'success');
         setIsModalOpen(false); // Close modal on success
         setPasswordData({ current: '', new: '', confirm: '' }); // Reset form
     };
@@ -313,8 +310,9 @@ const ParentMyProfile = () => {
             {/* Toast Component */}
             <Toast
                 message={toast.message}
-                show={toast.isVisible} 
-                isError={toast.type === 'error'}
+                show={toast.show} 
+                type={toast.type}
+                onClose={() => setToast({ ...toast, show: false })}
             />
         </div>
     );

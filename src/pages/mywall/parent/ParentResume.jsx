@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import html2pdf from 'html2pdf.js';
 import defaultAvatar from '../../../assets/images/users/aliyah.png';
+import Toast from '../../../components/mywall/Toast';
 
 const ResumeStyles = () => (
     <style>
@@ -41,10 +42,16 @@ const ResumeStyles = () => (
 
 const ParentResume = () => {
     const resumeContentRef = useRef(null);
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+
+    const showToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+    };
 
     const handleDownloadPdf = () => {
         const element = resumeContentRef.current;
         if (element) {
+            showToast('Downloading PDF...', 'info');
             const opt = {
                 margin: 0,
                 filename: 'Resume-Aliyah-Zawaton.pdf',
@@ -152,6 +159,12 @@ const ParentResume = () => {
                     </div>
                 </div>
             </main>
+            <Toast
+                message={toast.message}
+                type={toast.type}
+                show={toast.show}
+                onClose={() => setToast({ ...toast, show: false })}
+            />
         </div>
     );
 };

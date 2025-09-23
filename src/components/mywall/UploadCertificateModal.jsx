@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
+import Toast from './Toast'; // Assuming Toast is in the same directory
 
 const UploadCertificateModal = ({ isOpen, onClose, onUpload }) => {
     const [file, setFile] = useState(null);
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
 
     if (!isOpen) return null;
+
+    const showToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => {
+            setToast({ show: false, message: '', type: 'success' });
+        }, 3000); // Hide after 3 seconds
+    };
 
     const handleFileChange = (e) => {
         if (e.target.files.length) {
@@ -16,7 +25,7 @@ const UploadCertificateModal = ({ isOpen, onClose, onUpload }) => {
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData.entries());
         if (!file) {
-            alert('Please select a file to upload.');
+            showToast('Please select a file to upload.', 'error');
             return;
         }
         onUpload(data, file);
@@ -25,6 +34,7 @@ const UploadCertificateModal = ({ isOpen, onClose, onUpload }) => {
 
     return (
         <div className="modal fixed inset-0 z-[60] flex items-center justify-center p-4">
+            <Toast message={toast.message} type={toast.type} show={toast.show} onClose={() => setToast({ ...toast, show: false })} />
             <div className="modal-backdrop absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose}></div>
             <div className="modal-panel relative bg-white/10 border border-primary-mywall-500/50 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
                 <div className="flex justify-between items-center p-4 border-b border-primary-mywall-800/50 flex-shrink-0">

@@ -5,6 +5,7 @@ import CertificateCard from '../../../components/mywall/CertificateCard';
 import CertificateModal from '../../../components/mywall/CertificateModal';
 import UploadCertificateModal from '../../../components/mywall/UploadCertificateModal';
 import { certificates } from '../../../data/certificateData'; // Import static data
+import Toast from '../../../components/mywall/Toast'; // Import the Toast component
 
 const ParentWallPage = () => {
     const [allCerts, setAllCerts] = useState(certificates);
@@ -12,6 +13,7 @@ const ParentWallPage = () => {
     const [selectedIds, setSelectedIds] = useState(new Set());
     const [viewingCert, setViewingCert] = useState(null);
     const [isUploadModalOpen, setUploadModalOpen] = useState(false);
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
 
     useEffect(() => {
         const isModalOpen = !!viewingCert || isUploadModalOpen;
@@ -25,6 +27,13 @@ const ParentWallPage = () => {
             document.body.style.overflow = 'unset';
         };
     }, [viewingCert, isUploadModalOpen]);
+
+    const showToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => {
+            setToast({ show: false, message: '', type: 'success' });
+        }, 3000); // Hide after 3 seconds
+    };
 
     const filteredCerts = useMemo(() => {
         return allCerts.filter(cert => {
@@ -47,7 +56,7 @@ const ParentWallPage = () => {
     };
 
     const handleDownload = (cert) => {
-        alert(`Downloading "${cert.title}"...`);
+        showToast(`Downloading "${cert.title}"...`, 'info');
     };
 
     const handleUpload = (formData, file) => {
@@ -62,7 +71,7 @@ const ParentWallPage = () => {
             verified: false,
         };
         setAllCerts(prevCerts => [newCert, ...prevCerts]);
-        alert(`Certificate "${formData.title}" uploaded successfully!`);
+        showToast(`Certificate "${formData.title}" uploaded successfully!`, 'success');
     };
 
     return (
@@ -118,6 +127,13 @@ const ParentWallPage = () => {
                 isOpen={isUploadModalOpen}
                 onClose={() => setUploadModalOpen(false)}
                 onUpload={handleUpload}
+            />
+
+            <Toast
+                message={toast.message}
+                type={toast.type}
+                show={toast.show}
+                onClose={() => setToast({ ...toast, show: false })}
             />
 
             {/* Selection Bar would be rendered here, conditionally based on selectedIds.size > 0 */}
