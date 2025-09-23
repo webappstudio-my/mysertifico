@@ -1,5 +1,6 @@
 // export default App;
 // src/App.jsx
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -172,6 +173,7 @@ function App() {
         <Route path="/bo/admin/mysertifico-plans" element={<BoMySertificoPlans />} />
       </Routes>
       </Router>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }
