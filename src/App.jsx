@@ -2,6 +2,7 @@
 // src/App.jsx
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Home from './pages/mysertifico/landing/Home';
 import About from './pages/mysertifico/landing/About';
 import Price from './pages/mysertifico/landing/Price';
@@ -71,6 +72,8 @@ import ParentResume from './pages/mywall/parent/ParentResume';
 import StudentEditProfile from './pages/mywall/student/StudentEditProfile';
 
 
+const queryClient = new QueryClient();
+
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 
@@ -88,7 +91,8 @@ function App() {
   };
 
   return (
-    <Router>
+    <QueryClientProvider client={queryClient}>
+      <Router>
       <Routes>
         {/* MySertifico Landing */}
         <Route path="/" element={<Home />} />
@@ -167,7 +171,8 @@ function App() {
         <Route path="/bo/templates/create-template" element={<CreateTemplate />} />
         <Route path="/bo/admin/mysertifico-plans" element={<BoMySertificoPlans />} />
       </Routes>
-    </Router>
+      </Router>
+    </QueryClientProvider>
   );
 }
 
