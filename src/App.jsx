@@ -70,6 +70,10 @@ import ParentMyAccount from './pages/mywall/parent/ParentMyAccount';
 import ParentResume from './pages/mywall/parent/ParentResume';
 import StudentEditProfile from './pages/mywall/student/StudentEditProfile';
 import ParentWallPage from './pages/mywall/parent/ParentWallPage';
+import StudentMyAccount from './pages/mywall/student/StudentMyAccount';
+import StudentMyProfile from './pages/mywall/student/StudentMyProfile';
+
+
 
 
 function App() {
@@ -149,6 +153,8 @@ function App() {
         <Route path='/mywall/parent-myaccount' element={<ParentMyAccount />} />
         <Route path='/mywall/parent-resume' element={<ParentResume />} />
         <Route path='/mywall/student-edit-profile' element={<StudentEditProfile />} />
+        <Route path='/mywall/student-myaccount' element={<StudentMyAccount />} />
+        <Route path='/mywall/student-myprofile' element={<StudentMyProfile />} />
 
         {/* Back Office */}
         <Route path="/bo/dashboard" element={<BoDashboard />} />
