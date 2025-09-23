@@ -4,7 +4,7 @@ import StudentNavbar from '../../../components/mywall/StudentNavbar';
 import Toast from '../../../components/mywall/Toast';
 
 const StudentMyProfile = () => {
-    const [toast, setToast] = useState({ show: false, message: '', isError: false });
+    const [toast, setToast] = useState({ show: false, message: '', type: 'info' });
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // User data
@@ -44,9 +44,8 @@ const StudentMyProfile = () => {
         return `${firstInitial}${lastInitial}`;
     };
 
-    const showToast = (message, isError = false) => {
-        setToast({ show: true, message, isError });
-        setTimeout(() => setToast({ show: false, message: '', isError: false }), 3000);
+    const showToast = (message, type = 'info') => {
+        setToast({ show: true, message, type });
     };
 
     const togglePasswordVisibility = (field) => {
@@ -70,18 +69,18 @@ const StudentMyProfile = () => {
 
         // Check current password
         if (passwordData.current.trim() !== 'password123') {
-            showToast("Current password is incorrect.", true);
+            showToast("Current password is incorrect.", 'error');
             return;
         }
 
         // Check if new passwords match
         if (passwordData.new !== passwordData.confirm) {
-            showToast("New passwords do not match.", true);
+            showToast("New passwords do not match.", 'error');
             return;
         }
 
         // Success
-        showToast('Password updated successfully!');
+        showToast('Password updated successfully!', 'success');
         setPasswordData({
             current: 'password123',
             new: '',
@@ -100,7 +99,7 @@ const StudentMyProfile = () => {
             const reader = new FileReader();
             reader.onload = (e) => {
                 setProfileImage(e.target.result);
-                showToast('Profile picture updated!');
+                showToast('Profile picture updated!', 'success');
             };
             reader.readAsDataURL(file);
         }
@@ -360,8 +359,9 @@ const StudentMyProfile = () => {
 
             <Toast
                 message={toast.message}
-                isError={toast.isError}
+                type={toast.type}
                 show={toast.show}
+                onClose={() => setToast({ show: false, message: '', type: 'info' })}
             />
         </div>
     );

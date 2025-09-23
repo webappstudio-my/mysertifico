@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 import StudentNavbar from '../../../components/mywall/StudentNavbar';
 import Toast from '../../../components/mywall/Toast';
 
@@ -15,7 +16,7 @@ const StudentMyAccount = () => {
         cardPayment: false,
         paymentResult: false
     });
-    const [toast, setToast] = useState({ show: false, message: '', isError: false });
+    const [toast, setToast] = useState({ show: false, message: '', type: 'info' });
     const [currentPlanId, setCurrentPlanId] = useState('trial');
     const [targetPlanId, setTargetPlanId] = useState(null);
     const [currentUsage] = useState(1);
@@ -69,9 +70,8 @@ const StudentMyAccount = () => {
         { date: 'July 15, 2023', desc: 'Trial to Standard Upgrade', amount: 'RM10.00' }
     ];
 
-    const showToast = (message, isError = false) => {
-        setToast({ show: true, message, isError });
-        setTimeout(() => setToast({ show: false, message: '', isError: false }), 3000);
+    const showToast = (message, type = 'info') => {
+        setToast({ show: true, message, type });
     };
 
     const openModal = (modalName) => {
@@ -151,7 +151,7 @@ const StudentMyAccount = () => {
     const handleFpxSubmit = (e) => {
         e.preventDefault();
         if (!selectedFpxBank) {
-            showToast('Please select a bank to continue.', true);
+            showToast('Please select a bank to continue.', 'error');
             return;
         }
         closeModal('fpx');
@@ -160,7 +160,7 @@ const StudentMyAccount = () => {
 
     const handleCardPaymentSubmit = (e) => {
         e.preventDefault();
-        showToast('Payment Successful! This is a demo.');
+        showToast('Payment Successful! This is a demo.', 'success');
         closeModal('cardPayment');
         setTimeout(() => openModal('paymentResult'), 350);
     };
@@ -192,13 +192,13 @@ const StudentMyAccount = () => {
     };
 
     const handleConfirmPlanChange = () => {
-        showToast('Your plan will be downgraded at the end of the billing period. (Demo)');
+        showToast('Your plan will be downgraded at the end of the billing period. (Demo)', 'info');
         closeModal('confirmation');
     };
 
     const handleCancelSubscription = () => {
         closeModal('cancel');
-        showToast('Subscription cancelled successfully. This is a demo.');
+        showToast('Subscription cancelled successfully. This is a demo.', 'success');
     };
 
     const getCurrentPlan = () => plans.find(p => p.id === currentPlanId);
@@ -418,9 +418,9 @@ const StudentMyAccount = () => {
                                                         <td className="px-4 py-3">{item.desc}</td>
                                                         <td className="px-4 py-3">{item.amount}</td>
                                                         <td className="px-4 py-3">
-                                                            <a href="#" className="text-accent hover:text-accent-hover font-medium">
+                                                            <NavLink to="/mywall/student-invoice" className="text-accent hover:text-accent-hover font-medium">
                                                                 Invoice <i className="ri-download-2-line"></i>
-                                                            </a>
+                                                            </NavLink>
                                                         </td>
                                                     </tr>
                                                 ))}
@@ -778,7 +778,7 @@ const StudentMyAccount = () => {
                     <button
                         onClick={() => {
                             closeModal('qrCode');
-                            showToast('Payment completed successfully! This is a demo.');
+                            showToast('Payment completed successfully! This is a demo.', 'success');
                         }}
                         className="px-8 py-2 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover"
                     >
@@ -871,8 +871,9 @@ const StudentMyAccount = () => {
 
             <Toast
                 message={toast.message}
-                isError={toast.isError}
+                type={toast.type}
                 show={toast.show}
+                onClose={() => setToast({ show: false, message: '', type: 'info' })}
             />
         </div>
     );

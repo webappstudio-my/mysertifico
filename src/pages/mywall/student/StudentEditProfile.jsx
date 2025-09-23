@@ -5,9 +5,7 @@ import Toast from '../../../components/mywall/Toast';
 
 const StudentEditProfile = () => {
     const navigate = useNavigate();
-    const [toastMessage, setToastMessage] = useState('');
-    const [isToastError, setIsToastError] = useState(false);
-    const [showToast, setShowToast] = useState(false);
+    const [toast, setToast] = useState({ show: false, message: '', type: 'info' });
 
     const [formData, setFormData] = useState({
         name: 'Taufik Nabil bin Yusoff',
@@ -25,11 +23,8 @@ const StudentEditProfile = () => {
         portfolio: 'https://taufiknabil.myportfolio.com'
     });
 
-    const showToastMessage = (message, isError = false) => {
-        setToastMessage(message);
-        setIsToastError(isError);
-        setShowToast(true);
-        setTimeout(() => setShowToast(false), 3000);
+    const showToast = (message, type = 'info') => {
+        setToast({ show: true, message, type });
     };
 
     const handleInputChange = (e) => {
@@ -42,7 +37,7 @@ const StudentEditProfile = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        showToastMessage('Profile updated successfully!');
+        showToast('Profile updated successfully!', 'success');
         setTimeout(() => {
             navigate('/mywall/student-myprofile');
         }, 1000);
@@ -265,9 +260,10 @@ const StudentEditProfile = () => {
             </main>
 
             <Toast
-                message={toastMessage}
-                isError={isToastError}
-                show={showToast}
+                message={toast.message}
+                type={toast.type}
+                show={toast.show}
+                onClose={() => setToast({ show: false, message: '', type: 'info' })}
             />
         </div>
     );
