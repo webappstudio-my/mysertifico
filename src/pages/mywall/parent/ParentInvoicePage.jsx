@@ -1,6 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import ActionBar from '../../../components/mywall/ActionBar';
 import InvoicePreview from '../../../components/mywall/InvoicePreview';
+import Toast from '../../../components/mywall/Toast';
 
 // Data can be fetched from an API or defined statically
 const invoiceData = {
@@ -41,10 +42,16 @@ const invoiceData = {
 const ParentInvoicePage = () => {
     // Create a ref to hold the DOM element of the invoice content
     const invoiceRef = useRef(null);
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+
+    const showToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+    };
 
     const handleDownloadPdf = () => {
         const element = invoiceRef.current;
         if (element && window.html2pdf) {
+            showToast('Downloading PDF...', 'info');
             window.scrollTo(0, 0);
             const opt = {
                 margin: 0,
@@ -55,6 +62,7 @@ const ParentInvoicePage = () => {
             };
             window.html2pdf().set(opt).from(element).save();
         } else {
+            showToast('Could not generate PDF. Please try again later.', 'error');
             console.error("PDF generation library (html2pdf) not found or element not ready.");
         }
     };
@@ -65,6 +73,12 @@ const ParentInvoicePage = () => {
             <main className="py-12 mb-24"> {/* Added margin-bottom to avoid overlap with action bar */}
                 <InvoicePreview ref={invoiceRef} invoiceData={invoiceData} />
             </main>
+            <Toast
+                message={toast.message}
+                type={toast.type}
+                show={toast.show}
+                onClose={() => setToast({ ...toast, show: false })}
+            />
         </div>
     );
 };

@@ -3,6 +3,10 @@ import React from 'react';
 const DeleteModal = ({ isOpen, onClose, onConfirm, memberToDelete }) => {
     if (!isOpen) return null;
 
+    const handleConfirm = () => {
+        onConfirm();
+    };
+
     return (
         <div className="modal fixed inset-0 z-[60] flex items-center justify-center p-4">
             <div className="modal-backdrop absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose}></div>
@@ -16,7 +20,7 @@ const DeleteModal = ({ isOpen, onClose, onConfirm, memberToDelete }) => {
                 </div>
                 <div className="p-4 flex justify-center items-center gap-4 border-t border-primary-mywall-800/50 bg-white/5">
                     <button type="button" onClick={onClose} className="px-6 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600">Cancel</button>
-                    <button type="button" onClick={onConfirm} className="px-6 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700">Yes, Delete</button>
+                    <button type="button" onClick={handleConfirm} className="px-6 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700">Yes, Delete</button>
                 </div>
             </div>
         </div>

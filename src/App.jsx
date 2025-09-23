@@ -69,6 +69,7 @@ import ParentInvoicePage from './pages/mywall/parent/ParentInvoicePage';
 import ParentMyAccount from './pages/mywall/parent/ParentMyAccount';
 import ParentResume from './pages/mywall/parent/ParentResume';
 import StudentEditProfile from './pages/mywall/student/StudentEditProfile';
+import ParentWallPage from './pages/mywall/parent/ParentWallPage';
 
 
 function App() {
@@ -140,6 +141,7 @@ function App() {
         <Route path="/mywall/auth/forgot-password" element={<MWForgotPassword />} />
         <Route path='/mywall/auth/sign-up' element={<MyWallSignUp />} />
         <Route path='/mywall/auth/sign-in' element={<MyWallSignIn />} />
+        <Route path='/mywall/parent-wall' element={<ParentWallPage />} />
         <Route path='/mywall/parent-myfamily' element={<MyFamilyPage />} />
         <Route path='/mywall/parent-edit-profile' element={<ParentEditProfile />} />
         <Route path='/mywall/parent-myprofile' element={<ParentMyProfile />} />
