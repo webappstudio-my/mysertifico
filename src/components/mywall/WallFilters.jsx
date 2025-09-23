@@ -41,7 +41,7 @@ const WallFilters = ({ filters, onFilterChange, onUploadClick }) => {
                     <option value="external">External</option>
                 </select>
 
-                <button onClick={onUploadClick} className="bg-accent hover:bg-accent-hover text-white font-semibold py-3 px-6 rounded-full transition-colors flex items-center justify-center gap-2">
+                <button onClick={onUploadClick} className="bg-accent-mywall hover:bg-accent-mywall-hover text-white font-semibold py-3 px-6 rounded-full transition-colors flex items-center justify-center gap-2">
                     <i className="ri-upload-cloud-2-line"></i>
                     <span>Upload External</span>
                 </button>

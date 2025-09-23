@@ -1,15 +1,30 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import MyWallNavbar from '../../../components/mywall/MyWallNavbar';
 import WallFilters from '../../../components/mywall/WallFilters';
 import CertificateCard from '../../../components/mywall/CertificateCard';
 import CertificateModal from '../../../components/mywall/CertificateModal';
+import UploadCertificateModal from '../../../components/mywall/UploadCertificateModal';
 import { certificates } from '../../../data/certificateData'; // Import static data
 
 const ParentWallPage = () => {
-    const [allCerts] = useState(certificates);
+    const [allCerts, setAllCerts] = useState(certificates);
     const [filters, setFilters] = useState({ search: '', owner: 'all', category: 'all', source: 'all' });
     const [selectedIds, setSelectedIds] = useState(new Set());
     const [viewingCert, setViewingCert] = useState(null);
+    const [isUploadModalOpen, setUploadModalOpen] = useState(false);
+
+    useEffect(() => {
+        const isModalOpen = !!viewingCert || isUploadModalOpen;
+        if (isModalOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        // Cleanup function to reset overflow when component unmounts
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [viewingCert, isUploadModalOpen]);
 
     const filteredCerts = useMemo(() => {
         return allCerts.filter(cert => {
@@ -32,11 +47,22 @@ const ParentWallPage = () => {
     };
 
     const handleDownload = (cert) => {
-        // In a real app, this would trigger a more complex PDF generation flow.
-        // For this conversion, we'll simulate a download.
         alert(`Downloading "${cert.title}"...`);
-        // The complex PDF generation logic from the original JS can be ported here
-        // using a library like jsPDF and html2canvas, or by calling a server endpoint.
+    };
+
+    const handleUpload = (formData, file) => {
+        console.log('Uploading certificate:', { ...formData, fileName: file.name });
+        // Here you would handle the actual file upload and data submission
+        // For example, creating a new certificate object and adding it to the state:
+        const newCert = {
+            id: `cert-${Date.now()}`,
+            ...formData,
+            source: 'external',
+            image: URL.createObjectURL(file), // Temporary URL for display
+            verified: false,
+        };
+        setAllCerts(prevCerts => [newCert, ...prevCerts]);
+        alert(`Certificate "${formData.title}" uploaded successfully!`);
     };
 
     return (
@@ -55,7 +81,7 @@ const ParentWallPage = () => {
                         <WallFilters
                             filters={filters}
                             onFilterChange={setFilters}
-                            onUploadClick={() => alert('Opening upload modal...')}
+                            onUploadClick={() => setUploadModalOpen(true)}
                         />
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
@@ -86,6 +112,12 @@ const ParentWallPage = () => {
                 isOpen={!!viewingCert}
                 onClose={() => setViewingCert(null)}
                 cert={viewingCert}
+            />
+
+            <UploadCertificateModal
+                isOpen={isUploadModalOpen}
+                onClose={() => setUploadModalOpen(false)}
+                onUpload={handleUpload}
             />
 
             {/* Selection Bar would be rendered here, conditionally based on selectedIds.size > 0 */}

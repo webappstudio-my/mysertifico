@@ -8,7 +8,7 @@ const CertificateCard = ({ cert, onSelect, isSelected, onView, onDownload }) => 
 
     return (
         <div
-            className={`certificate-card bg-white/10 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden group flex flex-col transform transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary-mywall/30 hover:-translate-y-2 ${isSelected ? 'ring-2 ring-accent' : ''}`}
+            className={`certificate-card bg-white/10 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden group flex flex-col transform transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary-mywall/30 hover:-translate-y-2 ${isSelected ? 'ring-2 ring-accent-mywall' : ''}`}
         >
             <div className="relative h-48 overflow-hidden bg-black/20 p-2">
                 <img className="w-full h-full object-contain transition-all duration-500 group-hover:scale-110" src={cert.image} alt={cert.title} />
@@ -37,7 +37,7 @@ const CertificateCard = ({ cert, onSelect, isSelected, onView, onDownload }) => 
                     <button onClick={() => onView(cert)} className="flex-1 text-center px-3 py-2 text-sm bg-primary-mywall/80 text-white font-semibold rounded-lg hover:bg-primary-mywall transition-colors flex items-center justify-center gap-1">
                         <i className="ri-eye-line"></i> View
                     </button>
-                    <button onClick={handleDownloadClick} className="flex-1 text-center px-3 py-2 text-sm bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover transition-colors flex items-center justify-center gap-1">
+                    <button onClick={handleDownloadClick} className="flex-1 text-center px-3 py-2 text-sm bg-accent-mywall text-white font-semibold rounded-lg hover:bg-accent-mywall-hover transition-colors flex items-center justify-center gap-1">
                         <i className="ri-download-2-line"></i> Download
                     </button>
                 </div>
