@@ -113,47 +113,15 @@ const StudentMyAccount = () => {
         document.body.style.overflow = '';
     };
 
-    const handleCardChange = (field) => (e) => {
-        let value = e.target.value;
-        
-        // Add input formatting based on field type
-        switch(field) {
-            case 'number':
-                // Remove non-digits first
-                value = value.replace(/\D/g, '');
-                // Limit to 16 digits
-                if (value.length > 16) value = value.slice(0, 16);
-                // Add spaces every 4 digits
-                if (value.length > 0) {
-                    value = value.match(/.{1,4}/g)?.join(' ') || value;
-                }
-                break;
-                
-            case 'expiry':
-                // Format MM/YY - only allow digits
-                value = value.replace(/\D/g, '');
-                if (value.length > 4) value = value.slice(0, 4);
-                if (value.length >= 3) {
-                    value = value.slice(0, 2) + '/' + value.slice(2);
-                }
-                break;
-                
-            case 'cvc':
-                // Limit to 3-4 digits
-                value = value.replace(/\D/g, '');
-                if (value.length > 4) value = value.slice(0, 4);
-                break;
-                
-            case 'name':
-                // Allow only letters and spaces, convert to uppercase
-                value = value.replace(/[^a-zA-Z\s]/g, '').toUpperCase();
-                break;
-                
-            default:
-                break;
-        }
-        setCardForm(prev => ({ ...prev, [field]: value }));
+    const handleInputChange = (e) => {
+        e.preventDefault();
+        const { name, value } = e.target;
+        setCardForm(prev => ({
+            ...prev,
+            [name]: value
+        }));
     };
+
 
     useEffect(() => {
         const handleEscape = (e) => {
@@ -858,8 +826,9 @@ const StudentMyAccount = () => {
                             <label className="block text-sm font-medium text-primary-mywall-200 mb-1">Name on Card</label>
                             <input
                                 type="text"
+                                name="name"
                                 value={cardForm.name}
-                                onChange={handleCardChange('name')}
+                                onChange={handleInputChange}
                                 className="w-full bg-white/10 border border-primary-mywall-700 rounded-lg px-3 py-2 text-white focus:ring-accent focus:border-accent"
                                 placeholder="e.g. AHMAD NABIL BIN YUSOFF"
                                 required
@@ -869,11 +838,11 @@ const StudentMyAccount = () => {
                             <label className="block text-sm font-medium text-primary-mywall-200 mb-1">Card Number</label>
                             <input
                                 type="text"
+                                name="number"
                                 value={cardForm.number}
-                                onChange={handleCardChange('number')}
+                                onChange={handleInputChange}
                                 className="w-full bg-white/10 border border-primary-mywall-700 rounded-lg px-3 py-2 text-white focus:ring-accent focus:border-accent"
                                 placeholder="•••• •••• •••• ••••"
-                                maxLength="19"
                                 required
                             />
                         </div>
@@ -882,11 +851,11 @@ const StudentMyAccount = () => {
                                 <label className="block text-sm font-medium text-primary-mywall-200 mb-1">Expiry (MM/YY)</label>
                                 <input
                                     type="text"
+                                    name="expiry"
                                     value={cardForm.expiry}
-                                    onChange={handleCardChange('expiry')}
+                                    onChange={handleInputChange}
                                     className="w-full bg-white/10 border border-primary-mywall-700 rounded-lg px-3 py-2 text-white focus:ring-accent focus:border-accent"
                                     placeholder="MM/YY"
-                                    maxLength="5"
                                     required
                                 />
                             </div>
@@ -894,11 +863,11 @@ const StudentMyAccount = () => {
                                 <label className="block text-sm font-medium text-primary-mywall-200 mb-1">CVC</label>
                                 <input
                                     type="text"
+                                    name="cvc"
                                     value={cardForm.cvc}
-                                    onChange={handleCardChange('cvc')}
+                                    onChange={handleInputChange}
                                     className="w-full bg-white/10 border border-primary-mywall-700 rounded-lg px-3 py-2 text-white focus:ring-accent focus:border-accent"
                                     placeholder="•••"
-                                    maxLength="4"
                                     required
                                 />
                             </div>
