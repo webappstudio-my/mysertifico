@@ -75,15 +75,23 @@ const StudentMyAccount = () => {
     };
 
     const openModal = (modalName) => {
-        setModals(prev => ({ ...prev, [modalName]: true }));
-        document.body.style.overflow = 'hidden';
+        setModals(prev => {
+            const newModals = { ...prev, [modalName]: true };
+            // Only set overflow hidden if this is the first modal
+            const wasAnyOpen = Object.values(prev).some(isOpen => isOpen);
+            if (!wasAnyOpen) {
+                document.body.style.overflow = 'hidden';
+            }
+            return newModals;
+        });
     };
 
     const closeModal = (modalName) => {
         setModals(prev => {
             const newModals = { ...prev, [modalName]: false };
-            // Check if any modals will still be open after this update
-            if (!Object.values(newModals).some(isOpen => isOpen)) {
+            // Only reset overflow if this was the last open modal
+            const anyStillOpen = Object.values(newModals).some(isOpen => isOpen);
+            if (!anyStillOpen) {
                 document.body.style.overflow = '';
             }
             return newModals;
@@ -103,6 +111,48 @@ const StudentMyAccount = () => {
             paymentResult: false
         });
         document.body.style.overflow = '';
+    };
+
+    const handleCardChange = (field) => (e) => {
+        let value = e.target.value;
+        
+        // Add input formatting based on field type
+        switch(field) {
+            case 'number':
+                // Remove non-digits first
+                value = value.replace(/\D/g, '');
+                // Limit to 16 digits
+                if (value.length > 16) value = value.slice(0, 16);
+                // Add spaces every 4 digits
+                if (value.length > 0) {
+                    value = value.match(/.{1,4}/g)?.join(' ') || value;
+                }
+                break;
+                
+            case 'expiry':
+                // Format MM/YY - only allow digits
+                value = value.replace(/\D/g, '');
+                if (value.length > 4) value = value.slice(0, 4);
+                if (value.length >= 3) {
+                    value = value.slice(0, 2) + '/' + value.slice(2);
+                }
+                break;
+                
+            case 'cvc':
+                // Limit to 3-4 digits
+                value = value.replace(/\D/g, '');
+                if (value.length > 4) value = value.slice(0, 4);
+                break;
+                
+            case 'name':
+                // Allow only letters and spaces, convert to uppercase
+                value = value.replace(/[^a-zA-Z\s]/g, '').toUpperCase();
+                break;
+                
+            default:
+                break;
+        }
+        setCardForm(prev => ({ ...prev, [field]: value }));
     };
 
     useEffect(() => {
@@ -790,6 +840,7 @@ const StudentMyAccount = () => {
             {/* Card Payment Modal */}
             <Modal isOpen={modals.cardPayment} onClose={() => closeModal('cardPayment')}>
                 <form onSubmit={handleCardPaymentSubmit}>
+                    {/* ... header ... */}
                     <div className="flex justify-between items-center p-4 border-b border-primary-mywall-800/50">
                         <h3 className="text-lg font-bold text-white flex items-center gap-2">
                             <i className="ri-bank-card-line"></i> Card Payment
@@ -808,9 +859,10 @@ const StudentMyAccount = () => {
                             <input
                                 type="text"
                                 value={cardForm.name}
-                                onChange={(e) => setCardForm(prev => ({ ...prev, name: e.target.value }))}
+                                onChange={handleCardChange('name')}
                                 className="w-full bg-white/10 border border-primary-mywall-700 rounded-lg px-3 py-2 text-white focus:ring-accent focus:border-accent"
                                 placeholder="e.g. AHMAD NABIL BIN YUSOFF"
+                                required
                             />
                         </div>
                         <div>
@@ -818,9 +870,10 @@ const StudentMyAccount = () => {
                             <input
                                 type="text"
                                 value={cardForm.number}
-                                onChange={(e) => setCardForm(prev => ({ ...prev, number: e.target.value }))}
+                                onChange={handleCardChange('number')}
                                 className="w-full bg-white/10 border border-primary-mywall-700 rounded-lg px-3 py-2 text-white focus:ring-accent focus:border-accent"
                                 placeholder="•••• •••• •••• ••••"
+                                maxLength="19"
                                 required
                             />
                         </div>
@@ -830,9 +883,10 @@ const StudentMyAccount = () => {
                                 <input
                                     type="text"
                                     value={cardForm.expiry}
-                                    onChange={(e) => setCardForm(prev => ({ ...prev, expiry: e.target.value }))}
+                                    onChange={handleCardChange('expiry')}
                                     className="w-full bg-white/10 border border-primary-mywall-700 rounded-lg px-3 py-2 text-white focus:ring-accent focus:border-accent"
                                     placeholder="MM/YY"
+                                    maxLength="5"
                                     required
                                 />
                             </div>
@@ -841,9 +895,10 @@ const StudentMyAccount = () => {
                                 <input
                                     type="text"
                                     value={cardForm.cvc}
-                                    onChange={(e) => setCardForm(prev => ({ ...prev, cvc: e.target.value }))}
+                                    onChange={handleCardChange('cvc')}
                                     className="w-full bg-white/10 border border-primary-mywall-700 rounded-lg px-3 py-2 text-white focus:ring-accent focus:border-accent"
                                     placeholder="•••"
+                                    maxLength="4"
                                     required
                                 />
                             </div>
