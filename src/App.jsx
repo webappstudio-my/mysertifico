@@ -67,6 +67,8 @@ import ParentEditProfile from './pages/mywall/parent/ParentEditProfile';
 import StudentEditProfile from './pages/mywall/student/StudentEditProfile';
 import StudentMyAccount from './pages/mywall/student/StudentMyAccount';
 import StudentMyProfile from './pages/mywall/student/StudentMyProfile';
+import DebugTestStudentMyAccount from './pages/mywall/student/debug test';
+import MyAccount from './pages/mywall/student/debug test page v2';
 
 
 
@@ -126,6 +128,9 @@ function App() {
         <Route path="/dashboard/settings/edit-user/:id" element={<EditUser theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/dashboard/settings/view-user/:id" element={<ViewUser theme={theme} onThemeToggle={toggleTheme} />} />
         <Route path="/dashboard/settings/import-users" element={<ImportUsers theme={theme} onThemeToggle={toggleTheme} />} />
+        <Route path="/debug-test-student-myaccount" element={<DebugTestStudentMyAccount />} />
+"       <Route path="/myaccount" element={<MyAccount />} />
+
 
         {/* MyWall Landing */}
         <Route path='/mywall/home' element={<MyWallHome />} />
