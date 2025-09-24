@@ -10,7 +10,7 @@ const ResumeStyles = () => (
         /* A4 paper size: 210mm x 297mm */
         .a4-container {
             width: 210mm;
-            min-height: 297mm;
+            /* min-height: 297mm; */
             margin-left: auto;
             margin-right: auto;
         }

@@ -73,6 +73,7 @@ import ParentWallPage from './pages/mywall/parent/ParentWallPage';
 import StudentMyAccount from './pages/mywall/student/StudentMyAccount';
 import StudentMyProfile from './pages/mywall/student/StudentMyProfile';
 import StudentInvoicePage from './pages/mywall/student/StudentInvoicePage';
+import StudentResume from './pages/mywall/student/StudentResume';
 
 
 function App() {
@@ -155,6 +156,7 @@ function App() {
         <Route path='/mywall/student-myaccount' element={<StudentMyAccount />} />
         <Route path='/mywall/student-myprofile' element={<StudentMyProfile />} />
         <Route path='/mywall/student-invoice' element={<StudentInvoicePage />} />
+         <Route path='/mywall/student-resume' element={<StudentResume />} />
 
         {/* Back Office */}
         <Route path="/bo/dashboard" element={<BoDashboard />} />
