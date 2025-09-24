@@ -2,6 +2,19 @@ import React, { useState, useEffect } from 'react';
 import StudentNavbar from '../../../components/mywall/StudentNavbar';
 import Toast from '../../../components/mywall/Toast';
 
+const Modal = ({ isOpen, onClose, children, maxWidth = "max-w-md" }) => {
+        if (!isOpen) return null;
+
+        return (
+            <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+                <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose}></div>
+                <div className={`relative bg-white/10 border border-primary-mywall-500/50 rounded-2xl shadow-2xl w-full ${maxWidth} max-h-[90vh] flex flex-col`} onClick={(e) => e.stopPropagation()}>
+                    {children}
+                </div>
+            </div>
+        );
+    };
+
 const StudentMyAccount = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [modals, setModals] = useState({
@@ -177,9 +190,9 @@ const StudentMyAccount = () => {
 
     const handleCardPaymentSubmit = (e) => {
         e.preventDefault();
+        // Simply show toast and close current modal
         showToast('Payment Successful! This is a demo.');
         closeModal('cardPayment');
-        setTimeout(() => openModal('paymentResult'), 350);
     };
 
     const handlePlanChange = (planId) => {
@@ -251,19 +264,6 @@ const StudentMyAccount = () => {
     };
 
     const getPageCount = () => Math.ceil(billingData.length / rowsPerPage);
-
-    const Modal = ({ isOpen, onClose, children, maxWidth = "max-w-md" }) => {
-        if (!isOpen) return null;
-
-        return (
-            <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
-                <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose}></div>
-                <div className={`relative bg-white/10 border border-primary-mywall-500/50 rounded-2xl shadow-2xl w-full ${maxWidth} max-h-[90vh] flex flex-col`} onClick={(e) => e.stopPropagation()}>
-                    {children}
-                </div>
-            </div>
-        );
-    };
 
     return (
         <div className="bg-gradient-to-br from-primary-mywall-900 to-primary-mywall text-white flex flex-col min-h-screen">
