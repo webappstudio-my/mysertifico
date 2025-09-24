@@ -167,15 +167,13 @@ const StudentMyAccount = () => {
     const handlePaymentCheckoutSubmit = (e) => {
         e.preventDefault();
         closeModal('paymentCheckout');
-        setTimeout(() => {
-            if (selectedPaymentMethod === 'ewallet') {
-                openModal('qrCode');
-            } else if (selectedPaymentMethod === 'card') {
-                openModal('cardPayment');
-            } else if (selectedPaymentMethod === 'fpx') {
-                openModal('fpx');
-            }
-        }, 350);
+        if (selectedPaymentMethod === 'ewallet') {
+            openModal('qrCode'); // Direct call
+        } else if (selectedPaymentMethod === 'card') {
+            openModal('cardPayment'); // Direct call
+        } else if (selectedPaymentMethod === 'fpx') {
+            openModal('fpx'); // Direct call
+        }
     };
 
     const handleFpxSubmit = (e) => {
@@ -184,8 +182,8 @@ const StudentMyAccount = () => {
             showToast('Please select a bank to continue.', true);
             return;
         }
+        // simply close modal
         closeModal('fpx');
-        setTimeout(() => openModal('fpxLogin'), 350);
     };
 
     const handleCardPaymentSubmit = (e) => {
@@ -745,7 +743,6 @@ const StudentMyAccount = () => {
                             type="button"
                             onClick={() => {
                                 closeModal('fpx');
-                                setTimeout(() => openModal('paymentCheckout'), 350);
                             }}
                             className="px-6 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600"
                         >
