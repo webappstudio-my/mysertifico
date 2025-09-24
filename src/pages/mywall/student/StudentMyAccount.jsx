@@ -114,7 +114,6 @@ const StudentMyAccount = () => {
     };
 
     const handleInputChange = (e) => {
-        e.preventDefault();
         const { name, value } = e.target;
         setCardForm(prev => ({
             ...prev,
@@ -259,7 +258,7 @@ const StudentMyAccount = () => {
         return (
             <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
                 <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose}></div>
-                <div className={`relative bg-white/10 border border-primary-mywall-500/50 rounded-2xl shadow-2xl w-full ${maxWidth} max-h-[90vh] flex flex-col`}>
+                <div className={`relative bg-white/10 border border-primary-mywall-500/50 rounded-2xl shadow-2xl w-full ${maxWidth} max-h-[90vh] flex flex-col`} onClick={(e) => e.stopPropagation()}>
                     {children}
                 </div>
             </div>
