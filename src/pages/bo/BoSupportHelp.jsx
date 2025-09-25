@@ -52,8 +52,7 @@ const BoSupportHelp = () => {
     };
 
     // Helper function to format backend status for API calls
-    {/*
-        const formatBackendStatus = (frontendStatus) => {
+    const formatBackendStatus = (frontendStatus) => {
         const statusMap = {
             'New': 'new',
             'Unread': 'unread',
@@ -62,7 +61,6 @@ const BoSupportHelp = () => {
         };
         return statusMap[frontendStatus] || 'unread';
     };
-    */}
 
     // Helper function to format date
     const formatDate = (dateString) => {
@@ -91,7 +89,7 @@ const BoSupportHelp = () => {
             setLoading(true);
             setError('');
             
-            const response = await axios.get('http://localhost:3000/api/contact-us', {
+            const response = await axios.get('http://127.0.0.1:3000/api/contact-us', {
                 timeout: 10000
             });
 
@@ -119,11 +117,9 @@ const BoSupportHelp = () => {
     };
 
     // Load tickets on component mount
-    {/*
-        useEffect(() => {
+    useEffect(() => {
         fetchTickets();
     }, []);
-    */}
 
     //For BoSearchInput variables
     const handleSearchSubmit = () => {
