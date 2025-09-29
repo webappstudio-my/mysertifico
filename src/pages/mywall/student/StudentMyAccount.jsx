@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
 import StudentNavbar from '../../../components/mywall/StudentNavbar';
 import Toast from '../../../components/mywall/Toast';
+
+const Modal = ({ isOpen, onClose, children, maxWidth = "max-w-md" }) => {
+        if (!isOpen) return null;
+
+        return (
+            <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+                <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose}></div>
+                <div className={`relative bg-white/10 border border-primary-mywall-500/50 rounded-2xl shadow-2xl w-full ${maxWidth} max-h-[90vh] flex flex-col`} onClick={(e) => e.stopPropagation()}>
+                    {children}
+                </div>
+            </div>
+        );
+    };
 
 const StudentMyAccount = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,7 +28,7 @@ const StudentMyAccount = () => {
         cardPayment: false,
         paymentResult: false
     });
-    const [toast, setToast] = useState({ show: false, message: '', type: 'info' });
+    const [toast, setToast] = useState({ show: false, message: '', isError: false });
     const [currentPlanId, setCurrentPlanId] = useState('trial');
     const [targetPlanId, setTargetPlanId] = useState(null);
     const [currentUsage] = useState(1);
@@ -70,20 +82,29 @@ const StudentMyAccount = () => {
         { date: 'July 15, 2023', desc: 'Trial to Standard Upgrade', amount: 'RM10.00' }
     ];
 
-    const showToast = (message, type = 'info') => {
-        setToast({ show: true, message, type });
+    const showToast = (message, isError = false) => {
+        setToast({ show: true, message, isError });
+        setTimeout(() => setToast({ show: false, message: '', isError: false }), 3000);
     };
 
     const openModal = (modalName) => {
-        setModals(prev => ({ ...prev, [modalName]: true }));
-        document.body.style.overflow = 'hidden';
+        setModals(prev => {
+            const newModals = { ...prev, [modalName]: true };
+            // Only set overflow hidden if this is the first modal
+            const wasAnyOpen = Object.values(prev).some(isOpen => isOpen);
+            if (!wasAnyOpen) {
+                document.body.style.overflow = 'hidden';
+            }
+            return newModals;
+        });
     };
 
     const closeModal = (modalName) => {
         setModals(prev => {
             const newModals = { ...prev, [modalName]: false };
-            // Check if any modals will still be open after this update
-            if (!Object.values(newModals).some(isOpen => isOpen)) {
+            // Only reset overflow if this was the last open modal
+            const anyStillOpen = Object.values(newModals).some(isOpen => isOpen);
+            if (!anyStillOpen) {
                 document.body.style.overflow = '';
             }
             return newModals;
@@ -104,6 +125,15 @@ const StudentMyAccount = () => {
         });
         document.body.style.overflow = '';
     };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setCardForm(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
 
     useEffect(() => {
         const handleEscape = (e) => {
@@ -137,32 +167,30 @@ const StudentMyAccount = () => {
     const handlePaymentCheckoutSubmit = (e) => {
         e.preventDefault();
         closeModal('paymentCheckout');
-        setTimeout(() => {
-            if (selectedPaymentMethod === 'ewallet') {
-                openModal('qrCode');
-            } else if (selectedPaymentMethod === 'card') {
-                openModal('cardPayment');
-            } else if (selectedPaymentMethod === 'fpx') {
-                openModal('fpx');
-            }
-        }, 350);
+        if (selectedPaymentMethod === 'ewallet') {
+            openModal('qrCode'); // Direct call
+        } else if (selectedPaymentMethod === 'card') {
+            openModal('cardPayment'); // Direct call
+        } else if (selectedPaymentMethod === 'fpx') {
+            openModal('fpx'); // Direct call
+        }
     };
 
     const handleFpxSubmit = (e) => {
         e.preventDefault();
         if (!selectedFpxBank) {
-            showToast('Please select a bank to continue.', 'error');
+            showToast('Please select a bank to continue.', true);
             return;
         }
+        // simply close modal
         closeModal('fpx');
-        setTimeout(() => openModal('fpxLogin'), 350);
     };
 
     const handleCardPaymentSubmit = (e) => {
         e.preventDefault();
-        showToast('Payment Successful! This is a demo.', 'success');
+        // Simply show toast and close current modal
+        showToast('Payment Successful! This is a demo.');
         closeModal('cardPayment');
-        setTimeout(() => openModal('paymentResult'), 350);
     };
 
     const handlePlanChange = (planId) => {
@@ -192,13 +220,13 @@ const StudentMyAccount = () => {
     };
 
     const handleConfirmPlanChange = () => {
-        showToast('Your plan will be downgraded at the end of the billing period. (Demo)', 'info');
+        showToast('Your plan will be downgraded at the end of the billing period. (Demo)');
         closeModal('confirmation');
     };
 
     const handleCancelSubscription = () => {
         closeModal('cancel');
-        showToast('Subscription cancelled successfully. This is a demo.', 'success');
+        showToast('Subscription cancelled successfully. This is a demo.');
     };
 
     const getCurrentPlan = () => plans.find(p => p.id === currentPlanId);
@@ -234,19 +262,6 @@ const StudentMyAccount = () => {
     };
 
     const getPageCount = () => Math.ceil(billingData.length / rowsPerPage);
-
-    const Modal = ({ isOpen, onClose, children, maxWidth = "max-w-md" }) => {
-        if (!isOpen) return null;
-
-        return (
-            <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
-                <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose}></div>
-                <div className={`relative bg-white/10 border border-primary-mywall-500/50 rounded-2xl shadow-2xl w-full ${maxWidth} max-h-[90vh] flex flex-col`}>
-                    {children}
-                </div>
-            </div>
-        );
-    };
 
     return (
         <div className="bg-gradient-to-br from-primary-mywall-900 to-primary-mywall text-white flex flex-col min-h-screen">
@@ -418,9 +433,9 @@ const StudentMyAccount = () => {
                                                         <td className="px-4 py-3">{item.desc}</td>
                                                         <td className="px-4 py-3">{item.amount}</td>
                                                         <td className="px-4 py-3">
-                                                            <NavLink to="/mywall/student-invoice" className="text-accent hover:text-accent-hover font-medium">
+                                                            <a href="#" className="text-accent hover:text-accent-hover font-medium">
                                                                 Invoice <i className="ri-download-2-line"></i>
-                                                            </NavLink>
+                                                            </a>
                                                         </td>
                                                     </tr>
                                                 ))}
@@ -728,7 +743,6 @@ const StudentMyAccount = () => {
                             type="button"
                             onClick={() => {
                                 closeModal('fpx');
-                                setTimeout(() => openModal('paymentCheckout'), 350);
                             }}
                             className="px-6 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600"
                         >
@@ -778,7 +792,7 @@ const StudentMyAccount = () => {
                     <button
                         onClick={() => {
                             closeModal('qrCode');
-                            showToast('Payment completed successfully! This is a demo.', 'success');
+                            showToast('Payment completed successfully! This is a demo.');
                         }}
                         className="px-8 py-2 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover"
                     >
@@ -790,6 +804,7 @@ const StudentMyAccount = () => {
             {/* Card Payment Modal */}
             <Modal isOpen={modals.cardPayment} onClose={() => closeModal('cardPayment')}>
                 <form onSubmit={handleCardPaymentSubmit}>
+                    {/* ... header ... */}
                     <div className="flex justify-between items-center p-4 border-b border-primary-mywall-800/50">
                         <h3 className="text-lg font-bold text-white flex items-center gap-2">
                             <i className="ri-bank-card-line"></i> Card Payment
@@ -807,18 +822,21 @@ const StudentMyAccount = () => {
                             <label className="block text-sm font-medium text-primary-mywall-200 mb-1">Name on Card</label>
                             <input
                                 type="text"
+                                name="name"
                                 value={cardForm.name}
-                                onChange={(e) => setCardForm(prev => ({ ...prev, name: e.target.value }))}
+                                onChange={handleInputChange}
                                 className="w-full bg-white/10 border border-primary-mywall-700 rounded-lg px-3 py-2 text-white focus:ring-accent focus:border-accent"
                                 placeholder="e.g. AHMAD NABIL BIN YUSOFF"
+                                required
                             />
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-primary-mywall-200 mb-1">Card Number</label>
                             <input
                                 type="text"
+                                name="number"
                                 value={cardForm.number}
-                                onChange={(e) => setCardForm(prev => ({ ...prev, number: e.target.value }))}
+                                onChange={handleInputChange}
                                 className="w-full bg-white/10 border border-primary-mywall-700 rounded-lg px-3 py-2 text-white focus:ring-accent focus:border-accent"
                                 placeholder="•••• •••• •••• ••••"
                                 required
@@ -829,8 +847,9 @@ const StudentMyAccount = () => {
                                 <label className="block text-sm font-medium text-primary-mywall-200 mb-1">Expiry (MM/YY)</label>
                                 <input
                                     type="text"
+                                    name="expiry"
                                     value={cardForm.expiry}
-                                    onChange={(e) => setCardForm(prev => ({ ...prev, expiry: e.target.value }))}
+                                    onChange={handleInputChange}
                                     className="w-full bg-white/10 border border-primary-mywall-700 rounded-lg px-3 py-2 text-white focus:ring-accent focus:border-accent"
                                     placeholder="MM/YY"
                                     required
@@ -840,8 +859,9 @@ const StudentMyAccount = () => {
                                 <label className="block text-sm font-medium text-primary-mywall-200 mb-1">CVC</label>
                                 <input
                                     type="text"
+                                    name="cvc"
                                     value={cardForm.cvc}
-                                    onChange={(e) => setCardForm(prev => ({ ...prev, cvc: e.target.value }))}
+                                    onChange={handleInputChange}
                                     className="w-full bg-white/10 border border-primary-mywall-700 rounded-lg px-3 py-2 text-white focus:ring-accent focus:border-accent"
                                     placeholder="•••"
                                     required
@@ -871,9 +891,8 @@ const StudentMyAccount = () => {
 
             <Toast
                 message={toast.message}
-                type={toast.type}
+                isError={toast.isError}
                 show={toast.show}
-                onClose={() => setToast({ show: false, message: '', type: 'info' })}
             />
         </div>
     );
