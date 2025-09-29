@@ -71,6 +71,11 @@ import ParentInvoicePage from './pages/mywall/parent/ParentInvoicePage';
 import ParentMyAccount from './pages/mywall/parent/ParentMyAccount';
 import ParentResume from './pages/mywall/parent/ParentResume';
 import StudentEditProfile from './pages/mywall/student/StudentEditProfile';
+import ParentWallPage from './pages/mywall/parent/ParentWallPage';
+import StudentMyAccount from './pages/mywall/student/StudentMyAccount';
+import StudentMyProfile from './pages/mywall/student/StudentMyProfile';
+import StudentInvoicePage from './pages/mywall/student/StudentInvoicePage';
+import StudentResume from './pages/mywall/student/StudentResume';
 
 
 const queryClient = new QueryClient();
@@ -145,6 +150,7 @@ function App() {
         <Route path="/mywall/auth/forgot-password" element={<MWForgotPassword />} />
         <Route path='/mywall/auth/sign-up' element={<MyWallSignUp />} />
         <Route path='/mywall/auth/sign-in' element={<MyWallSignIn />} />
+        <Route path='/mywall/parent-wall' element={<ParentWallPage />} />
         <Route path='/mywall/parent-myfamily' element={<MyFamilyPage />} />
         <Route path='/mywall/parent-edit-profile' element={<ParentEditProfile />} />
         <Route path='/mywall/parent-myprofile' element={<ParentMyProfile />} />
@@ -152,6 +158,10 @@ function App() {
         <Route path='/mywall/parent-myaccount' element={<ParentMyAccount />} />
         <Route path='/mywall/parent-resume' element={<ParentResume />} />
         <Route path='/mywall/student-edit-profile' element={<StudentEditProfile />} />
+        <Route path='/mywall/student-myaccount' element={<StudentMyAccount />} />
+        <Route path='/mywall/student-myprofile' element={<StudentMyProfile />} />
+        <Route path='/mywall/student-invoice' element={<StudentInvoicePage />} />
+         <Route path='/mywall/student-resume' element={<StudentResume />} />
 
         {/* Back Office */}
         <Route path="/bo/dashboard" element={<BoDashboard />} />

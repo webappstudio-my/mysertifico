@@ -18,11 +18,11 @@ const ParentEditProfile = () => {
         linkedin: 'https://www.linkedin.com/in/johndoe',
     });
 
-    const [toast, setToast] = useState({ show: false, message: '', isError: false });
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
 
-    const showToast = (message, isError = false) => {
-        setToast({ show: true, message, isError });
-        setTimeout(() => setToast({ show: false, message: '', isError: false }), 3500);
+    const showToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => setToast({ show: false, message: '', type: 'success' }), 3500);
     };
 
     const handleSave = (formData) => {
@@ -54,7 +54,7 @@ const ParentEditProfile = () => {
             <Toast
                 show={toast.show}
                 message={toast.message}
-                isError={toast.isError}
+                type={toast.type}
             />
         </div>
     );

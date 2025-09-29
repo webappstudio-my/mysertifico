@@ -71,16 +71,15 @@ const ParentAccount = () => {
     const [billingPage, setBillingPage] = useState(1);
     const [activeModal, setActiveModal] = useState(null);
     const [checkoutData, setCheckoutData] = useState(null);
-    const [toast, setToast] = useState({ message: '', isError: false, isVisible: false });
+    const [toast, setToast] = useState({ message: '', type: 'success', isVisible: false });
     const [cardDetails, setCardDetails] = useState({ name: '', number: '', exp: '', cvc: '' });
 
     const currentPlan = plans.find(p => p.id === currentPlanId);
     const totalUploads = currentPlan.uploads;
     const usagePercentage = Math.min(100, (currentUsage / totalUploads) * 100);
 
-    const showToast = (message, isError = false) => {
-        setToast({ message, isError, isVisible: true });
-        setTimeout(() => setToast({ message: '', isError: false, isVisible: false }), 3500);
+    const showToast = (message, type = 'success') => {
+        setToast({ message, type, show: true }); // Use 'show' instead of 'isVisible'
     };
 
     const openModal = (modalName, data = null) => {
@@ -101,14 +100,14 @@ const ParentAccount = () => {
                 subTotal: targetPlan.priceValue, sst, total,
                 onSuccess: () => {
                     setCurrentPlanId(targetPlanId);
-                    showToast(`${targetPlan.name} plan is now active!`);
+                    showToast(`${targetPlan.name} plan is now active!`, 'success');
                 }
             });
         }
     };
     
     const handleConfirmDowngrade = () => {
-        showToast('Your plan will be downgraded at the end of the billing period.');
+        showToast('Your plan will be downgraded at the end of the billing period.', 'info');
         closeModal();
     };
 
@@ -124,7 +123,7 @@ const ParentAccount = () => {
             label, subTotal: price, sst, total,
             onSuccess: () => {
                 setCurrentUsage(prev => prev - parseInt(selectedOption, 10));
-                showToast(`Successfully purchased ${label}!`);
+                showToast(`Successfully purchased ${label}!`, 'success');
             }
         });
     };
@@ -156,7 +155,7 @@ const ParentAccount = () => {
     const handleCardPaymentSubmit = (e) => {
         e.preventDefault();
         if (!cardDetails.name || !cardDetails.number || !cardDetails.exp || !cardDetails.cvc) {
-            showToast("Please fill in all card details.", true);
+            showToast("Please fill in all card details.", 'error');
             return;
         }
         // If validation passes, proceed to the final payment step
@@ -226,8 +225,9 @@ const ParentAccount = () => {
             
             <Toast 
                 message={toast.message}
-                isError={toast.isError}
-                show={toast.isVisible}
+                type={toast.type}
+                show={toast.show}
+                onClose={() => setToast({ ...toast, show: false })}
             />
 
             {/* --- Modals Section --- */}
@@ -262,7 +262,7 @@ const ParentAccount = () => {
                             );
                         case 'cancel':
                             return (
-                                <><div className="p-6 text-center"><div className="text-5xl text-red-400 mb-4"><i className="ri-error-warning-line"></i></div><h3 className="text-lg font-bold text-white">Are you sure you want to cancel?</h3><p className="text-sm text-primary-mywall-200 mt-2">Your plan will be active until the end of the current billing period.</p></div><div className="p-4 flex justify-center items-center gap-4 border-t border-primary-mywall-800/50 bg-white/5"><button type="button" onClick={closeModal} className="px-6 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600">Nevermind</button><button type="button" onClick={() => { showToast('Subscription cancelled successfully.'); closeModal(); }} className="px-6 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700">Yes, Cancel</button></div></>
+                                <><div className="p-6 text-center"><div className="text-5xl text-red-400 mb-4"><i className="ri-error-warning-line"></i></div><h3 className="text-lg font-bold text-white">Are you sure you want to cancel?</h3><p className="text-sm text-primary-mywall-200 mt-2">Your plan will be active until the end of the current billing period.</p></div><div className="p-4 flex justify-center items-center gap-4 border-t border-primary-mywall-800/50 bg-white/5"><button type="button" onClick={closeModal} className="px-6 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600">Nevermind</button><button type="button" onClick={() => { showToast('Subscription cancelled successfully.', 'success'); closeModal(); }} className="px-6 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700">Yes, Cancel</button></div></>
                             );
                         case 'fpx':
                             return(

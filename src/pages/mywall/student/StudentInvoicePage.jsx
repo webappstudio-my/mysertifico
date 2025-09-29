@@ -14,7 +14,7 @@ const invoiceData = {
         email: 'hello@webappstudio.com'
     },
     billTo: {
-        name: 'Aliyah Zawaton binti Muhammad',
+        name: 'Taufik Nabil bin Yusoff',
         address1: 'A-12-01, The Horizon Residence,',
         address2: 'Jalan Tun Razak, 50400 Kuala Lumpur'
     },
@@ -39,7 +39,7 @@ const invoiceData = {
 };
 
 
-const ParentInvoicePage = () => {
+const StudentInvoicePage = () => {
     // Create a ref to hold the DOM element of the invoice content
     const invoiceRef = useRef(null);
     const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
@@ -69,7 +69,7 @@ const ParentInvoicePage = () => {
 
     return (
         <div className="bg-gray-200 min-h-screen overflow-auto">
-            <ActionBar onDownloadPdf={handleDownloadPdf} backTo="/mywall/parent-myaccount" />
+            <ActionBar onDownloadPdf={handleDownloadPdf} backTo="/mywall/student-myaccount" />
             <main className="py-12 mb-24"> {/* Added margin-bottom to avoid overlap with action bar */}
                 <InvoicePreview ref={invoiceRef} invoiceData={invoiceData} />
             </main>
@@ -83,4 +83,4 @@ const ParentInvoicePage = () => {
     );
 };
 
-export default ParentInvoicePage;
+export default StudentInvoicePage;

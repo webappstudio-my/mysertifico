@@ -5,6 +5,10 @@ const FamilyCard = ({ member, onEdit, onDelete }) => {
     const borderColorClass = member.relation === 'Child' ? 'border-primary-400' : 'border-accent';
     const imagePath = `/images/users/${member.name.split(' ')[0].toLowerCase()}.png`;
 
+    const handleDelete = () => {
+        onDelete(member);
+    };
+
     return (
         <div className="bg-white/10 backdrop-blur-sm rounded-2xl shadow-lg p-6 flex flex-col items-center text-center">
             <img
@@ -23,7 +27,7 @@ const FamilyCard = ({ member, onEdit, onDelete }) => {
                     Edit
                 </button>
                 <button
-                    onClick={() => onDelete(member)}
+                    onClick={handleDelete}
                     className="delete-member-button flex-1 px-4 py-2 text-sm bg-red-600/80 text-white font-semibold rounded-lg hover:bg-red-600 transition-colors">
                     Delete
                 </button>

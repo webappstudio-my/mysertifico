@@ -28,7 +28,7 @@ const ParentEditProfileForm = ({ user, onSave }) => {
                     <div className="flex items-center justify-between">
                         <h2 className="text-2xl font-bold text-white">Edit Your Profile</h2>
                         <NavLink to="/mywall/parent-myprofile" className="text-primary-mywall-200 hover:text-white transition-colors" title="Back to Profile">
-                            <i className="ri-arrow-left-line text-2xl"></i>
+                            <i className="ri-arrow-left-line"></i>
                         </NavLink>
                     </div>
                 </div>
@@ -63,7 +63,7 @@ const ParentEditProfileForm = ({ user, onSave }) => {
                             </div>
                             <div className="md:col-span-2">
                                 <label htmlFor="email" className="block text-sm font-medium text-primary-mywall-200 mb-1">Email</label>
-                                <input type="email" id="email" name="email" value={profile.email} required className="w-full px-4 py-2 bg-white/10 text-primary-mywall-300 rounded-lg border-2 border-transparent focus:outline-none cursor-not-allowed" disabled />
+                                <input type="email" id="email" name="email" value={profile.email} required className="w-full px-4 py-2 bg-.white/10 text-primary-mywall-300 rounded-lg border-2 border-transparent focus:outline-none cursor-not-allowed" disabled />
                             </div>
                             {/* ... more fields ... */}
                         </div>

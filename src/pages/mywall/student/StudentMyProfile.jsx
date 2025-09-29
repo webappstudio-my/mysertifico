@@ -1,157 +1,176 @@
-import React, { useState, useRef } from 'react';
-import MyWallNavbar from '../../../components/mywall/MyWallNavbar';
-import Toast from '../../../components/mywall/Toast';
+import React, { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
-import defaultAvatar from '../../../assets/images/users/aliyah.png';
+import StudentNavbar from '../../../components/mywall/StudentNavbar';
+import Toast from '../../../components/mywall/Toast';
 
-const ParentMyProfile = () => {
-    // State to manage the visibility of the change password modal
+const StudentMyProfile = () => {
+    const [toast, setToast] = useState({ show: false, message: '', type: 'info' });
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // State for the toast notification
-    const [toast, setToast] = useState({ message: '', type: 'success', show: false });
+    // User data
+    const [userData] = useState(() => {
+        const fullName = 'Taufik Nabil bin Yusoff';
+        const nameParts = fullName.trim().split(' ');
+        const firstName = nameParts[0] || '';
+        const lastName = nameParts[1] || '';
 
-    // State to manage the avatar image source
-    const [avatarSrc, setAvatarSrc] = useState(defaultAvatar);
-
-    // State for the password form fields
-    const [passwordData, setPasswordData] = useState({
-        current: '',
-        new: '',
-        confirm: '',
+        return {
+            firstName,
+            lastName,
+            fullName,
+            nationalId: '950101-03-1234'
+        };
     });
 
-    // State to toggle password visibility in the modal
+    // State variables for password visibility
     const [passwordVisibility, setPasswordVisibility] = useState({
         current: false,
         new: false,
-        confirm: false,
+        confirm: false
     });
-    
-    // A ref to access the hidden file input element for the profile picture
+    const [passwordData, setPasswordData] = useState({
+        current: 'password123',
+        new: '',
+        confirm: ''
+    });
+    const [profileImage, setProfileImage] = useState(null);
+
     const fileInputRef = useRef(null);
 
-    // --- Event Handlers ---
-
-    /**
-     * Shows a toast notification for a few seconds.
-     * @param {string} message - The message to display.
-     * @param {string} type - 'success' or 'error'.
-     */
-    const showToast = (message, type = 'success') => {
-        setToast({ message, type, show: true });
+    // Generate initials from first and last name
+    const getInitials = (firstName, lastName) => {
+        const firstInitial = firstName?.charAt(0)?.toUpperCase() || '';
+        const lastInitial = lastName?.charAt(0)?.toUpperCase() || '';
+        return `${firstInitial}${lastInitial}`;
     };
 
-    /**
-     * Triggers the hidden file input when the camera button is clicked.
-     */
-    const handleChangePictureClick = () => {
-        fileInputRef.current.click();
+    const showToast = (message, type = 'info') => {
+        setToast({ show: true, message, type });
     };
 
-    /**
-     * Handles the file selection, reads the image, and updates the avatar state.
-     * @param {React.ChangeEvent<HTMLInputElement>} event - The file input change event.
-     */
-    const handleFileChange = (event) => {
+    const togglePasswordVisibility = (field) => {
+        setPasswordVisibility(prev => ({
+            ...prev,
+            [field]: !prev[field]
+        }));
+    };
+
+    const handlePasswordInputChange = (e) => {
+        const { name, value } = e.target;
+        setPasswordData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+
+    const handlePasswordSubmit = (e) => {
+        e.preventDefault();
+
+        // Check current password
+        if (passwordData.current.trim() !== 'password123') {
+            showToast("Current password is incorrect.", 'error');
+            return;
+        }
+
+        // Check if new passwords match
+        if (passwordData.new !== passwordData.confirm) {
+            showToast("New passwords do not match.", 'error');
+            return;
+        }
+
+        // Success
+        showToast('Password updated successfully!', 'success');
+        setPasswordData({
+            current: 'password123',
+            new: '',
+            confirm: ''
+        });
+        setIsModalOpen(false);
+    };
+
+    const handleProfilePictureClick = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleProfilePictureChange = (event) => {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = (e) => {
-                setAvatarSrc(e.target.result);
+                setProfileImage(e.target.result);
                 showToast('Profile picture updated!', 'success');
             };
             reader.readAsDataURL(file);
         }
     };
-    
-    /**
-     * Toggles the visibility of a password field.
-     * @param {'current' | 'new' | 'confirm'} field - The password field to toggle.
-     */
-    const togglePasswordVisibility = (field) => {
-        setPasswordVisibility(prevState => ({
-            ...prevState,
-            [field]: !prevState[field]
-        }));
-    };
 
-    /**
-     * Updates the passwordData state as the user types in the form.
-     */
-    const handlePasswordInputChange = (e) => {
-        const { name, value } = e.target;
-        setPasswordData(prevState => ({
-            ...prevState,
-            [name]: value,
-        }));
-    };
-    
-    /**
-     * Handles the submission of the change password form.
-     */
-    const handlePasswordSubmit = (e) => {
-        e.preventDefault();
-        const correctCurrentPassword = "password123"; // Dummy password for simulation
+    useEffect(() => {
+        const handleEscape = (e) => {
+            if (e.key === 'Escape') {
+                setIsModalOpen(false);
+            }
+        };
 
-        if (passwordData.current !== correctCurrentPassword) {
-            showToast("Current password is incorrect.", "error");
-            return;
+        if (isModalOpen) {
+            document.addEventListener('keydown', handleEscape);
+            return () => document.removeEventListener('keydown', handleEscape);
         }
-
-        if (passwordData.new !== passwordData.confirm) {
-            showToast("New passwords do not match.", "error");
-            return;
-        }
-
-        showToast('Password updated successfully!', 'success');
-        setIsModalOpen(false); // Close modal on success
-        setPasswordData({ current: '', new: '', confirm: '' }); // Reset form
-    };
-
-    // --- Render ---
+    }, [isModalOpen]);
 
     return (
         <div className="bg-gradient-to-br from-primary-mywall-900 to-primary-mywall text-white flex flex-col min-h-screen">
-            <MyWallNavbar />
+            <StudentNavbar />
 
-            {/* Main Profile Content */}
             <main className="pt-24 pb-12 flex-grow">
                 <section className="py-16">
                     <div className="container mx-auto px-6">
                         <div className="max-w-4xl mx-auto bg-white/10 backdrop-blur-sm rounded-2xl shadow-lg p-8">
-                            
+
                             {/* Profile Header */}
                             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 pb-6 mb-6 border-b border-primary-mywall-800/50">
                                 <div className="relative flex-shrink-0">
-                                    <img 
-                                        src={avatarSrc}
-                                        onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/128x128/134E4A/FFFFFF?text=A'; }}
-                                        alt="User Avatar" 
-                                        className="w-28 h-28 rounded-full border-4 border-primary-mywall-400 shadow-md user-avatar-img" 
+                                    {profileImage ? (
+                                        <img
+                                            src={profileImage}
+                                            onError={(e) => {
+                                                e.target.onerror = null;
+                                                setProfileImage(null);
+                                            }}
+                                            alt="User Avatar"
+                                            className="w-28 h-28 rounded-full border-4 border-primary-mywall-400 shadow-md object-cover"
+                                        />
+                                    ) : (
+                                        <div className="w-28 h-28 rounded-full border-4 border-primary-mywall-400 shadow-md bg-primary-mywall-600 flex items-center justify-center">
+                                            <span className="text-3xl font-bold text-white">
+                                                {getInitials(userData.firstName, userData.lastName)}
+                                            </span>
+                                        </div>
+                                    )}
+                                    <input
+                                        type="file"
+                                        ref={fileInputRef}
+                                        className="hidden"
+                                        accept="image/*"
+                                        onChange={handleProfilePictureChange}
                                     />
-                                    <input 
-                                        type="file" 
-                                        ref={fileInputRef} 
-                                        onChange={handleFileChange}
-                                        className="hidden" 
-                                        accept="image/*" 
-                                    />
-                                    <button 
-                                        onClick={handleChangePictureClick}
-                                        className="absolute bottom-0 right-0 bg-accent-mywall text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-accent-mywall-hover transition-transform hover:scale-110" 
+                                    <button
+                                        onClick={handleProfilePictureClick}
+                                        className="absolute bottom-0 right-0 bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-accent-hover transition-transform hover:scale-110"
                                         title="Change Picture"
                                     >
                                         <i className="ri-camera-line"></i>
                                     </button>
                                 </div>
                                 <div className="flex-grow text-center sm:text-left">
-                                    <h1 className="text-3xl font-bold font-poppins text-white">Aliyah Zawaton binti Muhammad</h1>
-                                    <p className="text-lg text-primary-mywall-200 mt-1"><span className="font-semibold text-primary-mywall-300">National ID:</span> 750101-10-1234</p>
+                                    <h1 className="text-3xl font-bold font-poppins text-white">{userData.fullName}</h1>
+                                    <p className="text-lg text-primary-mywall-200 mt-1">
+                                        <span className="font-semibold text-primary-mywall-300">National ID:</span> {userData.nationalId}
+                                    </p>
                                 </div>
                                 <div className="flex-shrink-0 mt-4 sm:mt-0">
-                                    <NavLink 
-                                        to="/mywall/parent-edit-profile" 
+                                    <NavLink
+                                        to="/mywall/student-edit-profile"
                                         className="bg-primary-mywall hover:bg-primary-mywall-600 text-white font-semibold py-2 px-5 rounded-full transition-colors flex items-center gap-2"
                                     >
                                         <i className="ri-pencil-line"></i>
@@ -164,7 +183,9 @@ const ParentMyProfile = () => {
                             <div className="mb-8">
                                 <h3 className="text-xl font-bold text-primary-mywall-300 mb-2">About Me</h3>
                                 <p className="text-white leading-relaxed">
-                                    A dedicated parent and professional with a background in accounting. Passionate about supporting my children's educational journey and managing our family's digital achievements.
+                                    Ambitious and driven professional with a passion for software engineering and machine learning.
+                                    Eager to apply technical knowledge to real-world challenges and contribute to innovative projects.
+                                    Proven ability to work in teams and adapt to new technologies quickly.
                                 </p>
                             </div>
 
@@ -181,34 +202,63 @@ const ParentMyProfile = () => {
                                     </div>
                                     <div>
                                         <label className="block text-sm font-semibold text-primary-mywall-300">Email Address</label>
-                                        <p className="text-lg text-white">aliyah.zawaton@email.com</p>
+                                        <p className="text-lg text-white">taufik.nabil@email.com</p>
                                     </div>
                                     <div>
                                         <label className="block text-sm font-semibold text-primary-mywall-300">Phone Number</label>
-                                        <p className="text-lg text-white">012-3456789</p>
+                                        <p className="text-lg text-white">+60 12-345 6789</p>
                                     </div>
                                     <div>
                                         <label className="block text-sm font-semibold text-primary-mywall-300">Address</label>
-                                        <p className="text-lg text-white">No. 123, Jalan Seri Utama, Taman Saujana, Sungai Buloh, Selangor</p>
+                                        <p className="text-lg text-white">
+                                            A-12-01, The Horizon Residence, Jalan Tun Razak, 50400 Kuala Lumpur,
+                                            Wilayah Persekutuan Kuala Lumpur
+                                        </p>
                                     </div>
                                 </div>
-                                
+
                                 {/* Right Column: Skills & Links */}
                                 <div className="space-y-6">
                                     {/* Skills */}
                                     <div>
                                         <h3 className="text-xl font-bold text-primary-mywall-300 border-b border-primary-mywall-700/50 pb-2 mb-3">Skills</h3>
                                         <div className="flex flex-wrap gap-3">
-                                            <span className="bg-primary-mywall-700/50 text-primary-mywall-100 text-sm font-medium px-3 py-1 rounded-full">Financial Planning</span>
-                                            <span className="bg-primary-mywall-700/50 text-primary-mywall-100 text-sm font-medium px-3 py-1 rounded-full">Accounting</span>
-                                            <span className="bg-primary-mywall-700/50 text-primary-mywall-100 text-sm font-medium px-3 py-1 rounded-full">Microsoft Office</span>
+                                            <span className="bg-primary-mywall-700/50 text-primary-mywall-100 text-sm font-medium px-3 py-1 rounded-full">Python</span>
+                                            <span className="bg-primary-mywall-700/50 text-primary-mywall-100 text-sm font-medium px-3 py-1 rounded-full">JavaScript</span>
+                                            <span className="bg-primary-mywall-700/50 text-primary-mywall-100 text-sm font-medium px-3 py-1 rounded-full">React</span>
+                                            <span className="bg-primary-mywall-700/50 text-primary-mywall-100 text-sm font-medium px-3 py-1 rounded-full">SQL</span>
+                                            <span className="bg-primary-mywall-700/50 text-primary-mywall-100 text-sm font-medium px-3 py-1 rounded-full">Project Management</span>
+                                            <span className="bg-primary-mywall-700/50 text-primary-mywall-100 text-sm font-medium px-3 py-1 rounded-full">Public Speaking</span>
                                         </div>
                                     </div>
                                     {/* Links */}
                                     <div>
                                         <h3 className="text-xl font-bold text-primary-mywall-300 border-b border-primary-mywall-700/50 pb-2 mb-3">Links</h3>
                                         <div className="flex flex-wrap gap-4">
-                                            <a href="#" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-primary-mywall-200 hover:text-white"><i className="ri-linkedin-box-fill text-2xl"></i> LinkedIn</a>
+                                            <a
+                                                href="https://linkedin.com/in/taufiknabil-example"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center gap-2 text-primary-mywall-200 hover:text-white"
+                                            >
+                                                <i className="ri-linkedin-box-fill text-2xl"></i> LinkedIn
+                                            </a>
+                                            <a
+                                                href="https://github.com/taufiknabil-example"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center gap-2 text-primary-mywall-200 hover:text-white"
+                                            >
+                                                <i className="ri-github-fill text-2xl"></i> GitHub
+                                            </a>
+                                            <a
+                                                href="https://taufiknabil.myportfolio.com"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center gap-2 text-primary-mywall-200 hover:text-white"
+                                            >
+                                                <i className="ri-global-line text-2xl"></i> Portfolio
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -216,14 +266,14 @@ const ParentMyProfile = () => {
 
                             {/* Action Buttons */}
                             <div className="border-t border-primary-mywall-800/50 pt-8 mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-                                <NavLink 
-                                    to="/mywall/parent-resume" 
-                                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-accent-mywall hover:bg-accent-mywall-hover text-white font-semibold py-3 px-8 rounded-full transition-colors shadow-lg hover:shadow-xl transform hover:scale-105"
+                                <NavLink
+                                    to="/mywall/student-resume"
+                                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-accent hover:bg-accent-hover text-white font-semibold py-3 px-8 rounded-full transition-colors shadow-lg hover:shadow-xl transform hover:scale-105"
                                 >
                                     <i className="ri-download-2-line"></i>
                                     <span>Download As Resume</span>
                                 </NavLink>
-                                <button 
+                                <button
                                     onClick={() => setIsModalOpen(true)}
                                     className="w-full sm:w-auto text-primary-mywall-200 font-semibold hover:text-white transition-colors py-3 px-6"
                                 >
@@ -238,9 +288,9 @@ const ParentMyProfile = () => {
             {/* Change Password Modal */}
             {isModalOpen && (
                 <div className="modal fixed inset-0 z-[60] flex items-center justify-center p-4">
-                    <div 
+                    <div
                         className="modal-backdrop absolute inset-0 bg-black/70 backdrop-blur-sm"
-                        onClick={() => setIsModalOpen(false)} // Close modal on backdrop click
+                        onClick={() => setIsModalOpen(false)}
                     ></div>
                     <div className="modal-panel relative bg-white/10 border border-primary-mywall-500/50 rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] flex flex-col">
                         <form onSubmit={handlePasswordSubmit}>
@@ -252,13 +302,13 @@ const ParentMyProfile = () => {
                                 {/* Current Password */}
                                 <div className="relative">
                                     <label htmlFor="current-password" className="block text-sm font-medium text-primary-mywall-200 mb-1">Current Password</label>
-                                    <input 
+                                    <input
                                         type={passwordVisibility.current ? 'text' : 'password'}
-                                        id="current-password" 
+                                        id="current-password"
                                         name="current"
                                         value={passwordData.current}
                                         onChange={handlePasswordInputChange}
-                                        required 
+                                        required
                                         className="w-full pl-4 pr-10 py-2 bg-white/20 text-white placeholder:text-primary-mywall-200 rounded-lg border-2 border-transparent focus:border-primary-mywall-300 focus:bg-white/30 focus:outline-none transition-all"
                                     />
                                     <button type="button" onClick={() => togglePasswordVisibility('current')} className="password-toggle absolute inset-y-0 right-0 top-7 pr-3 flex items-center text-primary-mywall-200 hover:text-white">
@@ -268,13 +318,13 @@ const ParentMyProfile = () => {
                                 {/* New Password */}
                                 <div className="relative">
                                     <label htmlFor="new-password" className="block text-sm font-medium text-primary-mywall-200 mb-1">New Password</label>
-                                    <input 
+                                    <input
                                         type={passwordVisibility.new ? 'text' : 'password'}
-                                        id="new-password" 
-                                        name="new" 
+                                        id="new-password"
+                                        name="new"
                                         value={passwordData.new}
                                         onChange={handlePasswordInputChange}
-                                        required 
+                                        required
                                         className="w-full pl-4 pr-10 py-2 bg-white/20 text-white placeholder:text-primary-mywall-200 rounded-lg border-2 border-transparent focus:border-primary-mywall-300 focus:bg-white/30 focus:outline-none transition-all"
                                     />
                                     <button type="button" onClick={() => togglePasswordVisibility('new')} className="password-toggle absolute inset-y-0 right-0 top-7 pr-3 flex items-center text-primary-mywall-200 hover:text-white">
@@ -284,13 +334,13 @@ const ParentMyProfile = () => {
                                 {/* Confirm New Password */}
                                 <div className="relative">
                                     <label htmlFor="confirm-password" className="block text-sm font-medium text-primary-mywall-200 mb-1">Confirm New Password</label>
-                                    <input 
+                                    <input
                                         type={passwordVisibility.confirm ? 'text' : 'password'}
-                                        id="confirm-password" 
-                                        name="confirm" 
+                                        id="confirm-password"
+                                        name="confirm"
                                         value={passwordData.confirm}
                                         onChange={handlePasswordInputChange}
-                                        required 
+                                        required
                                         className="w-full pl-4 pr-10 py-2 bg-white/20 text-white placeholder:text-primary-mywall-200 rounded-lg border-2 border-transparent focus:border-primary-mywall-300 focus:bg-white/30 focus:outline-none transition-all"
                                     />
                                     <button type="button" onClick={() => togglePasswordVisibility('confirm')} className="password-toggle absolute inset-y-0 right-0 top-7 pr-3 flex items-center text-primary-mywall-200 hover:text-white">
@@ -300,22 +350,21 @@ const ParentMyProfile = () => {
                             </div>
                             <div className="p-4 flex justify-end items-center gap-4 border-t border-primary-mywall-800/50">
                                 <button type="button" onClick={() => setIsModalOpen(false)} className="modal-close-button px-6 py-2 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition-colors">Cancel</button>
-                                <button type="submit" className="px-6 py-2 bg-accent-mywall text-white font-semibold rounded-lg hover:bg-accent-mywall-hover transition-colors">Update Password</button>
+                                <button type="submit" className="px-6 py-2 bg-accent text-white font-semibold rounded-lg hover:bg-accent-hover transition-colors">Update Password</button>
                             </div>
                         </form>
                     </div>
                 </div>
             )}
-            
-            {/* Toast Component */}
+
             <Toast
                 message={toast.message}
-                show={toast.show} 
                 type={toast.type}
-                onClose={() => setToast({ ...toast, show: false })}
+                show={toast.show}
+                onClose={() => setToast({ show: false, message: '', type: 'info' })}
             />
         </div>
     );
 };
 
-export default ParentMyProfile;
+export default StudentMyProfile;

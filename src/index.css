@@ -6,6 +6,36 @@
   .a4-container {
     width: 210mm;
   }
+
+  .custom-checkbox {
+    appearance: none;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 0.375rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .custom-checkbox:checked {
+    background-color: theme('colors.accent-mywall.DEFAULT');
+    border-color: theme('colors.accent-mywall.DEFAULT');
+  }
+
+  .custom-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    left: 0.45rem;
+    top: 0.2rem;
+    width: 0.5rem;
+    height: 0.8rem;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+  }
 }
 
 :root {

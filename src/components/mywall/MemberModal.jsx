@@ -45,7 +45,7 @@ const MemberModal = ({ isOpen, onClose, onSave, memberToEdit }) => {
                         </div>
                         <div>
                             <label htmlFor="member-relation" className="block text-sm font-medium text-primary-mywall-200 mb-1">Relationship</label>
-                            <select id="member-relation" name="relation" value={formData.relation} onChange={handleChange} required className="w-full px-4 py-2 bg-white/20 text-white rounded-lg border-2 border-transparent focus:border-primary-mywall-300 focus:outline-none appearance-none" style={{ backgroundImage: `url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="%2399f6e4"%3E%3Cpath d="M12 16L6 10H18L12 16Z"%3E%3C/path%3E%3C/svg%3E')`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.75rem center', backgroundSize: '1.2em' }}>
+                            <select id="member-relation" name="relation" value={formData.relation} onChange={handleChange} required className="w-full px-4 py-2 bg-white/20 text-white rounded-lg border-2 border-transparent focus:border-primary-mywall-300 focus:bg-primary-mywall-900/80 focus:outline-none appearance-none" style={{ backgroundImage: `url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="%2399f6e4"%3E%3Cpath d="M12 16L6 10H18L12 16Z"%3E%3C/path%3E%3C/svg%3E')`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.75rem center', backgroundSize: '1.2em' }}>
                                 <option value="Child">Child</option>
                                 <option value="Spouse">Spouse</option>
                             </select>

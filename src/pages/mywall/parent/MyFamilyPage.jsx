@@ -18,12 +18,11 @@ const MyFamilyPage = () => {
     const [memberToEdit, setMemberToEdit] = useState(null);
     const [memberToDelete, setMemberToDelete] = useState(null);
 
-    const [toast, setToast] = useState({ show: false, message: '', isError: false });
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
 
-    const showToast = (message, isError = false) => {
-        setToast({ show: true, message, isError });
-        // Hide toast after duration (handled by Toast component)
-        setTimeout(() => setToast({ show: false, message: '', isError: false }), 3500);
+    const showToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        // The Toast component now handles its own hiding via onClose
     };
 
     const handleOpenAddModal = () => {
@@ -50,24 +49,24 @@ const MyFamilyPage = () => {
 
     const handleSaveMember = (memberData) => {
         if (!memberData.name.trim() || !memberData.nid.trim()) {
-            showToast('All fields are required.', true);
+            showToast('All fields are required.', 'error');
             return;
         }
 
         if (memberData.id) { // Editing existing member
             setFamilyMembers(familyMembers.map(m => m.id === memberData.id ? memberData : m));
-            showToast(`Updated details for ${memberData.name}.`);
+            showToast(`Updated details for ${memberData.name}.`, 'success');
         } else { // Adding new member
             const newMember = { ...memberData, id: Date.now() }; // Simple unique ID
             setFamilyMembers([...familyMembers, newMember]);
-            showToast(`${memberData.name} has been added to your family.`);
+            showToast(`${memberData.name} has been added to your family.`, 'success');
         }
         handleCloseModals();
     };
 
     const handleDeleteMember = () => {
         setFamilyMembers(familyMembers.filter(m => m.id !== memberToDelete.id));
-        showToast(`${memberToDelete.name} has been removed from your family.`);
+        showToast(`${memberToDelete.name} has been removed from your family.`, 'error');
         handleCloseModals();
     };
 
@@ -120,7 +119,8 @@ const MyFamilyPage = () => {
             <Toast
                 show={toast.show}
                 message={toast.message}
-                isError={toast.isError}
+                type={toast.type}
+                onClose={() => setToast({ ...toast, show: false })}
             />
         </div>
     );
