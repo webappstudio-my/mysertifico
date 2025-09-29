@@ -121,6 +121,7 @@ const ParentWallPage = () => {
                 isOpen={!!viewingCert}
                 onClose={() => setViewingCert(null)}
                 cert={viewingCert}
+                showToast={showToast} 
             />
 
             <UploadCertificateModal
