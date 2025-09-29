@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import logo from '../../../assets/images/logos/logo.png';
+
 
 // Helper function to format currency
 const formatCurrency = (amount, countryCode) => {
@@ -84,7 +86,7 @@ const Price = () => {
                     <div className="flex items-center justify-between">
                         {/* Logo */}
                         <a href="home.html" className="flex items-center gap-2">
-                            <img src="../../src/assets/images/logos/logo.png" alt="Logo" className="h-10 w-10" />
+                            <img src={logo} alt="Logo" className="h-10 w-10" />
                             <span className="font-poppins font-bold text-2xl text-teal-600">MySertifico</span>
                         </a>
 
@@ -278,13 +280,4 @@ const Price = () => {
     );
 };
 
-// The main application component wrapped with QueryClientProvider
-const App = () => {
-    return (
-        <QueryClientProvider client={queryClient}>
-            <Price />
-        </QueryClientProvider>
-    );
-};
-
-export default App;
+export default Price;
