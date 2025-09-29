@@ -84,7 +84,7 @@ const Price = () => {
                     <div className="flex items-center justify-between">
                         {/* Logo */}
                         <a href="home.html" className="flex items-center gap-2">
-                            <img src="../../src/images/logos/logo.png" alt="Logo" className="h-10 w-10" />
+                            <img src="../../src/assets/images/logos/logo.png" alt="Logo" className="h-10 w-10" />
                             <span className="font-poppins font-bold text-2xl text-teal-600">MySertifico</span>
                         </a>
 
@@ -135,7 +135,7 @@ const Price = () => {
                                 id="country-select"
                                 value={selectedCountry}
                                 onChange={handleCountryChange}
-                                className="w-full bg-white/20 border-white/30 rounded-lg py-2 px-4 text-white focus:ring-amber-500 focus:border-amber-500"
+                                className="w-full bg-white/20 border-white/30 rounded-lg py-2 px-4 text-white focus:ring-amber-500 focus:border-amber-500 [&>option]:text-black [&>option]:bg-white"
                             >
                                 <option value="my">Malaysia</option>
                                 <option value="id">Indonesia</option>
@@ -278,4 +278,13 @@ const Price = () => {
     );
 };
 
-export default Price;
+// The main application component wrapped with QueryClientProvider
+const App = () => {
+    return (
+        <QueryClientProvider client={queryClient}>
+            <Price />
+        </QueryClientProvider>
+    );
+};
+
+export default App;
