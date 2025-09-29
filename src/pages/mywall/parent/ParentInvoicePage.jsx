@@ -69,7 +69,7 @@ const ParentInvoicePage = () => {
 
     return (
         <div className="bg-gray-200 min-h-screen overflow-auto">
-            <ActionBar onDownloadPdf={handleDownloadPdf} />
+            <ActionBar onDownloadPdf={handleDownloadPdf} backTo="/mywall/parent-myaccount" />
             <main className="py-12 mb-24"> {/* Added margin-bottom to avoid overlap with action bar */}
                 <InvoicePreview ref={invoiceRef} invoiceData={invoiceData} />
             </main>
