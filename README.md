@@ -12,7 +12,8 @@ Currently, two official plugins are available:
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
 
 ## Bug Severity Level
--Bug Severity Level: 
+
+Bug Severity Level: 
 Level 0: Fully non-functional, core-functionality failure
 Level 1: Major functionality not work, minor works
 Level 2: Non-core features not working
