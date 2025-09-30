@@ -13,7 +13,7 @@ If you are developing a production application, we recommend using TypeScript wi
 
 ## Bug Severity Level
 
-Bug Severity Level: 
+Bug Severity Level:<br> 
 Level 0: Fully non-functional, core-functionality failure
 Level 1: Major functionality not work, minor works
 Level 2: Non-core features not working
