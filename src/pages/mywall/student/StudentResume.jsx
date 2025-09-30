@@ -1,7 +1,6 @@
-import React, { useState } from 'react'; 
+import React from 'react'; 
 import { NavLink } from 'react-router-dom';
 import defaultAvatar from '../../../assets/images/users/nabil.png';
-import Toast from '../../../components/mywall/Toast';
 
 
 const ResumeStyles = () => (
@@ -9,7 +8,6 @@ const ResumeStyles = () => (
     /* A4 paper size for browser view */
     .a4-container {
         width: 210mm;
-        /* min-height: 297mm; */ 
         margin-left: auto;
         margin-right: auto;
     }
@@ -44,15 +42,9 @@ const ResumeStyles = () => (
 );
 
 const StudentResume = () => {
-    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
-
-    const showToast = (message, type = 'success') => {
-        setToast({ show: true, message, type });
-    };
 
     // function that uses the browser's print engine
     const handlePrintToPdf = () => {
-        showToast('Downloading PDF...', 'info');
         window.print();
     };
 
@@ -143,7 +135,7 @@ const StudentResume = () => {
                                     
                                     <div className="page-break-avoid">
                                         <h3 className="font-bold text-lg text-gray-900">SM Sains Machang, Kelantan</h3>
-                                         <div className="mt-2 space-y-3 pl-3 text-sm border-l-2 border-primary-mywall-50">
+                                          <div className="mt-2 space-y-3 pl-3 text-sm border-l-2 border-primary-mywall-50">
                                             <div className="flex"><p className="w-1/4 font-semibold text-gray-600">Mar 2022</p><p className="w-3/4">Best SPM Student Award (9As)</p></div>
                                             <div className="flex"><p className="w-1/4 font-semibold text-gray-600">Aug 2021</p><p className="w-3/4">Champion, State-level Robotics Competition</p></div>
                                             <div className="flex"><p className="w-1/4 font-semibold text-gray-600">Jan 2021</p><p className="w-3/4">Head Prefect</p></div>
@@ -155,11 +147,11 @@ const StudentResume = () => {
 
                                     <div className="page-break-avoid">
                                         <h3 className="font-bold text-lg text-gray-900">SK Kubang Kerian 3, Kelantan</h3>
-                                         <div className="mt-2 space-y-3 pl-3 text-sm border-l-2 border-primary-mywall-50">
+                                          <div className="mt-2 space-y-3 pl-3 text-sm border-l-2 border-primary-mywall-50">
                                             <div className="flex"><p className="w-1/4 font-semibold text-gray-600">Nov 2016</p><p className="w-3/4">Best UPSR Student Award (5As)</p></div>
                                             <div className="flex"><p className="w-1/4 font-semibold text-gray-600">Jan 2016</p><p className="w-3/4">Head Prefect</p></div>
-                                         </div>
-                                     </div>
+                                          </div>
+                                    </div>
 
                                 </div>
                             </section>
@@ -168,13 +160,6 @@ const StudentResume = () => {
                 </div>
             </main>
 
-            {/*Toast component */}
-            <Toast
-                message={toast.message}
-                type={toast.type}
-                show={toast.show}
-                onClose={() => setToast({ ...toast, show: false })}
-            />
         </div>
     );
 };

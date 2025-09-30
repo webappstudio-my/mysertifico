@@ -8,16 +8,16 @@ const Toast = ({ message, type, show, onClose }) => {
             setIsVisible(true);
             const timer = setTimeout(() => {
                 setIsVisible(false);
-                onClose(); // Call onClose when the toast hides itself
-            }, 3000); // Toast visible for 3 seconds
+                onClose();
+            }, 3000);
             return () => clearTimeout(timer);
         } else {
             setIsVisible(false);
         }
-    }, [show, message, type, onClose]); // Rerun effect if these change
+    }, [show, message, type, onClose]);
 
-    let bgColor = 'bg-gray-700'; // Default for info or unknown types
-    let iconClass = 'ri-information-line'; // Default info icon
+    let bgColor = 'bg-gray-700';
+    let iconClass = 'ri-information-line';
 
     switch (type) {
         case 'success':
@@ -36,11 +36,10 @@ const Toast = ({ message, type, show, onClose }) => {
             break;
     }
 
-    // CSS classes for transition
-    const baseClasses = "fixed bottom-10 right-10 px-6 py-3 rounded-full shadow-lg flex items-center gap-2 z-[90] transition-all duration-300";
+    const baseClasses = "fixed bottom-10 right-10 px-6 py-3 rounded-full shadow-lg flex items-center gap-2 z-[90] transition-all duration-300 text-white";
     const visibilityClasses = isVisible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0";
 
-    if (!show && !isVisible) return null; // Render nothing if not triggered and not visible
+    if (!show && !isVisible) return null;
 
     return (
         <div className={`${baseClasses} ${bgColor} ${visibilityClasses}`}>
