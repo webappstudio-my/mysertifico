@@ -10,9 +10,42 @@ const MyProfile = ({ theme, onThemeToggle }) => {
     const [toast, setToast] = useState({ message: '', type: '', show: false });
     const [userSignature, setUserSignature] = useState(null);
     const [userRole, setUserRole] = useState('Signatory');
+    const [activeTab, setActiveTab] = useState('draw');
+    const [uploadedSignature, setUploadedSignature] = useState(null);
+    const [uploadedFileName, setUploadedFileName] = useState('');
 
     const showToast = (message, type) => {
         setToast({ message, type, show: true });
+    };
+
+    const handleImageUpload = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (file.size > 1 * 1024 * 1024) {
+            showToast('File is too large. Max 1MB.', 'error');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            setUploadedSignature(event.target.result);
+            setUploadedFileName(file.name);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const removeUploadedImage = () => {
+        setUploadedSignature(null);
+        setUploadedFileName('');
+    };
+
+    const handleSaveUploadedSignature = () => {
+        if (!uploadedSignature) {
+            showToast("Please upload an image first.", "error");
+            return;
+        }
+        handleSignatureSave(uploadedSignature);
     };
 
     const handleSignatureSave = (signatureData) => {
@@ -114,11 +147,59 @@ const MyProfile = ({ theme, onThemeToggle }) => {
 
                             {/* Digital Signature Section */}
                             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md">
+                                <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                                   <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Your Signature</h3>
+                                </div>
+                                <div className="px-6 border-b border-gray-200 dark:border-gray-700">
+                                    <nav className="-mb-px flex space-x-6" aria-label="Tabs">
+                                        <button
+                                            onClick={() => setActiveTab('draw')}
+                                            className={`whitespace-nowrap py-3 px-1 border-b-2 font-semibold text-sm ${activeTab === 'draw' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}`}
+                                        >
+                                            <i className="ri-pencil-line mr-1"></i>Draw Signature
+                                        </button>
+                                        <button
+                                            onClick={() => setActiveTab('upload')}
+                                            className={`whitespace-nowrap py-3 px-1 border-b-2 font-semibold text-sm ${activeTab === 'upload' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200'}`}
+                                        >
+                                            <i className="ri-upload-2-line mr-1"></i>Upload Image
+                                        </button>
+                                    </nav>
+                                </div>
                                 <div className="p-6">
-                                    <SignaturePadComponent
-                                        role={userRole}
-                                        onSignatureSave={handleSignatureSave}
-                                    />
+                                    {activeTab === 'draw' && (
+                                        <SignaturePadComponent
+                                            role={userRole}
+                                            onSignatureSave={handleSignatureSave}
+                                        />
+                                    )}
+                                    {activeTab === 'upload' && (
+                                        <div className="w-full max-w-xl mx-auto">
+                                            <label htmlFor="signature-image-upload" className="relative flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                                    <i className="ri-upload-cloud-2-line text-4xl text-gray-500 dark:text-gray-400"></i>
+                                                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+                                                    <p className="text-xs text-gray-500 dark:text-gray-400">PNG or JPG (Max. 1MB)</p>
+                                                </div>
+                                                <input id="signature-image-upload" type="file" className="hidden" accept="image/png, image/jpeg" onChange={handleImageUpload} />
+                                            </label>
+                                            {uploadedSignature && (
+                                                <div className="mt-4 p-2 border rounded-md bg-gray-50 dark:bg-gray-700">
+                                                    <div className="flex items-center justify-between">
+                                                        <div className="flex items-center gap-3">
+                                                            <img src={uploadedSignature} alt="Uploaded Signature" className="h-12 w-auto bg-white dark:bg-gray-100 p-1 rounded" />
+                                                            <span className="text-sm text-gray-700 dark:text-gray-200">{uploadedFileName}</span>
+                                                        </div>
+                                                        <button onClick={removeUploadedImage} type="button" className="text-red-500 hover:text-red-700"><i className="ri-delete-bin-line"></i></button>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">For best results, use a PNG image with a transparent background.</p>
+                                            <div className="flex items-center justify-end mt-6">
+                                                <button type="button" onClick={handleSaveUploadedSignature} className="bg-primary text-white font-semibold py-2 px-6 rounded-lg hover:bg-primary-dark transition-colors">Save Signature</button>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
