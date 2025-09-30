@@ -14,9 +14,9 @@ If you are developing a production application, we recommend using TypeScript wi
 ## Bug Severity Level
 
 Bug Severity Level:<br> 
-Level 0: Fully non-functional, core-functionality failure
-Level 1: Major functionality not work, minor works
-Level 2: Non-core features not working
-Level 3: Cosmetic bugs, minor 
+Level 0: Fully non-functional, core-functionality failure<br>
+Level 1: Major functionality not work, minor works<br>
+Level 2: Non-core features not working<br>
+Level 3: Cosmetic bugs, minor <br>
 
 Naming conventions: S0, S1, S2, S3. example: 001 - S3 - favicon not showing in deploy
