@@ -1,28 +1,36 @@
 // src/pages/bo/BoSignIn.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import BoSignInForm from '../../components/bo/BoSignInForm';
 import logo from '../../assets/images/logos/favicon.png'; // Adjust the path as necessary
 
+// Backend API URL
+const BACKEND_URL = 'http://127.0.0.1:3000';
+
 const BoSignIn = () => {
-    const navigate = useNavigate(); // Initialize the useNavigate hook
-    // State to manage form data and errors
+    const navigate = useNavigate();
+    
     const [formData, setFormData] = useState({
         email: '',
         password: '',
         rememberMe: false,
     });
     const [errors, setErrors] = useState({});
-    // State to manage loading state (optional)
     const [loading, setLoading] = useState(false);
     const [generalError, setGeneralError] = useState('');
-    const [isSuccess, setIsSuccess] = useState(false); // Add success state
+    const [isSuccess, setIsSuccess] = useState(false);
 
-    // Dummy registered users for client-side validation (replace with actual backend check)
-    const registeredUsers = {
-        'admin@mysertifico.com': 'password123',
-        'user@example.com': 'securepass',
-    };
+    // Load remembered email on mount
+    useEffect(() => {
+        const rememberedEmail = localStorage.getItem('rememberedEmail');
+        if (rememberedEmail) {
+            setFormData(prev => ({
+                ...prev,
+                email: rememberedEmail,
+                rememberMe: true
+            }));
+        }
+    }, []);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -30,70 +38,107 @@ const BoSignIn = () => {
             ...prev,
             [name]: type === 'checkbox' ? checked : value,
         }));
-        setErrors((prev) => ({ ...prev, [name]: '' })); // Clear error on change
+        setErrors((prev) => ({ ...prev, [name]: '' }));
 
-        // Clear general error on input change
         if (generalError) {
             setGeneralError('');
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setGeneralError(''); // Clear general error on submit
-        setIsSuccess(false); // Clear success message on submit
+        setGeneralError('');
+        setIsSuccess(false);
 
         let newErrors = {};
         let isValid = true;
 
-        // Validate Email
+        // Basic client-side validation
         if (!formData.email.trim()) {
             newErrors.email = 'Email address is required.';
             isValid = false;
         } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
             newErrors.email = 'Please enter a valid email address.';
             isValid = false;
-        } else if (!registeredUsers[formData.email.toLowerCase()]) {
-            newErrors.email = 'This email is not registered. Please sign up.';
-            isValid = false;
         }
 
-        // Validate Password
         if (!formData.password) {
             newErrors.password = 'Password is required.';
             isValid = false;
-        } else if (registeredUsers[formData.email.toLowerCase()] && registeredUsers[formData.email.toLowerCase()] !== formData.password) {
-            newErrors.password = 'Incorrect password. Please try again.';
-            isValid = false;
         }
 
-        setErrors(newErrors);
+        if (!isValid) {
+            setErrors(newErrors);
+            setLoading(false);
+            setGeneralError('Please correct the errors and try again.');
+            return;
+        }
 
-        // simulate loading state delay
-        setTimeout(() => {
+        try {
+            // Make API call to sign-in endpoint
+            const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include', // Include cookies
+                body: JSON.stringify({
+                    email: formData.email,
+                    password: formData.password,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                // Handle error responses from backend
+                if (response.status === 401) {
+                    if (data.message && (data.message.toLowerCase().includes('email') || data.message.includes('does not exist'))) {
+                        newErrors.email = 'This email is not registered.';
+                    } else {
+                        newErrors.password = 'Incorrect password. Please try again.';
+                    }
+                } else if (response.status === 403) {
+                    setGeneralError('Account not verified. Please check your email.');
+                } else {
+                    setGeneralError(data.message || 'Sign in failed. Please try again.');
+                }
+                
+                setErrors(newErrors);
+                setLoading(false);
+                return;
+            }
+
+            // Successful login - store token and user data
+            if (data.token) {
+                localStorage.setItem('authToken', data.token);
+            }
+            if (data.data) {
+                localStorage.setItem('userData', JSON.stringify(data.data));
+            }
+
+            // Handle Remember Me
+            if (formData.rememberMe) {
+                localStorage.setItem('rememberedEmail', formData.email);
+            } else {
+                localStorage.removeItem('rememberedEmail');
+            }
+
+            // Show success message
+            setIsSuccess(true);
             setLoading(false);
 
-            if (isValid) {
-                // Handle Remeber Me
-                if (formData.rememberMe) {
-                    localStorage.setItem('rememberedEmail', formData.email);
-                } else {
-                    localStorage.removeItem('rememberedEmail');
-                }
-                // Simulate successful sign-in
-                setIsSuccess(true); // Set success state instead of alert
-                // Redirect to dashboard after a delay
-                setTimeout(() => {
-                    navigate('/bo/dashboard'); // Use navigate to go to dashboard
-                }, 1000); // Wait 1 second before redirecting
-            } else {
-                // Set general error if there are validation issues
-                if (newErrors.email || newErrors.password) {
-                    setGeneralError('Please correct the error and try again.');
-                }
-            }
-        }, 1000); // Simulate network delay
+            // Redirect to dashboard after a delay
+            setTimeout(() => {
+                navigate('/bo/dashboard');
+            }, 1000);
+
+        } catch (error) {
+            console.error('Login error:', error);
+            setGeneralError('Network error. Please check your connection and try again.');
+            setLoading(false);
+        }
     };
 
     const currentYear = new Date().getFullYear();
@@ -101,7 +146,7 @@ const BoSignIn = () => {
     return (
         <div className='min-h-screen bg-bo-bg-dark flex flex-col items-center justify-center py-12 px-4'>
             <div className='w-full max-w-md'>
-                {/*logo*/}
+                {/* Logo */}
                 <div className="flex items-center justify-center text-center mb-8">
                     <img
                         src={logo}
@@ -153,17 +198,8 @@ const BoSignIn = () => {
                         errors={errors}
                         loading={loading}
                     />
-
-                    {/* Sign Up Link */}
-                    {/* <div className='mt-8 text-center'>
-                    <p className='text-slate-400 text-sm'>
-                        Don't have an account?{' '}
-                        <Link to="/auth/sign-up" className='text-teal-400 hover:text-teal-300 transition-colors'>
-                            Register here
-                        </Link>
-                    </p>
-                </div> */}
                 </div>
+
                 {/* Footer */}
                 <div className='mt-6 text-center'>
                     <p className='text-slate-500 text-xs'>
