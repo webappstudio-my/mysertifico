@@ -82,7 +82,6 @@ const BoSignIn = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                credentials: 'include', // Include cookies
                 body: JSON.stringify({
                     email: formData.email,
                     password: formData.password,
