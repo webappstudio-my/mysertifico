@@ -1,6 +1,7 @@
 // src/pages/mysertifico/SignUpPage.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import Stepper from '../../../components/auth/Stepper';
 import AdminDetailsForm from '../../../components/auth/AdminDetailsForm';
 import OrganizationDetailsForm from '../../../components/auth/OrganizationDetailsForm';
@@ -83,19 +84,35 @@ const SignUp = () => {
         setErrors({}); // Clear errors when going back
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Final submission logic
         if (isButtonDisabled) {
-            // Modal should already be open, just prevent submission
             return;
         }
 
-        // Simulate API call
-        console.log('Final Form Data:', formData);
-        // In a real app, you'd send this to your backend
-        // On success:
-        setRegistrationSuccess(true);
+        setErrors({});
+
+        try {
+            const response = await axios.post('http://127.0.0.1:3000/api/auth/signup', {
+                full_name: formData.fullName,
+                email: formData.email,
+                password: formData.password,
+                app_name: 'mysertifico',
+                role_name: 'Sertifico Super Admin',
+                organization_name: formData.organizationName,
+                country_name: formData.country,
+            });
+
+            if (response.status === 201) {
+                setRegistrationSuccess(true);
+            }
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.message) {
+                setErrors({ api: error.response.data.message });
+            } else {
+                setErrors({ api: 'An unexpected error occurred. Please try again.' });
+            }
+        }
     };
 
     const handleCloseModal = () => {

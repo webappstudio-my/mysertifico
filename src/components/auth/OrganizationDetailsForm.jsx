@@ -116,6 +116,12 @@ const OrganizationDetailsForm = ({ formData, handleChange, handleSubmit, handleP
             </div>
             {errors.terms && <p className="text-red-500 text-xs -mt-2">{errors.terms}</p>}
 
+            {errors.api && (
+                <div className="text-red-500 text-sm text-center mt-4">
+                    {errors.api}
+                </div>
+            )}
+
             <div className="flex space-x-4">
                 <button
                     type="button"
